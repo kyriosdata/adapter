@@ -105,6 +105,30 @@
         </dependency>
 
         <dependency>
+            <groupId>openehr</groupId>
+            <artifactId>measure-serv</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>openehr</groupId>
+            <artifactId>mini-termserv</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>openehr</groupId>
+            <artifactId>openehr-rm-core</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>openehr</groupId>
+            <artifactId>openehr-rm-domain</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.0.0-M2</version>

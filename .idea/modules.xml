@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/adapter.iml" filepath="$PROJECT_DIR$/adapter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/measure-serv/measure-serv.iml" filepath="$PROJECT_DIR$/measure-serv/measure-serv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mini-termserv/mini-termserv.iml" filepath="$PROJECT_DIR$/mini-termserv/mini-termserv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oe-seed/oe-seed.iml" filepath="$PROJECT_DIR$/oe-seed/oe-seed.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openehr-rm-core/openehr-rm-core.iml" filepath="$PROJECT_DIR$/openehr-rm-core/openehr-rm-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/openehr-rm-domain/openehr-rm-domain.iml" filepath="$PROJECT_DIR$/openehr-rm-domain/openehr-rm-domain.iml" />
+    </modules>
+  </component>
+</project>

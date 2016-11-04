@@ -7,10 +7,17 @@
 package com.github.kyriosdata.oes;
 
 import com.github.kyriosdata.seed.Seed;
+import org.openehr.rm.datatypes.basic.DvBoolean;
+import org.openehr.rm.ehr.EHR;
+import org.openehr.rm.support.measurement.MeasurementService;
+import org.openehr.terminology.TerminologySource;
 
 public class ModeloReferencia {
 
     public static final int DV_BOOLEAN = 0;
+
+    private MeasurementService ms;
+    private TerminologySource ts;
 
     // Referência para a raiz.
     private int raiz = -1;
@@ -36,6 +43,8 @@ public class ModeloReferencia {
                 throw new IllegalArgumentException("tipo");
         }
 
+        EHR erh;
+        DvBoolean dvb;
         seed = Seed.serializa(metaInformacao);
     }
 
