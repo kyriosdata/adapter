@@ -34,8 +34,6 @@ public class Adaptador {
      *
      * @param tipo Tipo do objeto (MR do openEHR).
      *
-     * @return Referência para o objeto criado.
-     *
      * @throws IllegalArgumentException Se tipo for inválido.
      */
     public Adaptador(int tipo) {
