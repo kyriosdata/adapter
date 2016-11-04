@@ -12,7 +12,10 @@ import org.openehr.rm.ehr.EHR;
 import org.openehr.rm.support.measurement.MeasurementService;
 import org.openehr.terminology.TerminologySource;
 
-public class ModeloReferencia {
+/**
+ * Classe que adapta MR do openEHR para Seed e vice-versa.
+ */
+public class Adaptador {
 
     public static final int DV_BOOLEAN = 0;
 
@@ -32,8 +35,10 @@ public class ModeloReferencia {
      * @param tipo Tipo do objeto (MR do openEHR).
      *
      * @return Referência para o objeto criado.
+     *
+     * @throws IllegalArgumentException Se tipo for inválido.
      */
-    public ModeloReferencia(int tipo) {
+    public Adaptador(int tipo) {
         byte[] metaInformacao = null;
         switch (tipo) {
             case DV_BOOLEAN:
@@ -48,6 +53,11 @@ public class ModeloReferencia {
         seed = Seed.serializa(metaInformacao);
     }
 
+    /**
+     * Cria dvboolean.
+     *
+     * @param valor Valor lógico.
+     */
     public void dvBoolean(boolean valor) {
         seed.defineBoolean(0, valor);
     }
