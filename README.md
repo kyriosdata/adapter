@@ -1,6 +1,5 @@
-# oes
-Serialização/desserialização de objetos do Modelo de Referência do 
-openEHR.
+# adapter
+Adaptador de objetos do Modelo de Referência (MR) do openEHR para Seed.
 
 [<img src="https://api.travis-ci.org/kyriosdata/adapter.svg?branch=master">](https://travis-ci.org/kyriosdata/adapter)
 [![Dependency Status](https://www.versioneye.com/user/projects/581bd12dafb6141c1c4bf023/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/581bd12dafb6141c1c4bf023)
