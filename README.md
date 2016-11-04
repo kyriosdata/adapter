@@ -1,5 +1,5 @@
 # adapter
-Adaptador de objetos do Modelo de Referência (MR) do openEHR para Seed.
+Adaptador do Modelo de Referência (MR) do openEHR para Seed.
 
 [<img src="https://api.travis-ci.org/kyriosdata/adapter.svg?branch=master">](https://travis-ci.org/kyriosdata/adapter)
 [![Dependency Status](https://www.versioneye.com/user/projects/581cb3834304530ad3a5549b/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/581cb3834304530ad3a5549b)
