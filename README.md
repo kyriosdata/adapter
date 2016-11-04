@@ -2,7 +2,7 @@
 Serialização/desserialização de objetos do Modelo de Referência do 
 openEHR.
 
-[<img src="https://api.travis-ci.org/kyriosdata/oes.svg?branch=master">](https://travis-ci.org/kyriosdata/oes)
+[<img src="https://api.travis-ci.org/kyriosdata/adapter.svg?branch=master">](https://travis-ci.org/kyriosdata/adapter)
 [![Dependency Status](https://www.versioneye.com/user/projects/581bd12dafb6141c1c4bf023/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/581bd12dafb6141c1c4bf023)
 [![Sonarqube](https://sonarqube.com/api/badges/gate?key=com.github.kyriosdata.oes:oes)](https://sonarqube.com/dashboard/index?id=com.github.kyriosdata.oes%3Aoes)
 [![Javadocs](http://javadoc.io/badge/com.github.kyriosdata.oes/oes.svg)](http://javadoc.io/doc/com.github.kyriosdata.oes/oes)
