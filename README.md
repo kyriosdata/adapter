@@ -29,8 +29,8 @@ Acrescente a dependência no arquivo pom.xml:
 
 <pre>
 &lt;dependency&gt;
-  &lt;groupId&gt;com.github.kyriosdata.oes&lt;/groupId&gt;
-  &lt;artifactId&gt;oes&lt;/artifactId&gt;
+  &lt;groupId&gt;com.github.kyriosdata.adapter&lt;/groupId&gt;
+  &lt;artifactId&gt;oe-seed&lt;/artifactId&gt;
   &lt;version&gt;1.0.0&lt;/version&gt;
 &lt;/dependency&gt;
 </pre>
