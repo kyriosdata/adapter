@@ -2,9 +2,9 @@
 Adaptador de objetos do Modelo de Referência (MR) do openEHR para Seed.
 
 [<img src="https://api.travis-ci.org/kyriosdata/adapter.svg?branch=master">](https://travis-ci.org/kyriosdata/adapter)
-[![Dependency Status](https://www.versioneye.com/user/projects/581bd12dafb6141c1c4bf023/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/581bd12dafb6141c1c4bf023)
-[![Sonarqube](https://sonarqube.com/api/badges/gate?key=com.github.kyriosdata.oes:oes)](https://sonarqube.com/dashboard/index?id=com.github.kyriosdata.oes%3Aoes)
-[![Javadocs](http://javadoc.io/badge/com.github.kyriosdata.oes/oes.svg)](http://javadoc.io/doc/com.github.kyriosdata.oes/oes)
+[![Dependency Status](https://www.versioneye.com/user/projects/581cb3834304530ad3a5549b/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/581cb3834304530ad3a5549b)
+[![Sonarqube](https://sonarqube.com/api/badges/gate?key=com.github.kyriosdata.oes:oes)](https://sonarqube.com/dashboard/index?id=com.github.kyriosdata.adapter%3Aadapter)
+[![Javadocs](http://javadoc.io/badge/com.github.kyriosdata.adapter/adapter.svg)](http://javadoc.io/doc/com.github.kyriosdata.adapter/adapter)
 
 <br />
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
