@@ -30,7 +30,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="adapter" target="1.8" />
+      <module name="adapter" target="1.5" />
       <module name="measure-serv" target="1.5" />
       <module name="mini-termserv" target="1.5" />
       <module name="oe-seed" target="1.8" />
