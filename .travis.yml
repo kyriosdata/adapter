@@ -2,9 +2,9 @@ addons:
   sonarqube: true
 env:
   global:
+    secure: h4yx5uaGzSk/+Z+gT4ICUpA+IqcOsv6DpVfi1JFaAq6NESpsOvACmAs9/1M7/UB1Zq+LQ18kF2aSVL8MIRgDMoTF7FT9Ok2gonybOK/J5o6wc8dZ7M+a+T3p/QqQlq12LLwFFV12kheMM2U/WCMvilxKS5nuwMRVYxu/CYvkcfNyHSL0O+JL7NV88tOHiK3CB1dbA7zH0PKuLCQnivAcnTXklWOFzDfMDVnXv1EgTLSVeZmUDaUyJ02DR+ZPSCbe4oY8seLYk//pRpgItHeceeVkcdjurvfa7eQj9sIwdDevdgh142wd7mvnEgI6tr0UJfT3dttVBGLdLpMp0KSjQHUKluSXsfPBCo0UHraLVqnWMNiFFGVlGzoLEEQLA97nRupCniuYkQLfhE8EjYo45VYpGpxuLiupI9B2wOS2vKzqT4C0Rcpbn4gYEw6Bs4TS+t4QZM4jW7XLPHcaOnFTyfN70MunInJV+KUirY4hG7fcaU4C9L2kGaEJCo0o+1M3TimoUQuSA6bFBi/vAMvu01Rn9m1MEOP3081MyaNuQvQgL5LunUo27/kOpMjIqYkL9a4e5dX9+BEJ+LMhD0l71IkFknR6YX3sfzOrj7waf/yQ/ucyyH6VezTOfKLt37ScN1yNU4ZCEs+G/9pV2zH59X/kvKB9tkRmlD33rOvXTsM=
 language: java
 jdk:
 - oraclejdk8
-script:
-  mvn clean package
-  mvn -f oe-seed/pom.xml package sonar:sonar -P cobertura -Dsonar.login=$SONAR_OE_SEED
+script: mvn clean package mvn -f oe-seed/pom.xml package sonar:sonar -P cobertura
+  -Dsonar.login=$SONAR_OE_SEED
