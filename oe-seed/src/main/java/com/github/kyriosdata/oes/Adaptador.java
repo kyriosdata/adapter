@@ -37,12 +37,30 @@ public class Adaptador {
     public Adaptador() {
     }
 
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     *
+     * @return Objeto serializado em sequência de bytes.
+     *
+     * @see #dvBoolean(byte[])
+     */
     public byte[] adapta(DvBoolean rm) {
         Seed seed = Seed.serializa(meta[DV_BOOLEAN]);
         seed.defineBoolean(0, rm.getValue());
         return seed.array();
     }
 
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     *
+     * @return Objeto obtido da sequência de bytes.
+     *
+     * @see #adapta(DvBoolean)
+     */
     public DvBoolean dvBoolean(byte[] dados) {
         Seed s = Seed.desserializa(dados);
         return new DvBoolean(s.obtemBoolean(0));
