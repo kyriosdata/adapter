@@ -9,6 +9,7 @@ package com.github.kyriosdata.oes;
 
 import com.github.kyriosdata.seed.Seed;
 import org.openehr.rm.datatypes.basic.DvBoolean;
+import org.openehr.rm.datatypes.basic.DvIdentifier;
 import org.openehr.rm.support.measurement.MeasurementService;
 import org.openehr.terminology.TerminologySource;
 
@@ -18,6 +19,7 @@ import org.openehr.terminology.TerminologySource;
 public class Adaptador {
 
     public static final int DV_BOOLEAN = 0;
+    public static final int DV_IDENTIFIER = 1;
 
     private MeasurementService ms;
     private TerminologySource ts;
@@ -26,7 +28,8 @@ public class Adaptador {
     private int raiz = -1;
 
     byte[][] meta = new byte[][] {
-            { DV_BOOLEAN, 1, Seed.BOOLEAN }
+            { DV_BOOLEAN, 1, Seed.BOOLEAN },
+            { DV_IDENTIFIER, 4, Seed.STRING, Seed.STRING, Seed.STRING, Seed.STRING }
     };
 
     /**
@@ -64,5 +67,41 @@ public class Adaptador {
     public DvBoolean dvBoolean(byte[] dados) {
         Seed s = Seed.desserializa(dados);
         return new DvBoolean(s.obtemBoolean(0));
+    }
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     *
+     * @return Objeto serializado em sequência de bytes.
+     *
+     * @see #dvIdentifier(byte[])
+     */
+    public byte[] adapta(DvIdentifier rm) {
+        Seed seed = Seed.serializa(meta[DV_IDENTIFIER]);
+        seed.defineString(0, rm.getIssuer());
+        seed.defineString(1, rm.getAssigner());
+        seed.defineString(2, rm.getId());
+        seed.defineString(3, rm.getType());
+        return seed.array();
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     *
+     * @return Objeto obtido da sequência de bytes.
+     *
+     * @see #adapta(DvIdentifier)
+     */
+    public DvIdentifier dvIdentifier(byte[] dados) {
+        Seed s = Seed.desserializa(dados);
+        return new DvIdentifier(
+                s.obtemString(0),
+                s.obtemString(1),
+                s.obtemString(2),
+                s.obtemString(3));
     }
 }
