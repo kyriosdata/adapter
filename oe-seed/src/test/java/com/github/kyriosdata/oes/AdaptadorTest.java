@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.openehr.rm.datatypes.basic.DvBoolean;
 import org.openehr.rm.datatypes.basic.DvIdentifier;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class AdaptadorTest {
@@ -36,10 +37,13 @@ public class AdaptadorTest {
         byte[] seed = a.adapta(dv);
 
         // Restaura
-        DvBoolean recuperado = a.dvBoolean(seed);
+        DvIdentifier recuperado = a.dvIdentifier(seed);
 
         // Verifica
-        assertFalse(recuperado.getValue());
+        assertEquals("i", recuperado.getIssuer());
+        assertEquals("a", recuperado.getAssigner());
+        assertEquals("id", recuperado.getId());
+        assertEquals("type", recuperado.getType());
     }
 
 }

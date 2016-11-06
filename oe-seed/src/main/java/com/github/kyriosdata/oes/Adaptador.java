@@ -10,8 +10,6 @@ package com.github.kyriosdata.oes;
 import com.github.kyriosdata.seed.Seed;
 import org.openehr.rm.datatypes.basic.DvBoolean;
 import org.openehr.rm.datatypes.basic.DvIdentifier;
-import org.openehr.rm.support.measurement.MeasurementService;
-import org.openehr.terminology.TerminologySource;
 
 /**
  * Classe que adapta MR do openEHR para Seed e vice-versa.
@@ -20,12 +18,6 @@ public class Adaptador {
 
     public static final int DV_BOOLEAN = 0;
     public static final int DV_IDENTIFIER = 1;
-
-    private MeasurementService ms;
-    private TerminologySource ts;
-
-    // Referência para a raiz.
-    private int raiz = -1;
 
     byte[][] meta = new byte[][] {
             { DV_BOOLEAN, 1, Seed.BOOLEAN },
