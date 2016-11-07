@@ -19,18 +19,20 @@ public class Adaptador {
 
     public static final int OE_DVBOOLEAN = 0;
     public static final int OE_DVIDENTIFIER = 1;
-    public static final int OE_INTERNET_ID = 2;
+    public static final int OE_INTERNETID = 2;
     public static final int OE_ISO_OID = 3;
     public static final int OE_UUID = 4;
     public static final int OE_TERMINOLOGYID = 5;
+    public static final int OE_GENERICID = 6;
 
     byte[][] meta = new byte[][]{
             {OE_DVBOOLEAN, 1, Seed.BOOLEAN},
             {OE_DVIDENTIFIER, 4, Seed.STRING, Seed.STRING, Seed.STRING, Seed.STRING},
-            {OE_INTERNET_ID, 1, Seed.STRING},
+            {OE_INTERNETID, 1, Seed.STRING},
             {OE_ISO_OID, 1, Seed.STRING},
             {OE_UUID, 1, Seed.STRING},
-            {OE_TERMINOLOGYID, 1, Seed.STRING}
+            {OE_TERMINOLOGYID, 1, Seed.STRING},
+            {OE_GENERICID, 2, Seed.STRING, Seed.STRING}
     };
 
     /**
@@ -102,10 +104,36 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
+     * @see #oeGenericID(byte[])
+     */
+    public byte[] adapta(GenericID rm) {
+        Seed seed = Seed.serializa(meta[OE_GENERICID]);
+        seed.defineString(0, rm.getValue());
+        seed.defineString(1, rm.getScheme());
+        return seed.array();
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(GenericID)
+     */
+    public GenericID oeGenericID(byte[] dados) {
+        Seed s = Seed.desserializa(dados);
+        return new GenericID(s.obtemString(0), s.obtemString(1));
+    }
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
      * @see #oeInternetID(byte[])
      */
     public byte[] adapta(InternetID rm) {
-        Seed seed = Seed.serializa(meta[OE_INTERNET_ID]);
+        Seed seed = Seed.serializa(meta[OE_INTERNETID]);
         seed.defineString(0, rm.getValue());
         return seed.array();
     }

@@ -3,10 +3,7 @@ package com.github.kyriosdata.oes;
 import org.junit.jupiter.api.Test;
 import org.openehr.rm.datatypes.basic.DvBoolean;
 import org.openehr.rm.datatypes.basic.DvIdentifier;
-import org.openehr.rm.support.identification.ISO_OID;
-import org.openehr.rm.support.identification.InternetID;
-import org.openehr.rm.support.identification.TerminologyID;
-import org.openehr.rm.support.identification.UUID;
+import org.openehr.rm.support.identification.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -48,6 +45,20 @@ public class AdaptadorTest {
         assertEquals("a", recuperado.getAssigner());
         assertEquals("id", recuperado.getId());
         assertEquals("type", recuperado.getType());
+    }
+
+    @Test
+    public void genericId() {
+        Adaptador a = new Adaptador();
+
+        GenericID v = new GenericID("value", "scheme");
+
+        byte[] seed = a.adapta(v);
+
+        GenericID recuperado = a.oeGenericID(seed);
+
+        assertEquals("value", recuperado.getValue());
+        assertEquals("scheme", recuperado.getScheme());
     }
 
     @Test
