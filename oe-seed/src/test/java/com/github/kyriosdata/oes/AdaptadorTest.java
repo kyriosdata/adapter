@@ -5,6 +5,7 @@ import org.openehr.rm.datatypes.basic.DvBoolean;
 import org.openehr.rm.datatypes.basic.DvIdentifier;
 import org.openehr.rm.support.identification.ISO_OID;
 import org.openehr.rm.support.identification.InternetID;
+import org.openehr.rm.support.identification.TerminologyID;
 import org.openehr.rm.support.identification.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -78,6 +79,19 @@ public class AdaptadorTest {
         ISO_OID recuperado = a.oeISO_OID(bytes);
 
         assertEquals(linuxLoadOID, recuperado.getValue());
+    }
+
+    @Test
+    public void terminologyId() {
+        Adaptador a = new Adaptador();
+
+        TerminologyID v = new TerminologyID("id(v)");
+
+        byte[] bytes = a.adapta(v);
+
+        TerminologyID recuperado = a.oeTerminologyID(bytes);
+
+        assertEquals("id(v)", recuperado.getValue());
     }
 
     @Test

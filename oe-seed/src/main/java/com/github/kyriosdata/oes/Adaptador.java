@@ -10,10 +10,7 @@ package com.github.kyriosdata.oes;
 import com.github.kyriosdata.seed.Seed;
 import org.openehr.rm.datatypes.basic.DvBoolean;
 import org.openehr.rm.datatypes.basic.DvIdentifier;
-import org.openehr.rm.support.identification.ISO_OID;
-import org.openehr.rm.support.identification.InternetID;
-import org.openehr.rm.support.identification.UID;
-import org.openehr.rm.support.identification.UUID;
+import org.openehr.rm.support.identification.*;
 
 /**
  * Classe que adapta MR do openEHR para Seed e vice-versa.
@@ -25,13 +22,15 @@ public class Adaptador {
     public static final int OE_INTERNET_ID = 2;
     public static final int OE_ISO_OID = 3;
     public static final int OE_UUID = 4;
+    public static final int OE_TERMINOLOGYID = 5;
 
     byte[][] meta = new byte[][]{
             {OE_DVBOOLEAN, 1, Seed.BOOLEAN},
             {OE_DVIDENTIFIER, 4, Seed.STRING, Seed.STRING, Seed.STRING, Seed.STRING},
             {OE_INTERNET_ID, 1, Seed.STRING},
             {OE_ISO_OID, 1, Seed.STRING},
-            {OE_UUID, 1, Seed.STRING}
+            {OE_UUID, 1, Seed.STRING},
+            {OE_TERMINOLOGYID, 1, Seed.STRING}
     };
 
     /**
@@ -171,5 +170,30 @@ public class Adaptador {
     public UUID oeUUID(byte[] dados) {
         Seed s = Seed.desserializa(dados);
         return new UUID(s.obtemString(0));
+    }
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oeTerminologyID(byte[])
+     */
+    public byte[] adapta(TerminologyID rm) {
+        Seed seed = Seed.serializa(meta[OE_TERMINOLOGYID]);
+        seed.defineString(0, rm.getValue());
+        return seed.array();
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(TerminologyID)
+     */
+    public TerminologyID oeTerminologyID(byte[] dados) {
+        Seed s = Seed.desserializa(dados);
+        return new TerminologyID(s.obtemString(0));
     }
 }
