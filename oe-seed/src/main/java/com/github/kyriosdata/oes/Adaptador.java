@@ -24,6 +24,7 @@ public class Adaptador {
     public static final int OE_UUID = 4;
     public static final int OE_TERMINOLOGYID = 5;
     public static final int OE_GENERICID = 6;
+    public static final int OE_TEMPLATEID = 7;
 
     byte[][] meta = new byte[][]{
             {OE_DVBOOLEAN, 1, Seed.BOOLEAN},
@@ -32,7 +33,8 @@ public class Adaptador {
             {OE_ISO_OID, 1, Seed.STRING},
             {OE_UUID, 1, Seed.STRING},
             {OE_TERMINOLOGYID, 1, Seed.STRING},
-            {OE_GENERICID, 2, Seed.STRING, Seed.STRING}
+            {OE_GENERICID, 2, Seed.STRING, Seed.STRING},
+            {OE_TEMPLATEID, 1, Seed.STRING}
     };
 
     /**
@@ -198,6 +200,31 @@ public class Adaptador {
     public UUID oeUUID(byte[] dados) {
         Seed s = Seed.desserializa(dados);
         return new UUID(s.obtemString(0));
+    }
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oeTemplateID(byte[])
+     */
+    public byte[] adapta(TemplateID rm) {
+        Seed seed = Seed.serializa(meta[OE_TERMINOLOGYID]);
+        seed.defineString(0, rm.getValue());
+        return seed.array();
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(TemplateID)
+     */
+    public TemplateID oeTemplateID(byte[] dados) {
+        Seed s = Seed.desserializa(dados);
+        return new TemplateID(s.obtemString(0));
     }
 
     /**

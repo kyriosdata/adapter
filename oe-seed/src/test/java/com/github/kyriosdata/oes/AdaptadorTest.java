@@ -93,6 +93,19 @@ public class AdaptadorTest {
     }
 
     @Test
+    public void templateId() {
+        Adaptador a = new Adaptador();
+
+        TemplateID v = new TemplateID("templateId");
+
+        byte[] bytes = a.adapta(v);
+
+        TemplateID recuperado = a.oeTemplateID(bytes);
+
+        assertEquals("templateId", recuperado.getValue());
+    }
+
+    @Test
     public void terminologyId() {
         Adaptador a = new Adaptador();
 
