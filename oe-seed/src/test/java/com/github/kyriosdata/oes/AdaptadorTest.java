@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.openehr.rm.datatypes.basic.DvBoolean;
 import org.openehr.rm.datatypes.basic.DvIdentifier;
 import org.openehr.rm.datatypes.text.CodePhrase;
+import org.openehr.rm.datatypes.uri.DvEHRURI;
 import org.openehr.rm.datatypes.uri.DvURI;
 import org.openehr.rm.support.identification.*;
 
@@ -162,6 +163,32 @@ public class AdaptadorTest {
         DvURI recuperado = a.oeDvURI(bytes);
 
         assertEquals(uri, recuperado.getValue());
+    }
+
+    @Test
+    public void dvEHRURI() {
+        Adaptador a = new Adaptador();
+
+        String uri = "ehr:fabio@inf.ufg.br";
+
+        DvEHRURI duri = new DvEHRURI(uri);
+        byte[] bytes = a.adapta(duri);
+
+        DvEHRURI recuperado = a.oeDvEHRURI(bytes);
+
+        assertEquals(uri, recuperado.getValue());
+    }
+
+    @Test
+    public void versionTreeID() {
+        Adaptador a = new Adaptador();
+
+        VersionTreeID v = new VersionTreeID(1, 2, 3);
+        byte[] bytes = a.adapta(v);
+
+        VersionTreeID recuperado = a.oeVersionTreeID(bytes);
+
+        assertEquals("1.2.3", recuperado.getValue());
     }
 
 }

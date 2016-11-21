@@ -11,6 +11,7 @@ import com.github.kyriosdata.seed.Seed;
 import org.openehr.rm.datatypes.basic.DvBoolean;
 import org.openehr.rm.datatypes.basic.DvIdentifier;
 import org.openehr.rm.datatypes.text.CodePhrase;
+import org.openehr.rm.datatypes.uri.DvEHRURI;
 import org.openehr.rm.datatypes.uri.DvURI;
 import org.openehr.rm.support.identification.*;
 
@@ -34,6 +35,8 @@ public class Adaptador {
     public static final int OE_TEMPLATEID = 7;
     public static final int OE_CODEPHRASE = 8;
     public static final int OE_DVURI = 9;
+    public static final int OE_DVEHRURI = 9;
+    public static final int OE_VERSIONTREEID = 10;
 
     /**
      * Uma entrada em meta-informação para cada classe do MR.
@@ -53,7 +56,9 @@ public class Adaptador {
             {OE_GENERICID, 2, Seed.STRING, Seed.STRING},
             {OE_TEMPLATEID, 1, Seed.STRING},
             {OE_CODEPHRASE, 2, Seed.STRING, Seed.VETOR},
-            {OE_DVURI, 1, Seed.STRING}
+            {OE_DVURI, 1, Seed.STRING},
+            {OE_DVEHRURI, 1, Seed.STRING},
+            {OE_VERSIONTREEID, 1, Seed.STRING}
     };
 
     /**
@@ -229,7 +234,7 @@ public class Adaptador {
      * @see #oeTemplateID(byte[])
      */
     public byte[] adapta(TemplateID rm) {
-        Seed seed = Seed.serializa(meta[OE_TERMINOLOGYID]);
+        Seed seed = Seed.serializa(meta[OE_TEMPLATEID]);
         seed.defineString(0, rm.getValue());
         return seed.array();
     }
@@ -329,5 +334,59 @@ public class Adaptador {
         Seed s = Seed.desserializa(dados);
 
         return new DvURI(s.obtemString(0));
+    }
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oeDvEHRURI(byte[])
+     */
+    public byte[] adapta(DvEHRURI rm) {
+        Seed seed = Seed.serializa(meta[OE_DVEHRURI]);
+        seed.defineString(0, rm.getValue());
+
+        return seed.array();
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(CodePhrase)
+     */
+    public DvEHRURI oeDvEHRURI(byte[] dados) {
+        Seed s = Seed.desserializa(dados);
+
+        return new DvEHRURI(s.obtemString(0));
+    }
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oeVersionTreeID(byte[])
+     */
+    public byte[] adapta(VersionTreeID rm) {
+        Seed seed = Seed.serializa(meta[OE_VERSIONTREEID]);
+        seed.defineString(0, rm.getValue());
+
+        return seed.array();
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(VersionTreeID)
+     */
+    public VersionTreeID oeVersionTreeID(byte[] dados) {
+        Seed s = Seed.desserializa(dados);
+
+        return new VersionTreeID(s.obtemString(0));
     }
 }
