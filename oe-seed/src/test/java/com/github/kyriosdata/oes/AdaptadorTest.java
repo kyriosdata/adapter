@@ -3,6 +3,7 @@ package com.github.kyriosdata.oes;
 import org.junit.jupiter.api.Test;
 import org.openehr.rm.datatypes.basic.DvBoolean;
 import org.openehr.rm.datatypes.basic.DvIdentifier;
+import org.openehr.rm.datatypes.text.CodePhrase;
 import org.openehr.rm.support.identification.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -131,6 +132,21 @@ public class AdaptadorTest {
         UUID recuperado = a.oeUUID(bytes);
 
         assertEquals(guid, recuperado.getValue());
+    }
+
+    @Test
+    public void codePhrase() {
+        Adaptador a = new Adaptador();
+
+        TerminologyID tid = new TerminologyID("id(v)");
+        CodePhrase cp = new CodePhrase(tid, "codigo");
+
+        byte[] bytes = a.adapta(cp);
+
+        CodePhrase recuperado = a.oeCodePhrase(bytes);
+
+        assertEquals(tid, recuperado.getTerminologyId());
+        assertEquals("codigo", recuperado.getCodeString());
     }
 
 }

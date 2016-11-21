@@ -10,10 +10,12 @@ package com.github.kyriosdata.oes;
 import com.github.kyriosdata.seed.Seed;
 import org.openehr.rm.datatypes.basic.DvBoolean;
 import org.openehr.rm.datatypes.basic.DvIdentifier;
+import org.openehr.rm.datatypes.text.CodePhrase;
 import org.openehr.rm.support.identification.*;
 
 /**
- * Classe que adapta MR do openEHR para Seed e vice-versa.
+ * Classe que "converte" objeto do MR (openEHR) em formato
+ * empregado pelo Seed e vice-versa.
  */
 public class Adaptador {
 
@@ -25,7 +27,14 @@ public class Adaptador {
     public static final int OE_TERMINOLOGYID = 5;
     public static final int OE_GENERICID = 6;
     public static final int OE_TEMPLATEID = 7;
+    public static final int OE_CODEPHRASE = 8;
 
+    /**
+     * Meta-informação para todos os tipos considerados pelo Adaptador.
+     * Primeiro byte não é empregado.
+     * Segundo byte é a quantidade de campos.
+     * Terceiro byte em diante indica os tipos de cada um dos campos.
+     */
     byte[][] meta = new byte[][]{
             {OE_DVBOOLEAN, 1, Seed.BOOLEAN},
             {OE_DVIDENTIFIER, 4, Seed.STRING, Seed.STRING, Seed.STRING, Seed.STRING},
@@ -34,7 +43,8 @@ public class Adaptador {
             {OE_UUID, 1, Seed.STRING},
             {OE_TERMINOLOGYID, 1, Seed.STRING},
             {OE_GENERICID, 2, Seed.STRING, Seed.STRING},
-            {OE_TEMPLATEID, 1, Seed.STRING}
+            {OE_TEMPLATEID, 1, Seed.STRING},
+            {OE_CODEPHRASE, 2, Seed.STRING, Seed.VETOR}
     };
 
     /**
@@ -250,5 +260,38 @@ public class Adaptador {
     public TerminologyID oeTerminologyID(byte[] dados) {
         Seed s = Seed.desserializa(dados);
         return new TerminologyID(s.obtemString(0));
+    }
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oeCodePhrase(byte[])
+     */
+    public byte[] adapta(CodePhrase rm) {
+        Seed seed = Seed.serializa(meta[OE_CODEPHRASE]);
+        seed.defineString(0, rm.getCodeString());
+
+        byte[] terminologyId = adapta(rm.getTerminologyId());
+        seed.defineByteArray(1, terminologyId);
+
+        return seed.array();
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(CodePhrase)
+     */
+    public CodePhrase oeCodePhrase(byte[] dados) {
+        Seed s = Seed.desserializa(dados);
+
+        TerminologyID tid = oeTerminologyID(s.obtemByteArray(1));
+        String codeString = s.obtemString(0);
+
+        return new CodePhrase(tid, codeString);
     }
 }
