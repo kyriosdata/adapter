@@ -37,6 +37,7 @@ public class Adaptador {
     public static final int OE_DVURI = 9;
     public static final int OE_DVEHRURI = 9;
     public static final int OE_VERSIONTREEID = 10;
+    public static final int OE_PARTYREF = 11;
 
     /**
      * Uma entrada em meta-informação para cada classe do MR.
@@ -58,7 +59,8 @@ public class Adaptador {
             {OE_CODEPHRASE, 2, Seed.STRING, Seed.VETOR},
             {OE_DVURI, 1, Seed.STRING},
             {OE_DVEHRURI, 1, Seed.STRING},
-            {OE_VERSIONTREEID, 1, Seed.STRING}
+            {OE_VERSIONTREEID, 1, Seed.STRING},
+            {OE_PARTYREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING}
     };
 
     /**
@@ -388,5 +390,51 @@ public class Adaptador {
         Seed s = Seed.desserializa(dados);
 
         return new VersionTreeID(s.obtemString(0));
+    }
+
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oeVersionTreeID(byte[])
+     */
+    public byte[] adapta(PartyRef rm) {
+        Seed seed = Seed.serializa(meta[OE_PARTYREF]);
+
+        byte[] oidBytes = null;
+        ObjectID oid = rm.getId();
+        if (oid instanceof TemplateID) {
+            oidBytes = adapta((TemplateID)oid);
+        }
+
+        seed.defineByteArray(0, oidBytes);
+        seed.defineString(1, rm.getNamespace());
+        seed.defineString(2, rm.getType());
+
+        return seed.array();
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(VersionTreeID)
+     */
+    public PartyRef oePartyRef(byte[] dados) {
+        Seed s = Seed.desserializa(dados);
+
+        // O identificador do tipo na posição 0
+        byte tipo = s.tipo(0);
+
+        ObjectID oid = null;
+        if (tipo == OE_TEMPLATEID) {
+            oid = oeTemplateID(dados);
+        }
+
+        s.
+        return new PartyRef(s.obtemString(0));
     }
 }
