@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.openehr.rm.datatypes.basic.DvBoolean;
 import org.openehr.rm.datatypes.basic.DvIdentifier;
 import org.openehr.rm.datatypes.text.CodePhrase;
+import org.openehr.rm.datatypes.uri.DvURI;
 import org.openehr.rm.support.identification.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -147,6 +148,20 @@ public class AdaptadorTest {
 
         assertEquals(tid, recuperado.getTerminologyId());
         assertEquals("codigo", recuperado.getCodeString());
+    }
+
+    @Test
+    public void dvURI() {
+        Adaptador a = new Adaptador();
+
+        String uri = "mailto:fabio@inf.ufg.br";
+
+        DvURI duri = new DvURI(uri);
+        byte[] bytes = a.adapta(duri);
+
+        DvURI recuperado = a.oeDvURI(bytes);
+
+        assertEquals(uri, recuperado.getValue());
     }
 
 }
