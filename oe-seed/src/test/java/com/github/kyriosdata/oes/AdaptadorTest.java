@@ -103,24 +103,25 @@ public class AdaptadorTest {
 
     @Test
     public void templateId() {
-        Adaptador a = new Adaptador();
-
         TemplateID v = new TemplateID("templateId");
 
-        byte[] bytes = a.adapta(v);
+        byte[] bytes = new Adaptador().adapta(v);
 
-        TemplateID recuperado = a.oeTemplateID(bytes);
+        Adaptador a = new Adaptador(bytes);
+
+        TemplateID recuperado = a.oeTemplateID();
 
         assertEquals("templateId", recuperado.getValue());
     }
 
     @Test
     public void terminologyId() {
-        Adaptador a = new Adaptador();
 
         TerminologyID v = new TerminologyID("id(v)");
 
-        byte[] bytes = a.adapta(v);
+        byte[] bytes = new Adaptador().adapta(v);
+
+        Adaptador a = new Adaptador(bytes);
 
         TerminologyID recuperado = a.oeTerminologyID(bytes);
 
@@ -144,12 +145,12 @@ public class AdaptadorTest {
 
     @Test
     public void codePhrase() {
-        Adaptador a = new Adaptador();
-
         TerminologyID tid = new TerminologyID("id(v)");
         CodePhrase cp = new CodePhrase(tid, "codigo");
 
-        byte[] bytes = a.adapta(cp);
+        byte[] bytes = new Adaptador().adapta(cp);
+
+        Adaptador a = new Adaptador(bytes);
 
         CodePhrase recuperado = a.oeCodePhrase(bytes);
 
@@ -199,16 +200,21 @@ public class AdaptadorTest {
 
     @Test
     public void partyRef() {
-        TemplateID oid = new TemplateID("TemplateID");
-        PartyRef pr = new PartyRef(oid, "tipo");
+        partyRefBase(new TemplateID("TemplateID"));
+        partyRefBase(new TerminologyID("TemplateID"));
+    }
+
+    private void partyRefBase(ObjectID objectId) {
+        PartyRef pr = new PartyRef(objectId, "tipo");
 
         // Serializa PartyRef
         byte[] seed = new Adaptador().adapta(pr);
 
         // Desserializa
         Adaptador a = new Adaptador(seed);
-        PartyRef r = a.oePartyRef(seed);
+        PartyRef r = a.oePartyRef();
 
+        assertEquals(pr, r);
     }
 
 }

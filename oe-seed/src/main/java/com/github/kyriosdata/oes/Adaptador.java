@@ -258,7 +258,7 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeTemplateID(byte[])
+     * @see #oeTemplateID()
      */
     public byte[] adapta(TemplateID rm) {
         Seed seed = Seed.serializa(meta[OE_TEMPLATEID]);
@@ -269,12 +269,10 @@ public class Adaptador {
     /**
      * Obtém objeto a partir da serialização correspondente.
      *
-     * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
      * @see #adapta(TemplateID)
      */
-    public TemplateID oeTemplateID(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
+    public TemplateID oeTemplateID() {
         return new TemplateID(s.obtemString(0));
     }
 
@@ -299,7 +297,6 @@ public class Adaptador {
      * @see #adapta(TerminologyID)
      */
     public TerminologyID oeTerminologyID(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
         return new TerminologyID(s.obtemString(0));
     }
 
@@ -328,10 +325,11 @@ public class Adaptador {
      * @see #adapta(CodePhrase)
      */
     public CodePhrase oeCodePhrase(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
-
-        TerminologyID tid = oeTerminologyID(s.obtemByteArray(1));
         String codeString = s.obtemString(0);
+
+        s.setOffsetInicio(s.offset(1) + 4);
+
+        TerminologyID tid = oeTerminologyID(null);
 
         return new CodePhrase(tid, codeString);
     }
@@ -423,7 +421,7 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oePartyRef(byte[])
+     * @see #oePartyRef()
      */
     public byte[] adapta(PartyRef rm) {
         Seed seed = Seed.serializa(meta[OE_PARTYREF]);
@@ -432,6 +430,8 @@ public class Adaptador {
         ObjectID oid = rm.getId();
         if (oid instanceof TemplateID) {
             oidBytes = adapta((TemplateID)oid);
+        } else if (oid instanceof TerminologyID) {
+            oidBytes = adapta((TerminologyID)oid);
         }
 
         // Posição 0 (ObjectID)
@@ -449,24 +449,30 @@ public class Adaptador {
     /**
      * Obtém objeto a partir da serialização correspondente.
      *
-     * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
      * @see #adapta(VersionTreeID)
      */
-    public PartyRef oePartyRef(byte[] dados) {
+    public PartyRef oePartyRef() {
+
+        // Posição do objeto PartyRef
+        int prInicio = s.getOffsetInicio();
 
         // Posição inicial do ObjectID (metainformação)
         // (consultar processo de "empacotamento")
-        int inicio = s.getOffsetInicio() + 5 + 4;
+        int inicio = prInicio + 5 + 4;
 
         // Tipo do objeto armazenado (subclasse de ObjectID)
         byte tipo = s.getTipo(inicio);
 
         ObjectID oid = null;
+        s.setOffsetInicio(inicio);
         if (tipo == OE_TEMPLATEID) {
-            oid = oeTemplateID(dados);
+            oid = oeTemplateID();
+        } else if (tipo == OE_TERMINOLOGYID) {
+            oid = oeTerminologyID(null);
         }
 
+        s.setOffsetInicio(prInicio);
         return new PartyRef(oid, s.obtemString(2));
     }
 }
