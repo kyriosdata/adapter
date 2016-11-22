@@ -63,11 +63,24 @@ public class Adaptador {
             {OE_PARTYREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING}
     };
 
+    private byte[] buffer;
+    private Seed s;
+
     /**
-     * Cria um objeto em conformidade com o tipo definido
-     * pelo Modelo de Referência do openEHR.
+     * Cria adaptador para conversão Seed -> MR.
+     *
+     * @param bytes Vetor contendo serialização de objetos MR.
+     */
+    public Adaptador(byte[] bytes) {
+        buffer = bytes;
+        s = Seed.desserializa(buffer);
+    }
+
+    /**
+     * Cria adaptador para conversão MR -> Seed.
      */
     public Adaptador() {
+        buffer = null;
     }
 
     /**
@@ -75,7 +88,7 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #dvBoolean(byte[])
+     * @see #oeDvBoolean(int)
      */
     public byte[] adapta(DvBoolean rm) {
         Seed seed = Seed.serializa(meta[OE_DVBOOLEAN]);
@@ -86,13 +99,12 @@ public class Adaptador {
     /**
      * Obtém objeto a partir da serialização correspondente.
      *
-     * @param dados Objeto serializado em uma sequência de bytes.
+     * @param posicao Posição inicial do objeto no vetor.
      * @return Objeto obtido da sequência de bytes.
      * @see #adapta(DvBoolean)
      */
-    public DvBoolean dvBoolean(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
-        return new DvBoolean(s.obtemBoolean(0));
+    public DvBoolean oeDvBoolean(int posicao) {
+        return new DvBoolean(s.obtemBoolean(posicao));
     }
 
     /**
@@ -100,7 +112,7 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeDvIdentifier(byte[])
+     * @see #oeDvIdentifier(byte[], int)
      */
     public byte[] adapta(DvIdentifier rm) {
         Seed seed = Seed.serializa(meta[OE_DVIDENTIFIER]);
@@ -115,10 +127,12 @@ public class Adaptador {
      * Obtém objeto a partir da serialização correspondente.
      *
      * @param dados Objeto serializado em uma sequência de bytes.
+     * @param posicao Posição inicial do objeto no vetor.
      * @return Objeto obtido da sequência de bytes.
+     *
      * @see #adapta(DvIdentifier)
      */
-    public DvIdentifier oeDvIdentifier(byte[] dados) {
+    public DvIdentifier oeDvIdentifier(byte[] dados, int posicao) {
         Seed s = Seed.desserializa(dados);
         return new DvIdentifier(
                 s.obtemString(0),
@@ -398,7 +412,7 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeVersionTreeID(byte[])
+     * @see #oePartyRef(byte[])
      */
     public byte[] adapta(PartyRef rm) {
         Seed seed = Seed.serializa(meta[OE_PARTYREF]);
@@ -409,8 +423,13 @@ public class Adaptador {
             oidBytes = adapta((TemplateID)oid);
         }
 
+        // Posição 0 (ObjectID)
         seed.defineByteArray(0, oidBytes);
+
+        // Posição 1 (String)
         seed.defineString(1, rm.getNamespace());
+
+        // Posição 2 (String)
         seed.defineString(2, rm.getType());
 
         return seed.array();
@@ -426,15 +445,16 @@ public class Adaptador {
     public PartyRef oePartyRef(byte[] dados) {
         Seed s = Seed.desserializa(dados);
 
-        // O identificador do tipo na posição 0
-        byte tipo = s.tipo(0);
+        // Metainformação de PartyRef consome 5 bytes
+        // (posições de 0 a 4, inclusive)
+        // ObjectID (posição 5)
+        byte tipo = s.getTipo(5);
 
         ObjectID oid = null;
         if (tipo == OE_TEMPLATEID) {
             oid = oeTemplateID(dados);
         }
 
-        s.
-        return new PartyRef(s.obtemString(0));
+        return new PartyRef(oid, s.obtemString(2));
     }
 }

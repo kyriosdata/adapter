@@ -11,9 +11,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.github.kyriosdata.seed:seed:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.kyriosdata.seed:seed:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.kyriosdata.parser:parser:1.0.1" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.7" level="project" />
     <orderEntry type="module" module-name="measure-serv" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Maven: javax.measure:jsr-275:0.9.4" level="project" />
