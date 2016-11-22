@@ -35,9 +35,9 @@ public class Adaptador {
     public static final int OE_TEMPLATEID = 7;
     public static final int OE_CODEPHRASE = 8;
     public static final int OE_DVURI = 9;
-    public static final int OE_DVEHRURI = 9;
-    public static final int OE_VERSIONTREEID = 10;
-    public static final int OE_PARTYREF = 11;
+    public static final int OE_DVEHRURI = 10;
+    public static final int OE_VERSIONTREEID = 11;
+    public static final int OE_PARTYREF = 12;
 
     /**
      * Uma entrada em meta-informação para cada classe do MR.
@@ -47,21 +47,7 @@ public class Adaptador {
      * Segundo byte é a quantidade de campos.
      * Terceiro byte em diante indica os tipos de cada um dos campos.
      */
-    byte[][] meta = new byte[][]{
-            {OE_DVBOOLEAN, 1, Seed.BOOLEAN},
-            {OE_DVIDENTIFIER, 4, Seed.STRING, Seed.STRING, Seed.STRING, Seed.STRING},
-            {OE_INTERNETID, 1, Seed.STRING},
-            {OE_ISO_OID, 1, Seed.STRING},
-            {OE_UUID, 1, Seed.STRING},
-            {OE_TERMINOLOGYID, 1, Seed.STRING},
-            {OE_GENERICID, 2, Seed.STRING, Seed.STRING},
-            {OE_TEMPLATEID, 1, Seed.STRING},
-            {OE_CODEPHRASE, 2, Seed.STRING, Seed.VETOR},
-            {OE_DVURI, 1, Seed.STRING},
-            {OE_DVEHRURI, 1, Seed.STRING},
-            {OE_VERSIONTREEID, 1, Seed.STRING},
-            {OE_PARTYREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING}
-    };
+    byte[][] meta;
 
     private byte[] buffer;
     private Seed s;
@@ -72,6 +58,7 @@ public class Adaptador {
      * @param bytes Vetor contendo serialização de objetos MR.
      */
     public Adaptador(byte[] bytes) {
+        super();
         buffer = bytes;
         s = Seed.desserializa(buffer);
     }
@@ -81,6 +68,32 @@ public class Adaptador {
      */
     public Adaptador() {
         buffer = null;
+
+        meta = new byte[50][];
+        meta[OE_DVBOOLEAN] = new byte[] {OE_DVBOOLEAN, 1, Seed.BOOLEAN};
+        meta[OE_DVIDENTIFIER] = new byte[] {OE_DVIDENTIFIER, 4, Seed.STRING, Seed.STRING, Seed.STRING, Seed.STRING};
+        meta[OE_INTERNETID] = new byte[] {OE_INTERNETID, 1, Seed.STRING};
+        meta[OE_ISO_OID] = new byte[] {OE_ISO_OID, 1, Seed.STRING};
+        meta[OE_UUID] = new byte[] {OE_UUID, 1, Seed.STRING};
+        meta[OE_TERMINOLOGYID] = new byte[] {OE_TERMINOLOGYID, 1, Seed.STRING};
+        meta[OE_GENERICID] = new byte[] {OE_GENERICID, 2, Seed.STRING, Seed.STRING};
+        meta[OE_TEMPLATEID] = new byte[] {OE_TEMPLATEID, 1, Seed.STRING};
+        meta[OE_CODEPHRASE] = new byte[] {OE_CODEPHRASE, 2, Seed.STRING, Seed.VETOR};
+        meta[OE_DVURI] = new byte[] {OE_DVURI, 1, Seed.STRING};
+        meta[OE_DVEHRURI] = new byte[] {OE_DVEHRURI, 1, Seed.STRING};
+        meta[OE_VERSIONTREEID] = new byte[] {OE_VERSIONTREEID, 1, Seed.STRING};
+        meta[OE_PARTYREF] = new byte[] {OE_PARTYREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING};
+    }
+
+    /**
+     * Define o registro corrente por meio da posição
+     * do primeiro byte.
+     *
+     * @param inicio Posição do primeiro byte do registro
+     *               a ser considerado o corrente.
+     */
+    public void setInicioRegistro(int inicio) {
+        s.setOffsetInicio(inicio);
     }
 
     /**
@@ -99,12 +112,12 @@ public class Adaptador {
     /**
      * Obtém objeto a partir da serialização correspondente.
      *
-     * @param posicao Posição inicial do objeto no vetor.
+     * @param ordem Ordem do objeto no registro.
      * @return Objeto obtido da sequência de bytes.
      * @see #adapta(DvBoolean)
      */
-    public DvBoolean oeDvBoolean(int posicao) {
-        return new DvBoolean(s.obtemBoolean(posicao));
+    public DvBoolean oeDvBoolean(int ordem) {
+        return new DvBoolean(s.obtemBoolean(0));
     }
 
     /**
@@ -112,7 +125,7 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeDvIdentifier(byte[], int)
+     * @see #oeDvIdentifier(int)
      */
     public byte[] adapta(DvIdentifier rm) {
         Seed seed = Seed.serializa(meta[OE_DVIDENTIFIER]);
@@ -126,14 +139,12 @@ public class Adaptador {
     /**
      * Obtém objeto a partir da serialização correspondente.
      *
-     * @param dados Objeto serializado em uma sequência de bytes.
      * @param posicao Posição inicial do objeto no vetor.
      * @return Objeto obtido da sequência de bytes.
      *
      * @see #adapta(DvIdentifier)
      */
-    public DvIdentifier oeDvIdentifier(byte[] dados, int posicao) {
-        Seed s = Seed.desserializa(dados);
+    public DvIdentifier oeDvIdentifier(int posicao) {
         return new DvIdentifier(
                 s.obtemString(0),
                 s.obtemString(1),
@@ -443,12 +454,13 @@ public class Adaptador {
      * @see #adapta(VersionTreeID)
      */
     public PartyRef oePartyRef(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
 
-        // Metainformação de PartyRef consome 5 bytes
-        // (posições de 0 a 4, inclusive)
-        // ObjectID (posição 5)
-        byte tipo = s.getTipo(5);
+        // Posição inicial do ObjectID (metainformação)
+        // (consultar processo de "empacotamento")
+        int inicio = s.getOffsetInicio() + 5 + 4;
+
+        // Tipo do objeto armazenado (subclasse de ObjectID)
+        byte tipo = s.getTipo(inicio);
 
         ObjectID oid = null;
         if (tipo == OE_TEMPLATEID) {

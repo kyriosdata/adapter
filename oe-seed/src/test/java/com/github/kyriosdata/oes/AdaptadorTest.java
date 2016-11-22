@@ -24,6 +24,9 @@ public class AdaptadorTest {
         // Adaptador
         Adaptador a = new Adaptador(seed);
 
+        // Define registro de interesse
+        a.setInicioRegistro(0);
+
         // Restaura
         DvBoolean recuperado = a.oeDvBoolean(0);
 
@@ -33,16 +36,18 @@ public class AdaptadorTest {
 
     @Test
     public void dvIdentifier() {
-        Adaptador a = new Adaptador(null);
 
         // Um objeto a ser adaptado
         DvIdentifier dv = new DvIdentifier("i", "a", "id", "type");
 
         // Converte
-        byte[] seed = a.adapta(dv);
+        byte[] seed = new Adaptador().adapta(dv);
+
+        // Recuperação
+        Adaptador a = new Adaptador(seed);
 
         // Restaura
-        DvIdentifier recuperado = a.oeDvIdentifier(seed, 0);
+        DvIdentifier recuperado = a.oeDvIdentifier(0);
 
         // Verifica
         assertEquals("i", recuperado.getIssuer());
@@ -53,7 +58,7 @@ public class AdaptadorTest {
 
     @Test
     public void genericId() {
-        Adaptador a = new Adaptador(null);
+        Adaptador a = new Adaptador();
 
         GenericID v = new GenericID("value", "scheme");
 
@@ -67,7 +72,7 @@ public class AdaptadorTest {
 
     @Test
     public void internetId() {
-        Adaptador a = new Adaptador(null);
+        Adaptador a = new Adaptador();
 
         // Um objeto a ser adaptado
         InternetID v = new InternetID("id");
@@ -84,7 +89,7 @@ public class AdaptadorTest {
 
     @Test
     public void isoOid() {
-        Adaptador a = new Adaptador(null);
+        Adaptador a = new Adaptador();
 
         String linuxLoadOID = "1.3.6.1.4.1.2021.10.1.3.1";
         ISO_OID v = new ISO_OID(linuxLoadOID);
@@ -98,7 +103,7 @@ public class AdaptadorTest {
 
     @Test
     public void templateId() {
-        Adaptador a = new Adaptador(null);
+        Adaptador a = new Adaptador();
 
         TemplateID v = new TemplateID("templateId");
 
@@ -111,7 +116,7 @@ public class AdaptadorTest {
 
     @Test
     public void terminologyId() {
-        Adaptador a = new Adaptador(null);
+        Adaptador a = new Adaptador();
 
         TerminologyID v = new TerminologyID("id(v)");
 
@@ -124,7 +129,7 @@ public class AdaptadorTest {
 
     @Test
     public void uuid() {
-        Adaptador a = new Adaptador(null);
+        Adaptador a = new Adaptador();
 
         String guid = java.util.UUID.randomUUID().toString();
 
@@ -139,7 +144,7 @@ public class AdaptadorTest {
 
     @Test
     public void codePhrase() {
-        Adaptador a = new Adaptador(null);
+        Adaptador a = new Adaptador();
 
         TerminologyID tid = new TerminologyID("id(v)");
         CodePhrase cp = new CodePhrase(tid, "codigo");
@@ -154,7 +159,7 @@ public class AdaptadorTest {
 
     @Test
     public void dvURI() {
-        Adaptador a = new Adaptador(null);
+        Adaptador a = new Adaptador();
 
         String uri = "mailto:fabio@inf.ufg.br";
 
@@ -168,7 +173,7 @@ public class AdaptadorTest {
 
     @Test
     public void dvEHRURI() {
-        Adaptador a = new Adaptador(null);
+        Adaptador a = new Adaptador();
 
         String uri = "ehr:fabio@inf.ufg.br";
 
@@ -182,7 +187,7 @@ public class AdaptadorTest {
 
     @Test
     public void versionTreeID() {
-        Adaptador a = new Adaptador(null);
+        Adaptador a = new Adaptador();
 
         VersionTreeID v = new VersionTreeID(1, 2, 3);
         byte[] bytes = a.adapta(v);
@@ -190,6 +195,20 @@ public class AdaptadorTest {
         VersionTreeID recuperado = a.oeVersionTreeID(bytes);
 
         assertEquals("1.2.3", recuperado.getValue());
+    }
+
+    @Test
+    public void partyRef() {
+        TemplateID oid = new TemplateID("TemplateID");
+        PartyRef pr = new PartyRef(oid, "tipo");
+
+        // Serializa PartyRef
+        byte[] seed = new Adaptador().adapta(pr);
+
+        // Desserializa
+        Adaptador a = new Adaptador(seed);
+        PartyRef r = a.oePartyRef(seed);
+
     }
 
 }
