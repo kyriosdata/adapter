@@ -18,10 +18,10 @@ public class AdaptadorTest {
         // Um objeto a ser adaptado
         DvBoolean dv = new DvBoolean(false);
 
-        // Converte
+        // Converte para seed
         byte[] seed = new Adaptador().adapta(dv);
 
-        // Adaptador
+        // De seed para MR
         Adaptador a = new Adaptador(seed);
 
         // Define registro de interesse
@@ -58,12 +58,11 @@ public class AdaptadorTest {
 
     @Test
     public void genericId() {
-        Adaptador a = new Adaptador();
-
         GenericID v = new GenericID("value", "scheme");
 
-        byte[] seed = a.adapta(v);
+        byte[] seed = new Adaptador().adapta(v);
 
+        Adaptador a = new Adaptador(seed);
         GenericID recuperado = a.oeGenericID(seed);
 
         assertEquals("value", recuperado.getValue());
@@ -199,9 +198,24 @@ public class AdaptadorTest {
     }
 
     @Test
+    public void archetypeID() {
+
+        String archetype = "openEHR-EHR-COMPOSITION.care_plan.v1";
+        ArchetypeID v = new ArchetypeID(archetype);
+        byte[] bytes = new Adaptador().adapta(v);
+
+        Adaptador a = new Adaptador(bytes);
+        ArchetypeID recuperado = a.oeArchetypeID(bytes);
+
+        assertEquals(archetype, recuperado.getValue());
+    }
+
+    @Test
     public void partyRef() {
         partyRefBase(new TemplateID("TemplateID"));
-        partyRefBase(new TerminologyID("TemplateID"));
+        partyRefBase(new TerminologyID("TerminologyID"));
+        partyRefBase(new GenericID("GenericID", "ehr"));
+        partyRefBase(new ArchetypeID("openEHR-EHR-COMPOSITION.adverse_reaction_list.v1"));
     }
 
     private void partyRefBase(ObjectID objectId) {

@@ -22,7 +22,7 @@ import org.openehr.rm.support.identification.*;
 public class Adaptador {
 
     /**
-     * Um tipo para cada classe do MR.
+     * Identificador único para cada classe do MR.
      */
 
     public static final int OE_DVBOOLEAN = 0;
@@ -38,6 +38,7 @@ public class Adaptador {
     public static final int OE_DVEHRURI = 10;
     public static final int OE_VERSIONTREEID = 11;
     public static final int OE_PARTYREF = 12;
+    public static final int OE_ARCHETYPEID = 13;
 
     /**
      * Uma entrada em meta-informação para cada classe do MR.
@@ -83,6 +84,7 @@ public class Adaptador {
         meta[OE_DVEHRURI] = new byte[] {OE_DVEHRURI, 1, Seed.STRING};
         meta[OE_VERSIONTREEID] = new byte[] {OE_VERSIONTREEID, 1, Seed.STRING};
         meta[OE_PARTYREF] = new byte[] {OE_PARTYREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING};
+        meta[OE_ARCHETYPEID] = new byte[] {OE_ARCHETYPEID, 1, Seed.STRING};
     }
 
     /**
@@ -174,7 +176,6 @@ public class Adaptador {
      * @see #adapta(GenericID)
      */
     public GenericID oeGenericID(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
         return new GenericID(s.obtemString(0), s.obtemString(1));
     }
 
@@ -415,6 +416,31 @@ public class Adaptador {
         return new VersionTreeID(s.obtemString(0));
     }
 
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oeVersionTreeID(byte[])
+     */
+    public byte[] adapta(ArchetypeID rm) {
+        Seed seed = Seed.serializa(meta[OE_ARCHETYPEID]);
+        seed.defineString(0, rm.getValue());
+
+        return seed.array();
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(VersionTreeID)
+     */
+    public ArchetypeID oeArchetypeID(byte[] dados) {
+
+        return new ArchetypeID(s.obtemString(0));
+    }
 
     /**
      * Converte objeto em sequência de bytes correspondente.
@@ -432,6 +458,10 @@ public class Adaptador {
             oidBytes = adapta((TemplateID)oid);
         } else if (oid instanceof TerminologyID) {
             oidBytes = adapta((TerminologyID)oid);
+        } else if (oid instanceof GenericID) {
+            oidBytes = adapta((GenericID)oid);
+        } else if (oid instanceof ArchetypeID) {
+            oidBytes = adapta((ArchetypeID)oid);
         }
 
         // Posição 0 (ObjectID)
@@ -470,6 +500,10 @@ public class Adaptador {
             oid = oeTemplateID();
         } else if (tipo == OE_TERMINOLOGYID) {
             oid = oeTerminologyID(null);
+        } else if (tipo == OE_GENERICID) {
+            oid = oeGenericID(null);
+        } else if (tipo == OE_ARCHETYPEID) {
+            oid = oeArchetypeID(null);
         }
 
         s.setOffsetInicio(prInicio);
