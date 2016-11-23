@@ -94,7 +94,7 @@ public class Adaptador {
         meta[OE_HIEROBJECTID] = new byte[] {OE_HIEROBJECTID, 1, Seed.STRING};
         meta[OE_OBJECTREF] = new byte[] {OE_OBJECTREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING};
         meta[OE_LOCATABLEREF] = new byte[] {OE_LOCATABLEREF, 3, Seed.VETOR, Seed.STRING};
-        meta[OE_ACCESSGROUPREF] = new byte[] {OE_ACCESSGROUPREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING};
+        meta[OE_ACCESSGROUPREF] = new byte[] {OE_ACCESSGROUPREF, 1, Seed.VETOR};
     }
 
     /**
@@ -522,7 +522,7 @@ public class Adaptador {
         Seed seed = Seed.serializa(meta[OE_LOCATABLEREF]);
 
         // ObjectRef (bytes)
-        byte[] orBytes = adapta((ObjectRef)rm);
+        byte[] orBytes = adaptaBase((ObjectRef)rm);
 
         // Posição 0 (ObjectRef)
         seed.defineByteArray(0, orBytes);
@@ -544,7 +544,7 @@ public class Adaptador {
         Seed seed = Seed.serializa(meta[OE_ACCESSGROUPREF]);
 
         // ObjectRef (bytes)
-        byte[] orBytes = adapta((ObjectRef)rm);
+        byte[] orBytes = adaptaBase((ObjectRef)rm);
 
         // Posição 0 (ObjectRef)
         seed.defineByteArray(0, orBytes);
@@ -649,11 +649,38 @@ public class Adaptador {
         int inicio = prInicio + 3 + 4;
 
         s.setOffsetInicio(inicio);
+
         // Recupera ObjectRef
         ObjectRef oid = oeObjectRef();
 
         s.setOffsetInicio(prInicio);
         return new PartyRef(oid.getId(), oid.getType());
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(VersionTreeID)
+     */
+    public AccessGroupRef oeAccessGroupRef() {
+
+        // Posição do objeto PartyRef
+        int prInicio = s.getOffsetInicio();
+
+        // Posição inicial do ObjectID (metainformação)
+        // Metainformação: 3
+        // Tamanho do vetor de bytes do objeto: 4
+        int inicio = prInicio + 3 + 4;
+
+        // Define posição inicial do ObjectRef
+        s.setOffsetInicio(inicio);
+
+        // Recupera ObjectRef
+        ObjectRef oid = oeObjectRef();
+
+        s.setOffsetInicio(prInicio);
+        return new AccessGroupRef(oid.getId());
     }
 
     private byte[] adapta(ObjectID oid) {

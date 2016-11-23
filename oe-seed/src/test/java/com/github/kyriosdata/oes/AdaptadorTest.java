@@ -252,6 +252,20 @@ public class AdaptadorTest {
     }
 
     @Test
+    public void accessGroupRef() {
+
+        TemplateID tid = new TemplateID("TemplateID");
+        AccessGroupRef agr = new AccessGroupRef(tid);
+
+        byte[] bytes = new Adaptador().adapta(agr);
+
+        Adaptador a = new Adaptador(bytes);
+        AccessGroupRef recuperado = a.oeAccessGroupRef();
+
+        assertEquals(agr, recuperado);
+    }
+
+    @Test
     public void partyRef() {
         partyRefBase(new TemplateID("TemplateID"));
         partyRefBase(new TerminologyID("TerminologyID"));
