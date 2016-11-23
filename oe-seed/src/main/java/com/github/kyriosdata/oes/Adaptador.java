@@ -40,6 +40,7 @@ public class Adaptador {
     public static final int OE_PARTYREF = 12;
     public static final int OE_ARCHETYPEID = 13;
     public static final int OE_OBJECTVERSIONID= 14;
+    public static final int OE_HIEROBJECTID = 15;
 
     /**
      * Uma entrada em meta-informação para cada classe do MR.
@@ -87,6 +88,7 @@ public class Adaptador {
         meta[OE_PARTYREF] = new byte[] {OE_PARTYREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING};
         meta[OE_ARCHETYPEID] = new byte[] {OE_ARCHETYPEID, 1, Seed.STRING};
         meta[OE_OBJECTVERSIONID] = new byte[] {OE_OBJECTVERSIONID, 1, Seed.STRING};
+        meta[OE_HIEROBJECTID] = new byte[] {OE_HIEROBJECTID, 1, Seed.STRING};
     }
 
     /**
@@ -470,6 +472,33 @@ public class Adaptador {
         return new ObjectVersionID(s.obtemString(0));
     }
 
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oeHierObjectID(byte[])
+     */
+    public byte[] adapta(HierObjectID rm) {
+        Seed seed = Seed.serializa(meta[OE_HIEROBJECTID]);
+        seed.defineString(0, rm.getValue());
+
+        return seed.array();
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @param dados Objeto serializado em uma sequência de bytes.
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(HierObjectID)
+     */
+    public HierObjectID oeHierObjectID(byte[] dados) {
+
+        return new HierObjectID(s.obtemString(0));
+    }
+
     /**
      * Converte objeto em sequência de bytes correspondente.
      *
@@ -492,6 +521,8 @@ public class Adaptador {
             oidBytes = adapta((ArchetypeID)oid);
         } else if (oid instanceof ObjectVersionID) {
             oidBytes = adapta((ObjectVersionID) oid);
+        } else if (oid instanceof HierObjectID) {
+            oidBytes = adapta((HierObjectID) oid);
         }
 
         // Posição 0 (ObjectID)
@@ -536,6 +567,8 @@ public class Adaptador {
             oid = oeArchetypeID(null);
         } else if (tipo == OE_OBJECTVERSIONID) {
             oid = oeObjectVersionID(null);
+        } else if (tipo == OE_HIEROBJECTID) {
+            oid = oeHierObjectID(null);
         }
 
         s.setOffsetInicio(prInicio);

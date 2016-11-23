@@ -225,12 +225,27 @@ public class AdaptadorTest {
     }
 
     @Test
+    public void hierObjectID() {
+
+        String hoid = "inf.ufg";
+        HierObjectID v = new HierObjectID(hoid);
+
+        byte[] bytes = new Adaptador().adapta(v);
+
+        Adaptador a = new Adaptador(bytes);
+        HierObjectID recuperado = a.oeHierObjectID(bytes);
+
+        assertEquals(hoid, recuperado.getValue());
+    }
+
+    @Test
     public void partyRef() {
         partyRefBase(new TemplateID("TemplateID"));
         partyRefBase(new TerminologyID("TerminologyID"));
         partyRefBase(new GenericID("GenericID", "ehr"));
         partyRefBase(new ArchetypeID("openEHR-EHR-COMPOSITION.adverse_reaction_list.v1"));
         partyRefBase(new ObjectVersionID("ufg.br::inf.ufg::1"));
+        partyRefBase(new HierObjectID("inf.ufg"));
     }
 
     private void partyRefBase(ObjectID objectId) {
