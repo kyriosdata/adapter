@@ -41,6 +41,9 @@ public class Adaptador {
     public static final int OE_ARCHETYPEID = 13;
     public static final int OE_OBJECTVERSIONID= 14;
     public static final int OE_HIEROBJECTID = 15;
+    public static final int OE_OBJECTREF= 16;
+    public static final int OE_LOCATABLEREF= 17;
+    public static final int OE_ACCESSGROUPREF = 18;
 
     /**
      * Uma entrada em meta-informação para cada classe do MR.
@@ -85,10 +88,13 @@ public class Adaptador {
         meta[OE_DVURI] = new byte[] {OE_DVURI, 1, Seed.STRING};
         meta[OE_DVEHRURI] = new byte[] {OE_DVEHRURI, 1, Seed.STRING};
         meta[OE_VERSIONTREEID] = new byte[] {OE_VERSIONTREEID, 1, Seed.STRING};
-        meta[OE_PARTYREF] = new byte[] {OE_PARTYREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING};
+        meta[OE_PARTYREF] = new byte[] {OE_PARTYREF, 1, Seed.VETOR};
         meta[OE_ARCHETYPEID] = new byte[] {OE_ARCHETYPEID, 1, Seed.STRING};
         meta[OE_OBJECTVERSIONID] = new byte[] {OE_OBJECTVERSIONID, 1, Seed.STRING};
         meta[OE_HIEROBJECTID] = new byte[] {OE_HIEROBJECTID, 1, Seed.STRING};
+        meta[OE_OBJECTREF] = new byte[] {OE_OBJECTREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING};
+        meta[OE_LOCATABLEREF] = new byte[] {OE_LOCATABLEREF, 3, Seed.VETOR, Seed.STRING};
+        meta[OE_ACCESSGROUPREF] = new byte[] {OE_ACCESSGROUPREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING};
     }
 
     /**
@@ -461,7 +467,6 @@ public class Adaptador {
         return new ObjectVersionID(s.obtemString(0));
     }
 
-
     /**
      * Converte objeto em sequência de bytes correspondente.
      *
@@ -497,21 +502,79 @@ public class Adaptador {
     public byte[] adapta(PartyRef rm) {
         Seed seed = Seed.serializa(meta[OE_PARTYREF]);
 
-        byte[] oidBytes = null;
-        ObjectID oid = rm.getId();
-        if (oid instanceof TemplateID) {
-            oidBytes = adapta((TemplateID)oid);
-        } else if (oid instanceof TerminologyID) {
-            oidBytes = adapta((TerminologyID)oid);
-        } else if (oid instanceof GenericID) {
-            oidBytes = adapta((GenericID)oid);
-        } else if (oid instanceof ArchetypeID) {
-            oidBytes = adapta((ArchetypeID)oid);
-        } else if (oid instanceof ObjectVersionID) {
-            oidBytes = adapta((ObjectVersionID) oid);
-        } else if (oid instanceof HierObjectID) {
-            oidBytes = adapta((HierObjectID) oid);
+        // ObjectRef (bytes)
+        byte[] orBytes = adaptaBase((ObjectRef)rm);
+
+        // Posição 0 (ObjectRef)
+        seed.defineByteArray(0, orBytes);
+
+        return seed.array();
+    }
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oePartyRef()
+     */
+    public byte[] adapta(LocatableRef rm) {
+        Seed seed = Seed.serializa(meta[OE_LOCATABLEREF]);
+
+        // ObjectRef (bytes)
+        byte[] orBytes = adapta((ObjectRef)rm);
+
+        // Posição 0 (ObjectRef)
+        seed.defineByteArray(0, orBytes);
+
+        // Posição 1 (String)
+        seed.defineString(1, rm.getPath());
+
+        return seed.array();
+    }
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oePartyRef()
+     */
+    public byte[] adapta(AccessGroupRef rm) {
+        Seed seed = Seed.serializa(meta[OE_ACCESSGROUPREF]);
+
+        // ObjectRef (bytes)
+        byte[] orBytes = adapta((ObjectRef)rm);
+
+        // Posição 0 (ObjectRef)
+        seed.defineByteArray(0, orBytes);
+
+        return seed.array();
+    }
+
+    /**
+     * Converte objeto em sequência de bytes correspondente.
+     *
+     * @param rm O objeto a ser serializado.
+     * @return Objeto serializado em sequência de bytes.
+     * @see #oePartyRef()
+     */
+    public byte[] adapta(ObjectRef rm) {
+        if (rm instanceof PartyRef) {
+            return adapta((PartyRef)rm);
+        } else if (rm instanceof LocatableRef) {
+            return adapta((LocatableRef)rm);
+        }  else if (rm instanceof AccessGroupRef) {
+            return adapta((AccessGroupRef)rm);
         }
+
+        return adaptaBase(rm);
+    }
+
+    private byte[] adaptaBase(ObjectRef rm) {
+        Seed seed = Seed.serializa(meta[OE_OBJECTREF]);
+
+        byte[] oidBytes = adapta(rm.getId());
 
         // Posição 0 (ObjectID)
         seed.defineByteArray(0, oidBytes);
@@ -523,6 +586,50 @@ public class Adaptador {
         seed.defineString(2, rm.getType());
 
         return seed.array();
+    }
+
+    public ObjectRef oeObjectRef() {
+
+        // Posição do ObjectRef
+        int orInicio = s.getOffsetInicio();
+
+        // Posição inicial do ObjectID (metainformação)
+        // (consultar processo de "empacotamento")
+        int inicio = orInicio + 5 + 4;
+
+        // Tipo do objeto armazenado (subclasse de ObjectID)
+        byte tipo = s.getTipo(inicio);
+
+        ObjectID oid = oeObjectID(inicio, tipo);
+
+        s.setOffsetInicio(orInicio);
+
+        String namespace = s.obtemString(1);
+        String type = s.obtemString(2);
+        return new ObjectRef(oid, namespace, type);
+    }
+
+    /**
+     * Obtém objeto a partir da serialização correspondente.
+     *
+     * @return Objeto obtido da sequência de bytes.
+     * @see #adapta(LocatableRef)
+     */
+    public LocatableRef oeLocatableRef() {
+
+        // Posição do LocatableRef
+        int lrInicio = s.getOffsetInicio();
+
+        // Posição inicial do ObjectRef (metainformação)
+        // Metainformação:  3
+        // Tamanho do vetor de bytes: 4
+        int inicio = lrInicio + 3 + 4;
+        s.setOffsetInicio(inicio);
+
+        ObjectRef or = oeObjectRef();
+
+        s.setOffsetInicio(lrInicio);
+        return new LocatableRef(null, null, null, null);
     }
 
     /**
@@ -537,12 +644,38 @@ public class Adaptador {
         int prInicio = s.getOffsetInicio();
 
         // Posição inicial do ObjectID (metainformação)
-        // (consultar processo de "empacotamento")
-        int inicio = prInicio + 5 + 4;
+        // Metainformação: 3
+        // Tamanho do vetor de bytes do objeto: 4
+        int inicio = prInicio + 3 + 4;
 
-        // Tipo do objeto armazenado (subclasse de ObjectID)
-        byte tipo = s.getTipo(inicio);
+        s.setOffsetInicio(inicio);
+        // Recupera ObjectRef
+        ObjectRef oid = oeObjectRef();
 
+        s.setOffsetInicio(prInicio);
+        return new PartyRef(oid.getId(), oid.getType());
+    }
+
+    private byte[] adapta(ObjectID oid) {
+        byte[] oidBytes = null;
+        if (oid instanceof TemplateID) {
+            oidBytes = adapta((TemplateID)oid);
+        } else if (oid instanceof TerminologyID) {
+            oidBytes = adapta((TerminologyID)oid);
+        } else if (oid instanceof GenericID) {
+            oidBytes = adapta((GenericID)oid);
+        } else if (oid instanceof ArchetypeID) {
+            oidBytes = adapta((ArchetypeID)oid);
+        } else if (oid instanceof ObjectVersionID) {
+            oidBytes = adapta((ObjectVersionID) oid);
+        } else if (oid instanceof HierObjectID) {
+            oidBytes = adapta((HierObjectID) oid);
+        }
+
+        return oidBytes;
+    }
+
+    private ObjectID oeObjectID(int inicio, byte tipo) {
         ObjectID oid = null;
         s.setOffsetInicio(inicio);
         if (tipo == OE_TEMPLATEID) {
@@ -559,7 +692,6 @@ public class Adaptador {
             oid = oeHierObjectID(null);
         }
 
-        s.setOffsetInicio(prInicio);
-        return new PartyRef(oid, s.obtemString(2));
+        return oid;
     }
 }
