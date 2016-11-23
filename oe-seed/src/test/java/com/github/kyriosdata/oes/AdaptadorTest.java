@@ -71,15 +71,14 @@ public class AdaptadorTest {
 
     @Test
     public void internetId() {
-        Adaptador a = new Adaptador();
-
         // Um objeto a ser adaptado
         InternetID v = new InternetID("id");
 
         // Converte
-        byte[] bytes = a.adapta(v);
+        byte[] bytes = new Adaptador().adapta(v);
 
         // Restaura
+        Adaptador a = new Adaptador(bytes);
         InternetID recuperado = a.oeInternetID(bytes);
 
         // Verifica
@@ -88,13 +87,13 @@ public class AdaptadorTest {
 
     @Test
     public void isoOid() {
-        Adaptador a = new Adaptador();
 
         String linuxLoadOID = "1.3.6.1.4.1.2021.10.1.3.1";
         ISO_OID v = new ISO_OID(linuxLoadOID);
 
-        byte[] bytes = a.adapta(v);
+        byte[] bytes = new Adaptador().adapta(v);
 
+        Adaptador a = new Adaptador(bytes);
         ISO_OID recuperado = a.oeISO_OID(bytes);
 
         assertEquals(linuxLoadOID, recuperado.getValue());
@@ -129,13 +128,13 @@ public class AdaptadorTest {
 
     @Test
     public void uuid() {
-        Adaptador a = new Adaptador();
-
         String guid = java.util.UUID.randomUUID().toString();
 
         UUID v = new UUID(guid);
 
-        byte[] bytes = a.adapta(v);
+        byte[] bytes = new Adaptador().adapta(v);
+
+        Adaptador a = new Adaptador(bytes);
 
         UUID recuperado = a.oeUUID(bytes);
 
@@ -159,12 +158,12 @@ public class AdaptadorTest {
 
     @Test
     public void dvURI() {
-        Adaptador a = new Adaptador();
-
         String uri = "mailto:fabio@inf.ufg.br";
 
         DvURI duri = new DvURI(uri);
-        byte[] bytes = a.adapta(duri);
+        byte[] bytes = new Adaptador().adapta(duri);
+
+        Adaptador a = new Adaptador(bytes);
 
         DvURI recuperado = a.oeDvURI(bytes);
 
@@ -173,12 +172,12 @@ public class AdaptadorTest {
 
     @Test
     public void dvEHRURI() {
-        Adaptador a = new Adaptador();
-
         String uri = "ehr:fabio@inf.ufg.br";
 
         DvEHRURI duri = new DvEHRURI(uri);
-        byte[] bytes = a.adapta(duri);
+        byte[] bytes = new Adaptador().adapta(duri);
+
+        Adaptador a = new Adaptador(bytes);
 
         DvEHRURI recuperado = a.oeDvEHRURI(bytes);
 
@@ -187,10 +186,10 @@ public class AdaptadorTest {
 
     @Test
     public void versionTreeID() {
-        Adaptador a = new Adaptador();
-
         VersionTreeID v = new VersionTreeID(1, 2, 3);
-        byte[] bytes = a.adapta(v);
+        byte[] bytes = new Adaptador().adapta(v);
+
+        Adaptador a = new Adaptador(bytes);
 
         VersionTreeID recuperado = a.oeVersionTreeID(bytes);
 

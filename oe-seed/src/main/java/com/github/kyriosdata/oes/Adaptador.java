@@ -204,7 +204,6 @@ public class Adaptador {
      * @see #adapta(InternetID)
      */
     public InternetID oeInternetID(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
         return new InternetID(s.obtemString(0));
     }
 
@@ -229,7 +228,6 @@ public class Adaptador {
      * @see #adapta(ISO_OID)
      */
     public ISO_OID oeISO_OID(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
         return new ISO_OID(s.obtemString(0));
     }
 
@@ -254,7 +252,6 @@ public class Adaptador {
      * @see #adapta(ISO_OID)
      */
     public UUID oeUUID(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
         return new UUID(s.obtemString(0));
     }
 
@@ -361,8 +358,6 @@ public class Adaptador {
      * @see #adapta(CodePhrase)
      */
     public DvURI oeDvURI(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
-
         return new DvURI(s.obtemString(0));
     }
 
@@ -388,8 +383,6 @@ public class Adaptador {
      * @see #adapta(CodePhrase)
      */
     public DvEHRURI oeDvEHRURI(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
-
         return new DvEHRURI(s.obtemString(0));
     }
 
@@ -415,8 +408,6 @@ public class Adaptador {
      * @see #adapta(VersionTreeID)
      */
     public VersionTreeID oeVersionTreeID(byte[] dados) {
-        Seed s = Seed.desserializa(dados);
-
         return new VersionTreeID(s.obtemString(0));
     }
 
@@ -442,7 +433,6 @@ public class Adaptador {
      * @see #adapta(VersionTreeID)
      */
     public ArchetypeID oeArchetypeID(byte[] dados) {
-
         return new ArchetypeID(s.obtemString(0));
     }
 
@@ -468,7 +458,6 @@ public class Adaptador {
      * @see #adapta(ObjectVersionID)
      */
     public ObjectVersionID oeObjectVersionID(byte[] dados) {
-
         return new ObjectVersionID(s.obtemString(0));
     }
 
@@ -495,7 +484,6 @@ public class Adaptador {
      * @see #adapta(HierObjectID)
      */
     public HierObjectID oeHierObjectID(byte[] dados) {
-
         return new HierObjectID(s.obtemString(0));
     }
 
