@@ -238,6 +238,20 @@ public class AdaptadorTest {
     }
 
     @Test
+    public void objectRef() {
+
+        TemplateID tid = new TemplateID("TemplateID");
+        ObjectRef or = new ObjectRef(tid, "namespace", "type");
+
+        byte[] bytes = new Adaptador().adapta(or);
+
+        Adaptador a = new Adaptador(bytes);
+        ObjectRef recuperado = a.oeObjectRef();
+
+        assertEquals(or, recuperado);
+    }
+
+    @Test
     public void partyRef() {
         partyRefBase(new TemplateID("TemplateID"));
         partyRefBase(new TerminologyID("TerminologyID"));
