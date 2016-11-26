@@ -36,9 +36,9 @@ public class Adaptador {
     public static final int OE_HIEROBJECTID = 15;
     public static final int OE_INTERNETID = 2;
     public static final int OE_ISO_OID = 3;
-    public static final int OE_LOCATABLEREF= 17;
+    public static final int OE_LOCATABLEREF = 17;
     public static final int OE_OBJECTREF= 16;
-    public static final int OE_OBJECTVERSIONID= 14;
+    public static final int OE_OBJECTVERSIONID = 14;
     public static final int OE_PARTYREF = 12;
     public static final int OE_TEMPLATEID = 7;
     public static final int OE_TERMINOLOGYID = 5;
@@ -97,7 +97,7 @@ public class Adaptador {
         meta[OE_OBJECTVERSIONID] = new byte[] {OE_OBJECTVERSIONID, 1, Seed.STRING};
         meta[OE_HIEROBJECTID] = new byte[] {OE_HIEROBJECTID, 1, Seed.STRING};
         meta[OE_OBJECTREF] = new byte[] {OE_OBJECTREF, 3, Seed.VETOR, Seed.STRING, Seed.STRING};
-        meta[OE_LOCATABLEREF] = new byte[] {OE_LOCATABLEREF, 3, Seed.VETOR, Seed.STRING};
+        meta[OE_LOCATABLEREF] = new byte[] {OE_LOCATABLEREF, 2, Seed.VETOR, Seed.STRING};
         meta[OE_ACCESSGROUPREF] = new byte[] {OE_ACCESSGROUPREF, 1, Seed.VETOR};
     }
 
@@ -627,7 +627,7 @@ public class Adaptador {
         // Posição inicial do ObjectRef (metainformação)
         // Metainformação:  3
         // Tamanho do vetor de bytes: 4
-        int inicio = lrInicio + 3 + 4;
+        int inicio = lrInicio + 4 + 4;
         s.setOffsetInicio(inicio);
 
         // Primeiro campo (0): ObjectRef
@@ -636,10 +636,11 @@ public class Adaptador {
         String namespace = or.getNamespace();
         String type = or.getType();
 
+        s.setOffsetInicio(lrInicio);
+
         // Segundo campo (1): String
         String path = s.obtemString(1);
 
-        s.setOffsetInicio(lrInicio);
         return new LocatableRef(ovid, namespace, type, path);
     }
 

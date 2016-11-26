@@ -14,6 +14,35 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class AdaptadorTest {
 
     @Test
+    public void accessGroupRef() {
+
+        TemplateID tid = new TemplateID("TemplateID");
+        AccessGroupRef agr = new AccessGroupRef(tid);
+
+        byte[] bytes = new Adaptador().set(agr);
+
+        Adaptador a = new Adaptador(bytes);
+        AccessGroupRef recuperado = a.getAccessGroupRef();
+
+        assertEquals(agr, recuperado);
+    }
+
+    @Test
+    public void codePhrase() {
+        TerminologyID tid = new TerminologyID("id(v)");
+        CodePhrase cp = new CodePhrase(tid, "codigo");
+
+        byte[] bytes = new Adaptador().set(cp);
+
+        Adaptador a = new Adaptador(bytes);
+
+        CodePhrase recuperado = a.getCodePhrase(bytes);
+
+        assertEquals(tid, recuperado.getTerminologyId());
+        assertEquals("codigo", recuperado.getCodeString());
+    }
+
+    @Test
     public void dvBoolean() {
         // Um objeto a ser adaptado
         DvBoolean dv = new DvBoolean(false);
@@ -32,6 +61,34 @@ public class AdaptadorTest {
 
         // Verifica
         assertFalse(recuperado.getValue());
+    }
+
+    @Test
+    public void dvURI() {
+        String uri = "mailto:fabio@inf.ufg.br";
+
+        DvURI duri = new DvURI(uri);
+        byte[] bytes = new Adaptador().set(duri);
+
+        Adaptador a = new Adaptador(bytes);
+
+        DvURI recuperado = a.getDvURI(bytes);
+
+        assertEquals(uri, recuperado.getValue());
+    }
+
+    @Test
+    public void dvEHRURI() {
+        String uri = "ehr:fabio@inf.ufg.br";
+
+        DvEHRURI duri = new DvEHRURI(uri);
+        byte[] bytes = new Adaptador().set(duri);
+
+        Adaptador a = new Adaptador(bytes);
+
+        DvEHRURI recuperado = a.getDvEHRURI(bytes);
+
+        assertEquals(uri, recuperado.getValue());
     }
 
     @Test
@@ -142,49 +199,6 @@ public class AdaptadorTest {
     }
 
     @Test
-    public void codePhrase() {
-        TerminologyID tid = new TerminologyID("id(v)");
-        CodePhrase cp = new CodePhrase(tid, "codigo");
-
-        byte[] bytes = new Adaptador().set(cp);
-
-        Adaptador a = new Adaptador(bytes);
-
-        CodePhrase recuperado = a.getCodePhrase(bytes);
-
-        assertEquals(tid, recuperado.getTerminologyId());
-        assertEquals("codigo", recuperado.getCodeString());
-    }
-
-    @Test
-    public void dvURI() {
-        String uri = "mailto:fabio@inf.ufg.br";
-
-        DvURI duri = new DvURI(uri);
-        byte[] bytes = new Adaptador().set(duri);
-
-        Adaptador a = new Adaptador(bytes);
-
-        DvURI recuperado = a.getDvURI(bytes);
-
-        assertEquals(uri, recuperado.getValue());
-    }
-
-    @Test
-    public void dvEHRURI() {
-        String uri = "ehr:fabio@inf.ufg.br";
-
-        DvEHRURI duri = new DvEHRURI(uri);
-        byte[] bytes = new Adaptador().set(duri);
-
-        Adaptador a = new Adaptador(bytes);
-
-        DvEHRURI recuperado = a.getDvEHRURI(bytes);
-
-        assertEquals(uri, recuperado.getValue());
-    }
-
-    @Test
     public void versionTreeID() {
         VersionTreeID v = new VersionTreeID(1, 2, 3);
         byte[] bytes = new Adaptador().set(v);
@@ -238,6 +252,20 @@ public class AdaptadorTest {
     }
 
     @Test
+    public void locatableRef() {
+        String ovid = "ufg.br::inf.ufg::1";
+        ObjectVersionID ov = new ObjectVersionID(ovid);
+        LocatableRef lr = new LocatableRef(ov, "ehr", "tipo", "/a");
+
+        byte[] bytes = new Adaptador().set(lr);
+
+        Adaptador a = new Adaptador(bytes);
+        LocatableRef recuperado = a.getLocatableRef();
+
+        assertEquals(lr, recuperado);
+    }
+
+    @Test
     public void objectRef() {
 
         TemplateID tid = new TemplateID("TemplateID");
@@ -249,20 +277,6 @@ public class AdaptadorTest {
         ObjectRef recuperado = a.getObjectRef();
 
         assertEquals(or, recuperado);
-    }
-
-    @Test
-    public void accessGroupRef() {
-
-        TemplateID tid = new TemplateID("TemplateID");
-        AccessGroupRef agr = new AccessGroupRef(tid);
-
-        byte[] bytes = new Adaptador().set(agr);
-
-        Adaptador a = new Adaptador(bytes);
-        AccessGroupRef recuperado = a.getAccessGroupRef();
-
-        assertEquals(agr, recuperado);
     }
 
     @Test
