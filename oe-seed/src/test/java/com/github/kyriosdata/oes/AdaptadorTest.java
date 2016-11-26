@@ -19,7 +19,7 @@ public class AdaptadorTest {
         DvBoolean dv = new DvBoolean(false);
 
         // Converte para seed
-        byte[] seed = new Adaptador().adapta(dv);
+        byte[] seed = new Adaptador().set(dv);
 
         // De seed para MR
         Adaptador a = new Adaptador(seed);
@@ -28,7 +28,7 @@ public class AdaptadorTest {
         a.setInicioRegistro(0);
 
         // Restaura
-        DvBoolean recuperado = a.oeDvBoolean(0);
+        DvBoolean recuperado = a.getDvBoolean(0);
 
         // Verifica
         assertFalse(recuperado.getValue());
@@ -41,13 +41,13 @@ public class AdaptadorTest {
         DvIdentifier dv = new DvIdentifier("i", "a", "id", "type");
 
         // Converte
-        byte[] seed = new Adaptador().adapta(dv);
+        byte[] seed = new Adaptador().set(dv);
 
         // Recuperação
         Adaptador a = new Adaptador(seed);
 
         // Restaura
-        DvIdentifier recuperado = a.oeDvIdentifier(0);
+        DvIdentifier recuperado = a.getDvIdentifier(0);
 
         // Verifica
         assertEquals("i", recuperado.getIssuer());
@@ -60,10 +60,10 @@ public class AdaptadorTest {
     public void genericId() {
         GenericID v = new GenericID("value", "scheme");
 
-        byte[] seed = new Adaptador().adapta(v);
+        byte[] seed = new Adaptador().set(v);
 
         Adaptador a = new Adaptador(seed);
-        GenericID recuperado = a.oeGenericID(seed);
+        GenericID recuperado = a.getGenericID(seed);
 
         assertEquals("value", recuperado.getValue());
         assertEquals("scheme", recuperado.getScheme());
@@ -75,11 +75,11 @@ public class AdaptadorTest {
         InternetID v = new InternetID("id");
 
         // Converte
-        byte[] bytes = new Adaptador().adapta(v);
+        byte[] bytes = new Adaptador().set(v);
 
         // Restaura
         Adaptador a = new Adaptador(bytes);
-        InternetID recuperado = a.oeInternetID(bytes);
+        InternetID recuperado = a.getInternetID(bytes);
 
         // Verifica
         assertEquals("id", recuperado.getValue());
@@ -91,10 +91,10 @@ public class AdaptadorTest {
         String linuxLoadOID = "1.3.6.1.4.1.2021.10.1.3.1";
         ISO_OID v = new ISO_OID(linuxLoadOID);
 
-        byte[] bytes = new Adaptador().adapta(v);
+        byte[] bytes = new Adaptador().set(v);
 
         Adaptador a = new Adaptador(bytes);
-        ISO_OID recuperado = a.oeISO_OID(bytes);
+        ISO_OID recuperado = a.getISO_OID(bytes);
 
         assertEquals(linuxLoadOID, recuperado.getValue());
     }
@@ -103,11 +103,11 @@ public class AdaptadorTest {
     public void templateId() {
         TemplateID v = new TemplateID("templateId");
 
-        byte[] bytes = new Adaptador().adapta(v);
+        byte[] bytes = new Adaptador().set(v);
 
         Adaptador a = new Adaptador(bytes);
 
-        TemplateID recuperado = a.oeTemplateID();
+        TemplateID recuperado = a.getTemplateID();
 
         assertEquals("templateId", recuperado.getValue());
     }
@@ -117,11 +117,11 @@ public class AdaptadorTest {
 
         TerminologyID v = new TerminologyID("id(v)");
 
-        byte[] bytes = new Adaptador().adapta(v);
+        byte[] bytes = new Adaptador().set(v);
 
         Adaptador a = new Adaptador(bytes);
 
-        TerminologyID recuperado = a.oeTerminologyID(bytes);
+        TerminologyID recuperado = a.getTerminologyID(bytes);
 
         assertEquals("id(v)", recuperado.getValue());
     }
@@ -132,11 +132,11 @@ public class AdaptadorTest {
 
         UUID v = new UUID(guid);
 
-        byte[] bytes = new Adaptador().adapta(v);
+        byte[] bytes = new Adaptador().set(v);
 
         Adaptador a = new Adaptador(bytes);
 
-        UUID recuperado = a.oeUUID(bytes);
+        UUID recuperado = a.getUUID(bytes);
 
         assertEquals(guid, recuperado.getValue());
     }
@@ -146,11 +146,11 @@ public class AdaptadorTest {
         TerminologyID tid = new TerminologyID("id(v)");
         CodePhrase cp = new CodePhrase(tid, "codigo");
 
-        byte[] bytes = new Adaptador().adapta(cp);
+        byte[] bytes = new Adaptador().set(cp);
 
         Adaptador a = new Adaptador(bytes);
 
-        CodePhrase recuperado = a.oeCodePhrase(bytes);
+        CodePhrase recuperado = a.getCodePhrase(bytes);
 
         assertEquals(tid, recuperado.getTerminologyId());
         assertEquals("codigo", recuperado.getCodeString());
@@ -161,11 +161,11 @@ public class AdaptadorTest {
         String uri = "mailto:fabio@inf.ufg.br";
 
         DvURI duri = new DvURI(uri);
-        byte[] bytes = new Adaptador().adapta(duri);
+        byte[] bytes = new Adaptador().set(duri);
 
         Adaptador a = new Adaptador(bytes);
 
-        DvURI recuperado = a.oeDvURI(bytes);
+        DvURI recuperado = a.getDvURI(bytes);
 
         assertEquals(uri, recuperado.getValue());
     }
@@ -175,11 +175,11 @@ public class AdaptadorTest {
         String uri = "ehr:fabio@inf.ufg.br";
 
         DvEHRURI duri = new DvEHRURI(uri);
-        byte[] bytes = new Adaptador().adapta(duri);
+        byte[] bytes = new Adaptador().set(duri);
 
         Adaptador a = new Adaptador(bytes);
 
-        DvEHRURI recuperado = a.oeDvEHRURI(bytes);
+        DvEHRURI recuperado = a.getDvEHRURI(bytes);
 
         assertEquals(uri, recuperado.getValue());
     }
@@ -187,11 +187,11 @@ public class AdaptadorTest {
     @Test
     public void versionTreeID() {
         VersionTreeID v = new VersionTreeID(1, 2, 3);
-        byte[] bytes = new Adaptador().adapta(v);
+        byte[] bytes = new Adaptador().set(v);
 
         Adaptador a = new Adaptador(bytes);
 
-        VersionTreeID recuperado = a.oeVersionTreeID(bytes);
+        VersionTreeID recuperado = a.getVersionTreeID(bytes);
 
         assertEquals("1.2.3", recuperado.getValue());
     }
@@ -201,10 +201,10 @@ public class AdaptadorTest {
 
         String archetype = "openEHR-EHR-COMPOSITION.care_plan.v1";
         ArchetypeID v = new ArchetypeID(archetype);
-        byte[] bytes = new Adaptador().adapta(v);
+        byte[] bytes = new Adaptador().set(v);
 
         Adaptador a = new Adaptador(bytes);
-        ArchetypeID recuperado = a.oeArchetypeID(bytes);
+        ArchetypeID recuperado = a.getArchetypeID(bytes);
 
         assertEquals(archetype, recuperado.getValue());
     }
@@ -215,10 +215,10 @@ public class AdaptadorTest {
         String ovid = "ufg.br::inf.ufg::1";
         ObjectVersionID v = new ObjectVersionID(ovid);
 
-        byte[] bytes = new Adaptador().adapta(v);
+        byte[] bytes = new Adaptador().set(v);
 
         Adaptador a = new Adaptador(bytes);
-        ObjectVersionID recuperado = a.oeObjectVersionID(bytes);
+        ObjectVersionID recuperado = a.getObjectVersionID(bytes);
 
         assertEquals(ovid, recuperado.getValue());
     }
@@ -229,10 +229,10 @@ public class AdaptadorTest {
         String hoid = "inf.ufg";
         HierObjectID v = new HierObjectID(hoid);
 
-        byte[] bytes = new Adaptador().adapta(v);
+        byte[] bytes = new Adaptador().set(v);
 
         Adaptador a = new Adaptador(bytes);
-        HierObjectID recuperado = a.oeHierObjectID(bytes);
+        HierObjectID recuperado = a.getHierObjectID(bytes);
 
         assertEquals(hoid, recuperado.getValue());
     }
@@ -243,10 +243,10 @@ public class AdaptadorTest {
         TemplateID tid = new TemplateID("TemplateID");
         ObjectRef or = new ObjectRef(tid, "namespace", "type");
 
-        byte[] bytes = new Adaptador().adapta(or);
+        byte[] bytes = new Adaptador().set(or);
 
         Adaptador a = new Adaptador(bytes);
-        ObjectRef recuperado = a.oeObjectRef();
+        ObjectRef recuperado = a.getObjectRef();
 
         assertEquals(or, recuperado);
     }
@@ -257,10 +257,10 @@ public class AdaptadorTest {
         TemplateID tid = new TemplateID("TemplateID");
         AccessGroupRef agr = new AccessGroupRef(tid);
 
-        byte[] bytes = new Adaptador().adapta(agr);
+        byte[] bytes = new Adaptador().set(agr);
 
         Adaptador a = new Adaptador(bytes);
-        AccessGroupRef recuperado = a.oeAccessGroupRef();
+        AccessGroupRef recuperado = a.getAccessGroupRef();
 
         assertEquals(agr, recuperado);
     }
@@ -279,11 +279,11 @@ public class AdaptadorTest {
         PartyRef pr = new PartyRef(objectId, "tipo");
 
         // Serializa PartyRef
-        byte[] seed = new Adaptador().adapta(pr);
+        byte[] seed = new Adaptador().set(pr);
 
         // Desserializa
         Adaptador a = new Adaptador(seed);
-        PartyRef r = a.oePartyRef();
+        PartyRef r = a.getPartyRef();
 
         assertEquals(pr, r);
     }

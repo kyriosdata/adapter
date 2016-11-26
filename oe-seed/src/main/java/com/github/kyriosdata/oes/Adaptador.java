@@ -59,9 +59,12 @@ public class Adaptador {
     private Seed s;
 
     /**
-     * Cria adaptador para conversão Seed -> MR.
+     * Cria adaptador para recuperar MR a partir de
+     * vetor de bytes.
      *
      * @param bytes Vetor contendo serialização de objetos MR.
+     *              O vetor deve ter sido produzido por um dos
+     *              métodos set.
      */
     public Adaptador(byte[] bytes) {
         super();
@@ -70,7 +73,8 @@ public class Adaptador {
     }
 
     /**
-     * Cria adaptador para conversão MR -> Seed.
+     * Cria adaptador para conversão do MR para
+     * vetor de bytes.
      */
     public Adaptador() {
         buffer = null;
@@ -113,9 +117,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeDvBoolean(int)
+     * @see #getDvBoolean(int)
      */
-    public byte[] adapta(DvBoolean rm) {
+    public byte[] set(DvBoolean rm) {
         Seed seed = Seed.serializa(meta[OE_DVBOOLEAN]);
         seed.defineBoolean(0, rm.getValue());
         return seed.array();
@@ -126,9 +130,9 @@ public class Adaptador {
      *
      * @param ordem Ordem do objeto no registro.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(DvBoolean)
+     * @see #set(DvBoolean)
      */
-    public DvBoolean oeDvBoolean(int ordem) {
+    public DvBoolean getDvBoolean(int ordem) {
         return new DvBoolean(s.obtemBoolean(0));
     }
 
@@ -137,9 +141,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeDvIdentifier(int)
+     * @see #getDvIdentifier(int)
      */
-    public byte[] adapta(DvIdentifier rm) {
+    public byte[] set(DvIdentifier rm) {
         Seed seed = Seed.serializa(meta[OE_DVIDENTIFIER]);
         seed.defineString(0, rm.getIssuer());
         seed.defineString(1, rm.getAssigner());
@@ -154,9 +158,9 @@ public class Adaptador {
      * @param posicao Posição inicial do objeto no vetor.
      * @return Objeto obtido da sequência de bytes.
      *
-     * @see #adapta(DvIdentifier)
+     * @see #set(DvIdentifier)
      */
-    public DvIdentifier oeDvIdentifier(int posicao) {
+    public DvIdentifier getDvIdentifier(int posicao) {
         return new DvIdentifier(
                 s.obtemString(0),
                 s.obtemString(1),
@@ -169,9 +173,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeGenericID(byte[])
+     * @see #getGenericID(byte[])
      */
-    public byte[] adapta(GenericID rm) {
+    public byte[] set(GenericID rm) {
         Seed seed = Seed.serializa(meta[OE_GENERICID]);
         seed.defineString(0, rm.getValue());
         seed.defineString(1, rm.getScheme());
@@ -183,9 +187,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(GenericID)
+     * @see #set(GenericID)
      */
-    public GenericID oeGenericID(byte[] dados) {
+    public GenericID getGenericID(byte[] dados) {
         return new GenericID(s.obtemString(0), s.obtemString(1));
     }
 
@@ -194,9 +198,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeInternetID(byte[])
+     * @see #getInternetID(byte[])
      */
-    public byte[] adapta(InternetID rm) {
+    public byte[] set(InternetID rm) {
         Seed seed = Seed.serializa(meta[OE_INTERNETID]);
         seed.defineString(0, rm.getValue());
         return seed.array();
@@ -207,9 +211,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(InternetID)
+     * @see #set(InternetID)
      */
-    public InternetID oeInternetID(byte[] dados) {
+    public InternetID getInternetID(byte[] dados) {
         return new InternetID(s.obtemString(0));
     }
 
@@ -218,9 +222,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeISO_OID(byte[])
+     * @see #getISO_OID(byte[])
      */
-    public byte[] adapta(ISO_OID rm) {
+    public byte[] set(ISO_OID rm) {
         Seed seed = Seed.serializa(meta[OE_ISO_OID]);
         seed.defineString(0, rm.getValue());
         return seed.array();
@@ -231,9 +235,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(ISO_OID)
+     * @see #set(ISO_OID)
      */
-    public ISO_OID oeISO_OID(byte[] dados) {
+    public ISO_OID getISO_OID(byte[] dados) {
         return new ISO_OID(s.obtemString(0));
     }
 
@@ -242,9 +246,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeUUID(byte[])
+     * @see #getUUID(byte[])
      */
-    public byte[] adapta(UUID rm) {
+    public byte[] set(UUID rm) {
         Seed seed = Seed.serializa(meta[OE_UUID]);
         seed.defineString(0, rm.getValue());
         return seed.array();
@@ -255,9 +259,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(ISO_OID)
+     * @see #set(ISO_OID)
      */
-    public UUID oeUUID(byte[] dados) {
+    public UUID getUUID(byte[] dados) {
         return new UUID(s.obtemString(0));
     }
 
@@ -266,9 +270,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeTemplateID()
+     * @see #getTemplateID()
      */
-    public byte[] adapta(TemplateID rm) {
+    public byte[] set(TemplateID rm) {
         Seed seed = Seed.serializa(meta[OE_TEMPLATEID]);
         seed.defineString(0, rm.getValue());
         return seed.array();
@@ -278,9 +282,9 @@ public class Adaptador {
      * Obtém objeto a partir da serialização correspondente.
      *
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(TemplateID)
+     * @see #set(TemplateID)
      */
-    public TemplateID oeTemplateID() {
+    public TemplateID getTemplateID() {
         return new TemplateID(s.obtemString(0));
     }
 
@@ -289,9 +293,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeTerminologyID(byte[])
+     * @see #getTerminologyID(byte[])
      */
-    public byte[] adapta(TerminologyID rm) {
+    public byte[] set(TerminologyID rm) {
         Seed seed = Seed.serializa(meta[OE_TERMINOLOGYID]);
         seed.defineString(0, rm.getValue());
         return seed.array();
@@ -302,9 +306,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(TerminologyID)
+     * @see #set(TerminologyID)
      */
-    public TerminologyID oeTerminologyID(byte[] dados) {
+    public TerminologyID getTerminologyID(byte[] dados) {
         return new TerminologyID(s.obtemString(0));
     }
 
@@ -313,13 +317,13 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeCodePhrase(byte[])
+     * @see #getCodePhrase(byte[])
      */
-    public byte[] adapta(CodePhrase rm) {
+    public byte[] set(CodePhrase rm) {
         Seed seed = Seed.serializa(meta[OE_CODEPHRASE]);
         seed.defineString(0, rm.getCodeString());
 
-        byte[] terminologyId = adapta(rm.getTerminologyId());
+        byte[] terminologyId = set(rm.getTerminologyId());
         seed.defineByteArray(1, terminologyId);
 
         return seed.array();
@@ -330,14 +334,14 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(CodePhrase)
+     * @see #set(CodePhrase)
      */
-    public CodePhrase oeCodePhrase(byte[] dados) {
+    public CodePhrase getCodePhrase(byte[] dados) {
         String codeString = s.obtemString(0);
 
         s.setOffsetInicio(s.offset(1) + 4);
 
-        TerminologyID tid = oeTerminologyID(null);
+        TerminologyID tid = getTerminologyID(null);
 
         return new CodePhrase(tid, codeString);
     }
@@ -347,9 +351,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeDvURI(byte[])
+     * @see #getDvURI(byte[])
      */
-    public byte[] adapta(DvURI rm) {
+    public byte[] set(DvURI rm) {
         Seed seed = Seed.serializa(meta[OE_DVURI]);
         seed.defineString(0, rm.getValue());
 
@@ -361,9 +365,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(CodePhrase)
+     * @see #set(CodePhrase)
      */
-    public DvURI oeDvURI(byte[] dados) {
+    public DvURI getDvURI(byte[] dados) {
         return new DvURI(s.obtemString(0));
     }
 
@@ -372,9 +376,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeDvEHRURI(byte[])
+     * @see #getDvEHRURI(byte[])
      */
-    public byte[] adapta(DvEHRURI rm) {
+    public byte[] set(DvEHRURI rm) {
         Seed seed = Seed.serializa(meta[OE_DVEHRURI]);
         seed.defineString(0, rm.getValue());
 
@@ -386,9 +390,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(CodePhrase)
+     * @see #set(CodePhrase)
      */
-    public DvEHRURI oeDvEHRURI(byte[] dados) {
+    public DvEHRURI getDvEHRURI(byte[] dados) {
         return new DvEHRURI(s.obtemString(0));
     }
 
@@ -397,9 +401,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeVersionTreeID(byte[])
+     * @see #getVersionTreeID(byte[])
      */
-    public byte[] adapta(VersionTreeID rm) {
+    public byte[] set(VersionTreeID rm) {
         Seed seed = Seed.serializa(meta[OE_VERSIONTREEID]);
         seed.defineString(0, rm.getValue());
 
@@ -411,9 +415,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(VersionTreeID)
+     * @see #set(VersionTreeID)
      */
-    public VersionTreeID oeVersionTreeID(byte[] dados) {
+    public VersionTreeID getVersionTreeID(byte[] dados) {
         return new VersionTreeID(s.obtemString(0));
     }
 
@@ -422,9 +426,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeVersionTreeID(byte[])
+     * @see #getVersionTreeID(byte[])
      */
-    public byte[] adapta(ArchetypeID rm) {
+    public byte[] set(ArchetypeID rm) {
         Seed seed = Seed.serializa(meta[OE_ARCHETYPEID]);
         seed.defineString(0, rm.getValue());
 
@@ -436,9 +440,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(VersionTreeID)
+     * @see #set(VersionTreeID)
      */
-    public ArchetypeID oeArchetypeID(byte[] dados) {
+    public ArchetypeID getArchetypeID(byte[] dados) {
         return new ArchetypeID(s.obtemString(0));
     }
 
@@ -447,9 +451,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeObjectVersionID(byte[]) (byte[])
+     * @see #getObjectVersionID(byte[]) (byte[])
      */
-    public byte[] adapta(ObjectVersionID rm) {
+    public byte[] set(ObjectVersionID rm) {
         Seed seed = Seed.serializa(meta[OE_OBJECTVERSIONID]);
         seed.defineString(0, rm.getValue());
 
@@ -461,9 +465,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(ObjectVersionID)
+     * @see #set(ObjectVersionID)
      */
-    public ObjectVersionID oeObjectVersionID(byte[] dados) {
+    public ObjectVersionID getObjectVersionID(byte[] dados) {
         return new ObjectVersionID(s.obtemString(0));
     }
 
@@ -472,9 +476,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oeHierObjectID(byte[])
+     * @see #getHierObjectID(byte[])
      */
-    public byte[] adapta(HierObjectID rm) {
+    public byte[] set(HierObjectID rm) {
         Seed seed = Seed.serializa(meta[OE_HIEROBJECTID]);
         seed.defineString(0, rm.getValue());
 
@@ -486,9 +490,9 @@ public class Adaptador {
      *
      * @param dados Objeto serializado em uma sequência de bytes.
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(HierObjectID)
+     * @see #set(HierObjectID)
      */
-    public HierObjectID oeHierObjectID(byte[] dados) {
+    public HierObjectID getHierObjectID(byte[] dados) {
         return new HierObjectID(s.obtemString(0));
     }
 
@@ -497,9 +501,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oePartyRef()
+     * @see #getPartyRef()
      */
-    public byte[] adapta(PartyRef rm) {
+    public byte[] set(PartyRef rm) {
         Seed seed = Seed.serializa(meta[OE_PARTYREF]);
 
         // ObjectRef (bytes)
@@ -516,13 +520,13 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oePartyRef()
+     * @see #getLocatableRef()
      */
-    public byte[] adapta(LocatableRef rm) {
+    public byte[] set(LocatableRef rm) {
         Seed seed = Seed.serializa(meta[OE_LOCATABLEREF]);
 
         // ObjectRef (bytes)
-        byte[] orBytes = adaptaBase((ObjectRef)rm);
+        byte[] orBytes = adaptaBase(rm);
 
         // Posição 0 (ObjectRef)
         seed.defineByteArray(0, orBytes);
@@ -538,9 +542,9 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oePartyRef()
+     * @see #getPartyRef()
      */
-    public byte[] adapta(AccessGroupRef rm) {
+    public byte[] set(AccessGroupRef rm) {
         Seed seed = Seed.serializa(meta[OE_ACCESSGROUPREF]);
 
         // ObjectRef (bytes)
@@ -557,15 +561,15 @@ public class Adaptador {
      *
      * @param rm O objeto a ser serializado.
      * @return Objeto serializado em sequência de bytes.
-     * @see #oePartyRef()
+     * @see #getPartyRef()
      */
-    public byte[] adapta(ObjectRef rm) {
+    public byte[] set(ObjectRef rm) {
         if (rm instanceof PartyRef) {
-            return adapta((PartyRef)rm);
+            return set((PartyRef)rm);
         } else if (rm instanceof LocatableRef) {
-            return adapta((LocatableRef)rm);
+            return set((LocatableRef)rm);
         }  else if (rm instanceof AccessGroupRef) {
-            return adapta((AccessGroupRef)rm);
+            return set((AccessGroupRef)rm);
         }
 
         return adaptaBase(rm);
@@ -574,7 +578,7 @@ public class Adaptador {
     private byte[] adaptaBase(ObjectRef rm) {
         Seed seed = Seed.serializa(meta[OE_OBJECTREF]);
 
-        byte[] oidBytes = adapta(rm.getId());
+        byte[] oidBytes = set(rm.getId());
 
         // Posição 0 (ObjectID)
         seed.defineByteArray(0, oidBytes);
@@ -588,7 +592,7 @@ public class Adaptador {
         return seed.array();
     }
 
-    public ObjectRef oeObjectRef() {
+    public ObjectRef getObjectRef() {
 
         // Posição do ObjectRef
         int orInicio = s.getOffsetInicio();
@@ -600,7 +604,7 @@ public class Adaptador {
         // Tipo do objeto armazenado (subclasse de ObjectID)
         byte tipo = s.getTipo(inicio);
 
-        ObjectID oid = oeObjectID(inicio, tipo);
+        ObjectID oid = getObjectID(inicio, tipo);
 
         s.setOffsetInicio(orInicio);
 
@@ -613,9 +617,9 @@ public class Adaptador {
      * Obtém objeto a partir da serialização correspondente.
      *
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(LocatableRef)
+     * @see #set(LocatableRef)
      */
-    public LocatableRef oeLocatableRef() {
+    public LocatableRef getLocatableRef() {
 
         // Posição do LocatableRef
         int lrInicio = s.getOffsetInicio();
@@ -626,19 +630,26 @@ public class Adaptador {
         int inicio = lrInicio + 3 + 4;
         s.setOffsetInicio(inicio);
 
-        ObjectRef or = oeObjectRef();
+        // Primeiro campo (0): ObjectRef
+        ObjectRef or = getObjectRef();
+        ObjectVersionID ovid = (ObjectVersionID)or.getId();
+        String namespace = or.getNamespace();
+        String type = or.getType();
+
+        // Segundo campo (1): String
+        String path = s.obtemString(1);
 
         s.setOffsetInicio(lrInicio);
-        return new LocatableRef(null, null, null, null);
+        return new LocatableRef(ovid, namespace, type, path);
     }
 
     /**
      * Obtém objeto a partir da serialização correspondente.
      *
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(VersionTreeID)
+     * @see #set(VersionTreeID)
      */
-    public PartyRef oePartyRef() {
+    public PartyRef getPartyRef() {
 
         // Posição do objeto PartyRef
         int prInicio = s.getOffsetInicio();
@@ -651,7 +662,7 @@ public class Adaptador {
         s.setOffsetInicio(inicio);
 
         // Recupera ObjectRef
-        ObjectRef oid = oeObjectRef();
+        ObjectRef oid = getObjectRef();
 
         s.setOffsetInicio(prInicio);
         return new PartyRef(oid.getId(), oid.getType());
@@ -661,9 +672,9 @@ public class Adaptador {
      * Obtém objeto a partir da serialização correspondente.
      *
      * @return Objeto obtido da sequência de bytes.
-     * @see #adapta(VersionTreeID)
+     * @see #set(VersionTreeID)
      */
-    public AccessGroupRef oeAccessGroupRef() {
+    public AccessGroupRef getAccessGroupRef() {
 
         // Posição do objeto PartyRef
         int prInicio = s.getOffsetInicio();
@@ -677,46 +688,46 @@ public class Adaptador {
         s.setOffsetInicio(inicio);
 
         // Recupera ObjectRef
-        ObjectRef oid = oeObjectRef();
+        ObjectRef oid = getObjectRef();
 
         s.setOffsetInicio(prInicio);
         return new AccessGroupRef(oid.getId());
     }
 
-    private byte[] adapta(ObjectID oid) {
+    private byte[] set(ObjectID oid) {
         byte[] oidBytes = null;
         if (oid instanceof TemplateID) {
-            oidBytes = adapta((TemplateID)oid);
+            oidBytes = set((TemplateID)oid);
         } else if (oid instanceof TerminologyID) {
-            oidBytes = adapta((TerminologyID)oid);
+            oidBytes = set((TerminologyID)oid);
         } else if (oid instanceof GenericID) {
-            oidBytes = adapta((GenericID)oid);
+            oidBytes = set((GenericID)oid);
         } else if (oid instanceof ArchetypeID) {
-            oidBytes = adapta((ArchetypeID)oid);
+            oidBytes = set((ArchetypeID)oid);
         } else if (oid instanceof ObjectVersionID) {
-            oidBytes = adapta((ObjectVersionID) oid);
+            oidBytes = set((ObjectVersionID) oid);
         } else if (oid instanceof HierObjectID) {
-            oidBytes = adapta((HierObjectID) oid);
+            oidBytes = set((HierObjectID) oid);
         }
 
         return oidBytes;
     }
 
-    private ObjectID oeObjectID(int inicio, byte tipo) {
+    private ObjectID getObjectID(int inicio, byte tipo) {
         ObjectID oid = null;
         s.setOffsetInicio(inicio);
         if (tipo == OE_TEMPLATEID) {
-            oid = oeTemplateID();
+            oid = getTemplateID();
         } else if (tipo == OE_TERMINOLOGYID) {
-            oid = oeTerminologyID(null);
+            oid = getTerminologyID(null);
         } else if (tipo == OE_GENERICID) {
-            oid = oeGenericID(null);
+            oid = getGenericID(null);
         } else if (tipo == OE_ARCHETYPEID) {
-            oid = oeArchetypeID(null);
+            oid = getArchetypeID(null);
         } else if (tipo == OE_OBJECTVERSIONID) {
-            oid = oeObjectVersionID(null);
+            oid = getObjectVersionID(null);
         } else if (tipo == OE_HIEROBJECTID) {
-            oid = oeHierObjectID(null);
+            oid = getHierObjectID(null);
         }
 
         return oid;
