@@ -25,25 +25,25 @@ public class Adaptador {
      * Identificador único para cada classe do MR.
      */
 
+    public static final int OE_ACCESSGROUPREF = 18;
+    public static final int OE_ARCHETYPEID = 13;
+    public static final int OE_CODEPHRASE = 8;
     public static final int OE_DVBOOLEAN = 0;
     public static final int OE_DVIDENTIFIER = 1;
+    public static final int OE_DVEHRURI = 10;
+    public static final int OE_DVURI = 9;
+    public static final int OE_GENERICID = 6;
+    public static final int OE_HIEROBJECTID = 15;
     public static final int OE_INTERNETID = 2;
     public static final int OE_ISO_OID = 3;
-    public static final int OE_UUID = 4;
-    public static final int OE_TERMINOLOGYID = 5;
-    public static final int OE_GENERICID = 6;
-    public static final int OE_TEMPLATEID = 7;
-    public static final int OE_CODEPHRASE = 8;
-    public static final int OE_DVURI = 9;
-    public static final int OE_DVEHRURI = 10;
-    public static final int OE_VERSIONTREEID = 11;
-    public static final int OE_PARTYREF = 12;
-    public static final int OE_ARCHETYPEID = 13;
-    public static final int OE_OBJECTVERSIONID= 14;
-    public static final int OE_HIEROBJECTID = 15;
-    public static final int OE_OBJECTREF= 16;
     public static final int OE_LOCATABLEREF= 17;
-    public static final int OE_ACCESSGROUPREF = 18;
+    public static final int OE_OBJECTREF= 16;
+    public static final int OE_OBJECTVERSIONID= 14;
+    public static final int OE_PARTYREF = 12;
+    public static final int OE_TEMPLATEID = 7;
+    public static final int OE_TERMINOLOGYID = 5;
+    public static final int OE_UUID = 4;
+    public static final int OE_VERSIONTREEID = 11;
 
     /**
      * Uma entrada em meta-informação para cada classe do MR.
@@ -53,7 +53,7 @@ public class Adaptador {
      * Segundo byte é a quantidade de campos.
      * Terceiro byte em diante indica os tipos de cada um dos campos.
      */
-    byte[][] meta;
+    private byte[][] meta;
 
     private byte[] buffer;
     private Seed s;
