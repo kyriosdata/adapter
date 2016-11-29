@@ -28,6 +28,19 @@ public class AdaptadorTest {
     }
 
     @Test
+    public void archetypeID() {
+
+        String archetype = "openEHR-EHR-COMPOSITION.care_plan.v1";
+        ArchetypeID v = new ArchetypeID(archetype);
+        byte[] bytes = new Adaptador().set(v);
+
+        Adaptador a = new Adaptador(bytes);
+        ArchetypeID recuperado = a.getArchetypeID(bytes);
+
+        assertEquals(archetype, recuperado.getValue());
+    }
+
+    @Test
     public void codePhrase() {
         TerminologyID tid = new TerminologyID("id(v)");
         CodePhrase cp = new CodePhrase(tid, "codigo");
@@ -63,19 +76,6 @@ public class AdaptadorTest {
         assertFalse(recuperado.getValue());
     }
 
-    @Test
-    public void dvURI() {
-        String uri = "mailto:fabio@inf.ufg.br";
-
-        DvURI duri = new DvURI(uri);
-        byte[] bytes = new Adaptador().set(duri);
-
-        Adaptador a = new Adaptador(bytes);
-
-        DvURI recuperado = a.getDvURI(bytes);
-
-        assertEquals(uri, recuperado.getValue());
-    }
 
     @Test
     public void dvEHRURI() {
@@ -114,6 +114,20 @@ public class AdaptadorTest {
     }
 
     @Test
+    public void dvURI() {
+        String uri = "mailto:fabio@inf.ufg.br";
+
+        DvURI duri = new DvURI(uri);
+        byte[] bytes = new Adaptador().set(duri);
+
+        Adaptador a = new Adaptador(bytes);
+
+        DvURI recuperado = a.getDvURI(bytes);
+
+        assertEquals(uri, recuperado.getValue());
+    }
+
+    @Test
     public void genericId() {
         GenericID v = new GenericID("value", "scheme");
 
@@ -124,6 +138,20 @@ public class AdaptadorTest {
 
         assertEquals("value", recuperado.getValue());
         assertEquals("scheme", recuperado.getScheme());
+    }
+
+    @Test
+    public void hierObjectID() {
+
+        String hoid = "inf.ufg";
+        HierObjectID v = new HierObjectID(hoid);
+
+        byte[] bytes = new Adaptador().set(v);
+
+        Adaptador a = new Adaptador(bytes);
+        HierObjectID recuperado = a.getHierObjectID(bytes);
+
+        assertEquals(hoid, recuperado.getValue());
     }
 
     @Test
@@ -154,6 +182,71 @@ public class AdaptadorTest {
         ISO_OID recuperado = a.getISO_OID(bytes);
 
         assertEquals(linuxLoadOID, recuperado.getValue());
+    }
+
+    @Test
+    public void locatableRef() {
+        String ovid = "ufg.br::inf.ufg::1";
+        ObjectVersionID ov = new ObjectVersionID(ovid);
+        LocatableRef lr = new LocatableRef(ov, "ehr", "tipo", "/a");
+
+        byte[] bytes = new Adaptador().set(lr);
+
+        Adaptador a = new Adaptador(bytes);
+        LocatableRef recuperado = a.getLocatableRef();
+
+        assertEquals(lr, recuperado);
+    }
+
+    @Test
+    public void objectRef() {
+
+        TemplateID tid = new TemplateID("TemplateID");
+        ObjectRef or = new ObjectRef(tid, "namespace", "type");
+
+        byte[] bytes = new Adaptador().set(or);
+
+        Adaptador a = new Adaptador(bytes);
+        ObjectRef recuperado = a.getObjectRef();
+
+        assertEquals(or, recuperado);
+    }
+
+    @Test
+    public void objectVersionID() {
+
+        String ovid = "ufg.br::inf.ufg::1";
+        ObjectVersionID v = new ObjectVersionID(ovid);
+
+        byte[] bytes = new Adaptador().set(v);
+
+        Adaptador a = new Adaptador(bytes);
+        ObjectVersionID recuperado = a.getObjectVersionID(bytes);
+
+        assertEquals(ovid, recuperado.getValue());
+    }
+
+    @Test
+    public void partyRef() {
+        partyRefBase(new TemplateID("TemplateID"));
+        partyRefBase(new TerminologyID("TerminologyID"));
+        partyRefBase(new GenericID("GenericID", "ehr"));
+        partyRefBase(new ArchetypeID("openEHR-EHR-COMPOSITION.adverse_reaction_list.v1"));
+        partyRefBase(new ObjectVersionID("ufg.br::inf.ufg::1"));
+        partyRefBase(new HierObjectID("inf.ufg"));
+    }
+
+    private void partyRefBase(ObjectID objectId) {
+        PartyRef pr = new PartyRef(objectId, "tipo");
+
+        // Serializa PartyRef
+        byte[] seed = new Adaptador().set(pr);
+
+        // Desserializa
+        Adaptador a = new Adaptador(seed);
+        PartyRef r = a.getPartyRef();
+
+        assertEquals(pr, r);
     }
 
     @Test
@@ -209,98 +302,5 @@ public class AdaptadorTest {
 
         assertEquals("1.2.3", recuperado.getValue());
     }
-
-    @Test
-    public void archetypeID() {
-
-        String archetype = "openEHR-EHR-COMPOSITION.care_plan.v1";
-        ArchetypeID v = new ArchetypeID(archetype);
-        byte[] bytes = new Adaptador().set(v);
-
-        Adaptador a = new Adaptador(bytes);
-        ArchetypeID recuperado = a.getArchetypeID(bytes);
-
-        assertEquals(archetype, recuperado.getValue());
-    }
-
-    @Test
-    public void objectVersionID() {
-
-        String ovid = "ufg.br::inf.ufg::1";
-        ObjectVersionID v = new ObjectVersionID(ovid);
-
-        byte[] bytes = new Adaptador().set(v);
-
-        Adaptador a = new Adaptador(bytes);
-        ObjectVersionID recuperado = a.getObjectVersionID(bytes);
-
-        assertEquals(ovid, recuperado.getValue());
-    }
-
-    @Test
-    public void hierObjectID() {
-
-        String hoid = "inf.ufg";
-        HierObjectID v = new HierObjectID(hoid);
-
-        byte[] bytes = new Adaptador().set(v);
-
-        Adaptador a = new Adaptador(bytes);
-        HierObjectID recuperado = a.getHierObjectID(bytes);
-
-        assertEquals(hoid, recuperado.getValue());
-    }
-
-    @Test
-    public void locatableRef() {
-        String ovid = "ufg.br::inf.ufg::1";
-        ObjectVersionID ov = new ObjectVersionID(ovid);
-        LocatableRef lr = new LocatableRef(ov, "ehr", "tipo", "/a");
-
-        byte[] bytes = new Adaptador().set(lr);
-
-        Adaptador a = new Adaptador(bytes);
-        LocatableRef recuperado = a.getLocatableRef();
-
-        assertEquals(lr, recuperado);
-    }
-
-    @Test
-    public void objectRef() {
-
-        TemplateID tid = new TemplateID("TemplateID");
-        ObjectRef or = new ObjectRef(tid, "namespace", "type");
-
-        byte[] bytes = new Adaptador().set(or);
-
-        Adaptador a = new Adaptador(bytes);
-        ObjectRef recuperado = a.getObjectRef();
-
-        assertEquals(or, recuperado);
-    }
-
-    @Test
-    public void partyRef() {
-        partyRefBase(new TemplateID("TemplateID"));
-        partyRefBase(new TerminologyID("TerminologyID"));
-        partyRefBase(new GenericID("GenericID", "ehr"));
-        partyRefBase(new ArchetypeID("openEHR-EHR-COMPOSITION.adverse_reaction_list.v1"));
-        partyRefBase(new ObjectVersionID("ufg.br::inf.ufg::1"));
-        partyRefBase(new HierObjectID("inf.ufg"));
-    }
-
-    private void partyRefBase(ObjectID objectId) {
-        PartyRef pr = new PartyRef(objectId, "tipo");
-
-        // Serializa PartyRef
-        byte[] seed = new Adaptador().set(pr);
-
-        // Desserializa
-        Adaptador a = new Adaptador(seed);
-        PartyRef r = a.getPartyRef();
-
-        assertEquals(pr, r);
-    }
-
 }
 
