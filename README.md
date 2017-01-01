@@ -48,7 +48,6 @@ Acrescente a dependência no arquivo pom.xml:
 | CHAR   |  7    |  char    |
 | STRING |  8    |  String  |
 | VECTOR |  9    |  byte[]  |
-|        |       |          |
 
 #### Registros
 Registros são sequências de campos, cada um deles de um determinado tipo.
