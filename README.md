@@ -38,8 +38,8 @@ Acrescente a dependência no arquivo pom.xml:
 
 | Tipo | Valor |   Descrição  |
 |:----:|:-----:|:------------:|
-| 0x00 |   0   | bool (false) |
-| 0x01 |   1   |  bool (true) |
+| BYTE |   0   | bool (false) |
+| SHORT |   1   |  bool (true) |
 |      |       |              |
 
 #### Registros
