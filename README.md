@@ -36,11 +36,19 @@ Acrescente a dependência no arquivo pom.xml:
 
 #### Tipos
 
-| Tipo | Valor |   Descrição  |
-|:----:|:-----:|:------------:|
-| BYTE |   0   | bool (false) |
-| SHORT |   1   |  bool (true) |
-|      |       |              |
+| Tipo   | Valor |   Java   |
+|:----:  |:-----:|:--------:|
+| BOOL   |  0    |  boolean |
+| BYTE   |  1    |  byte    |
+| SHORT  |  2    |  short   |
+| INT    |  3    |  int     |
+| LONG   |  4    |  long    |
+| FLOAT  |  5    |  float   |
+| DOUBLE |  6    |  double  |
+| CHAR   |  7    |  char    |
+| STRING |  8    |  String  |
+| VECTOR |  9    |  byte[]  |
+|        |       |          |
 
 #### Registros
 Registros são sequências de campos, cada um deles de um determinado tipo.
