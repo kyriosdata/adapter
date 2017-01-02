@@ -34,12 +34,14 @@ Acrescente a dependência no arquivo pom.xml:
 &lt;/dependency&gt;
 </pre>
 
-#### Tipos
-Os tipos que podem definir campos de um registro são identificados
-abaixo. Para cada um deles segue o valor da constante correspondente
-e o tipo correspondente na linguagem Java. 
+#### Tipos de campos
+Um campo de um registro é definido pelo tipo correspondente. 
+Os tipos disponíveis são definidos na tabela abaixo. Seguindo a
+ordem das colunas abaixo tem-se o nome da constante que define o tipo, 
+o valor dessa para o tipo e, por último, o tipo correspondente na
+linguagem Java.
 
-| Tipo   | Valor |   Java   |
+| Constante   | Valor |   Java   |
 |:----:  |:-----:|:--------:|
 | BOOL   |  0    |  boolean |
 | BYTE   |  1    |  byte    |
