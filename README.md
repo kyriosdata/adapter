@@ -101,12 +101,13 @@ informações:
 - posições ("apontadores") para campos do formato do registro que seguem campos de tamanho variável.
 
 Abaixo segue a ilustração de um registro cujo formato é 388, ou seja, um INT seguido de
-duas sequências de caracteres (STRING). 
-
+duas sequências de caracteres (STRING). O valor 54 identifica unicamente o formato 388. Os
+valores são abstratamente representados. 
 ```
-+--------------------+
-|54| nome | endereço |
-+--------------------+
+|0-|1--------|4-----|37--------|
++------------------------------+
+|54| inteiro | nome | endereço |
++------------------------------+
 ```
 
 Há um conjunto restrito de pouco mais de uma centana de classes (objetos).
