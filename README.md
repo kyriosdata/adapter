@@ -74,27 +74,14 @@ seguidas por um DOUBLE tem como formato 8886.
 #### Tamanho de um registro
 Se o formato de um registro não inclui os tipos de valores 8 e 9, respectivamente,
 STRING e VECTOR, então o registro possui tamanho fixo. Caso contrário, varia o tamanho 
-do registro que possui pelo menos um campo de um desses tipos.
+do registro que possui pelo menos um campo de um desses tipos. Por exemplo, o formato
+de registro definido por uma única STRING que deve registrar um logradouro, em um
+registro pode ter como valor "Avenida T2", em outro registro "Avenida Paulista", de 
+tamanho distinto. 
 
-| Tipo   | MR (openEHR) | Campos | Comentário |
-|:----:  |----------------------|:------:|------------|
-| 0      |  DV_BOOLEAN          |  - |  Valor lógico _false_ |
-| 1      |  DV_BOOLEAN          |  - |  Valor lógico _true_    |
-| 2      |  DV_IDENTIFIER       |  8 (id), 8 (type), 8 (issuer), 8 (assigner) |    |
-
-
-##### DV_IDENTIFIER (header)
-
-
-| Ordem  | Tipo |   Java   |
-|:----:  |:-----:|:--------:|
-| 0      |  2    |  boolean |
-
-
-### Formato de empacotamento (serialização)
-A serialização de um objeto inclui os dados correspondentes ao _header_ 
-seguidos dos dados correspondentes aos campos do objeto, nessa ordem,
-conforme ilustrado abaixo.
+#### Representação (serialização) de um registro
+Um registro é representado por um _header_ seguido dos dados correspondentes aos 
+tipos do registro, conforme ilustrado abaixo.
 
 ````
 +-----------------+
@@ -111,3 +98,19 @@ Ou seja, um único byte é suciente para identificar o tipo (_Type_) do objeto.
 | Type | Size |
 +-------------+
 ````
+
+
+| Tipo   | MR (openEHR) | Campos | Comentário |
+|:----:  |----------------------|:------:|------------|
+| 0      |  DV_BOOLEAN          |  - |  Valor lógico _false_ |
+| 1      |  DV_BOOLEAN          |  - |  Valor lógico _true_    |
+| 2      |  DV_IDENTIFIER       |  8 (id), 8 (type), 8 (issuer), 8 (assigner) |    |
+
+
+##### DV_IDENTIFIER (header)
+
+
+| Ordem  | Tipo |   Java   |
+|:----:  |:-----:|:--------:|
+| 0      |  2    |  boolean |
+
