@@ -134,27 +134,5 @@ tamanho variável, mas não é necessário armazenar a posição inicial desse c
 necessário apenas do terceiro campo nesse registro. Nesse caso, o terceiro campo
 inicia-se na posição 17. 
 
-Há um conjunto restrito de pouco mais de uma centana de classes (objetos).
-Ou seja, um único byte é suciente para identificar o tipo (_Type_) do objeto.
-
-````
-+-------------+
-| Type | Size |
-+-------------+
-````
-
-
-| Tipo   | MR (openEHR) | Campos | Comentário |
-|:----:  |----------------------|:------:|------------|
-| 0      |  DV_BOOLEAN          |  - |  Valor lógico _false_ |
-| 1      |  DV_BOOLEAN          |  - |  Valor lógico _true_    |
-| 2      |  DV_IDENTIFIER       |  8 (id), 8 (type), 8 (issuer), 8 (assigner) |    |
-
-
-##### DV_IDENTIFIER (header)
-
-
-| Ordem  | Tipo |   Java   |
-|:----:  |:-----:|:--------:|
-| 0      |  2    |  boolean |
-
+#### Blocos (elemento de divisão de um arquivo)
+Uma base de dados é armazenada em um arquivo didivido em blocos de tamanho fixo (4kB cada). O acesso ao conteúdo da base de dados significa que esses blocos precisam ser transferidos para a memória RAM. No sentido inverso, atualizações precisam ser depositadas no bloco correspondente no arquivo em questão.
