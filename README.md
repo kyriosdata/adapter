@@ -65,9 +65,10 @@ informação cabe a um registro.
 #### Formato de registro
 O formato de um registro é definido por uma sequência de tipos de campos. 
 Por exemplo, para um registro formado por dois valores lógicos a
-sequência de tipos é dada por 00. Se o registro é definido por um int e um vetor de bytes,
-então a sequência de tipos correspondente é 39. Observe que não se trata do número 39, mas
-da sequência do tipo INT (3) seguido do tipo VECTOR (9).
+sequência de tipos é dada por 00. Por outro lado, se o registro é definido 
+por um INT e um VECTOR (vetor de bytes), então a sequência de tipos correspondente é 39. 
+Observe que não se trata do número 39, mas da sequência do tipo INT (3) seguido do tipo 
+VECTOR (9).
 
 | Tipo   | MR (openEHR) | Campos | Comentário |
 |:----:  |----------------------|:------:|------------|
