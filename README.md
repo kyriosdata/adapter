@@ -87,7 +87,7 @@ tipos do registro, conforme ilustrado abaixo.
 +-----------------+
 | Header | Fields |
 +-----------------+
-````
+```
 
 #### Header
 Há um conjunto restrito de pouco mais de uma centana de classes (objetos).
