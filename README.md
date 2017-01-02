@@ -151,7 +151,7 @@ posição 8.
 
 > Decisões
 > * Campos de tamanho fixo precedem todos os campos de tamanho variável.
-> * Posições no header são definidas com base na posição inicial dos dados (byte 0).
+> * Valor de posição no header é relativa à posição inicial (0) dos dados.
 
 #### Blocos (elemento de divisão de um arquivo)
 Uma base de dados é armazenada em um arquivo didivido em blocos de tamanho fixo (4kB cada). O acesso ao conteúdo da base de dados significa que esses blocos precisam ser transferidos para a memória RAM. No sentido inverso, atualizações precisam ser depositadas no bloco correspondente no arquivo em questão.
