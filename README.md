@@ -100,15 +100,22 @@ informações:
 - tamanho do registro. Permite rapidamente "saltar" para o próximo registro. 
 - posições ("apontadores") para campos do formato do registro que seguem campos de tamanho variável.
 
-Abaixo segue a ilustração de um registro cujo formato é 388, ou seja, um INT seguido de
-duas sequências de caracteres (STRING). O valor 54 identifica unicamente o formato 388. Os
+Abaixo segue a ilustração de um registro, sem o _header_, cujo formato é 388, ou seja, um INT seguido de
+duas sequências de caracteres (STRING). O INT é 23 (faz uso de 4 bytes), a primeira STRING apenas
+4 bytes ("nome") e a segunda STRING outros 7 bytes ("contato"). A primeira linha indica os 
+deslocamentos do início de cada campo com base na posição inicial (0). Ou seja, o inteiro faz 
+uso dos primeiros quatro bytes (0 a 3), o "nome" dos quatro bytes seguintes (4 a 7) e, por último,
+o "contato", os 7 bytes seguintes (8 a 14).
+
+```
+|0---|4-----|8--------|
++---------------------+
+| 23 | nome | contato |
++---------------------+
+```
+
+O valor 54 identifica unicamente o formato 388. Os
 valores são abstratamente representados. 
-```
-|0-|1--------|4-----|37--------|
-+------------------------------+
-|54| inteiro | nome | endereço |
-+------------------------------+
-```
 
 Há um conjunto restrito de pouco mais de uma centana de classes (objetos).
 Ou seja, um único byte é suciente para identificar o tipo (_Type_) do objeto.
