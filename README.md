@@ -108,7 +108,7 @@ uso dos primeiros quatro bytes (0 a 3), o "nome" dos quatro bytes seguintes (4 a
 o "contato", os 7 bytes seguintes (8 a 14).
 
 ```
-|0---|4-----|8--------|
+|0---|4-----|8--------|15
 +---------------------+
 | 23 | nome | contato |
 +---------------------+
@@ -118,7 +118,7 @@ A ilustração acima, acrescida do _header_, é fornecida abaixo. Observe que o 
 o formato 388.
 
 ```
-|0---|1---|5---|9---|13----|17-------|
+|0---|1---|5---|9---|13----|17-------|24
 +------------------------------------+
 | 54 | 15 | 17 | 23 | nome | contato |
 +------------------------------------+
