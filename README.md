@@ -54,12 +54,14 @@ e o tipo correspondente na linguagem Java.
 
 #### Registros
 Registros são sequências de campos, cada um deles de um determinado tipo.
-A tabela de registros a ser contemplada pelo adatpador segue abaixo. 
+Cada tipo é identificado por um valor (byte) único, conforme a tabela
+abaixo.
 
-| Valor   | Valor |   Comentário   |
-|:----:  |-----|:--------:|
-| 0   |  DV_BOOLEAN    | Valor lógico _false_ |
-| 1   |  DV_BOOLEAN    |  Valor lógico _true_    |
+| Tipo   | Modelo de Referência | Campos | Comentário |
+|:----:  |----------------------|------------|------------|
+| 0      |  DV_BOOLEAN          |  - |  Valor lógico _false_ |
+| 1      |  DV_BOOLEAN          |  - |  Valor lógico _true_    |
+| 1      |  DV_IDENTIFIER       |  8, 8, 8, 8 | -   |
 
 
 ### Formato de empacotamento (serialização)
