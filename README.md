@@ -114,8 +114,25 @@ o "contato", os 7 bytes seguintes (8 a 14).
 +---------------------+
 ```
 
-O valor 54 identifica unicamente o formato 388. Os
-valores são abstratamente representados. 
+A ilustração acima, acrescida do _header_, é fornecida abaixo. Observe que o valor 54 identifica unicamente 
+o formato 388.
+
+```
+|0---|1---|5---|9---|13----|17-------|
++------------------------------------+
+| 54 | 15 | 17 | 23 | nome | contato |
++------------------------------------+
+```
+Interpretação de cada um dos valores acima:
+- 0 é a posição inicial (início dos bytes). Observe que poderia ser outro valor.
+- 1 é a posição inicial do tamanho do registro. Ou seja,
+o registro consome 15 bytes (sem incluir o _header_). São 4 bytes do inteiro,
+outros 4 bytes de "nome" e outros 7 bytes de "contato".
+- 5 é a posição inicial do primeiro (e único nesse caso) campo após um campo de tamanho
+variável. Observe que o primeiro campo não é de tamanho variável. O segundo campo é de
+tamanho variável, mas não é necessário armazenar a posição inicial desse campo. É 
+necessário apenas do terceiro campo nesse registro. Nesse caso, o terceiro campo
+inicia-se na posição 17. 
 
 Há um conjunto restrito de pouco mais de uma centana de classes (objetos).
 Ou seja, um único byte é suciente para identificar o tipo (_Type_) do objeto.
