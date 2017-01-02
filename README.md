@@ -89,7 +89,26 @@ tipos do registro, conforme ilustrado abaixo.
 +-----------------+
 ```
 
-#### Header
+O _header_ inclui obrigatoriamente um único valor: o tipo que unicamente identifica
+o formato do registro. Observe que não é o formato propriamente dito, mas um
+identificador que permite localizar o formato empregado pelo registro. Observe que
+em alguns casos esse único valor é suficiente para identificar todos os demais
+valores do _header_ do registro em questão. Ou seja, trata-se de um caso particular.
+Em muitos outros, o _header_ deve conter outras
+informações:
+- tipo.
+- tamanho do registro. Permite rapidamente "saltar" para o próximo registro. 
+- posições ("apontadores") para campos do formato do registro que seguem campos de tamanho variável.
+
+Abaixo segue a ilustração de um registro cujo formato é 388, ou seja, um INT seguido de
+duas sequências de caracteres (STRING). 
+
+```
++--------------------+
+|54| nome | endereço |
++--------------------+
+```
+
 Há um conjunto restrito de pouco mais de uma centana de classes (objetos).
 Ou seja, um único byte é suciente para identificar o tipo (_Type_) do objeto.
 
