@@ -61,8 +61,7 @@ abaixo.
 |:----:  |----------------------|:------:|------------|
 | 0      |  DV_BOOLEAN          |  - |  Valor lógico _false_ |
 | 1      |  DV_BOOLEAN          |  - |  Valor lógico _true_    |
-| 2      |  DV_IDENTIFIER       |  8 (id), 8 (type), |    |
-|        |                      |  8 (issuer), 8 (assigner) |    |
+| 2      |  DV_IDENTIFIER       |  8 (id), 8 (type), 8 (issuer), 8 (assigner) |    |
 
 
 ### Formato de empacotamento (serialização)
