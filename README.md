@@ -83,7 +83,7 @@ tamanho distinto.
 Um registro é representado por um _header_ seguido dos dados correspondentes aos 
 tipos do registro, conforme ilustrado abaixo.
 
-````
+```
 +-----------------+
 | Header | Fields |
 +-----------------+
