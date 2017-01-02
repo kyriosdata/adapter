@@ -54,6 +54,14 @@ linguagem Java.
 | STRING |  8    |  String  |
 | VECTOR |  9    |  byte[]  |
 
+#### Block
+A classe _Block_ encapsula operações sobre um vetor de bytes (_buffer_) e 
+possui métodos para depositar a partir de determinada posição os bytes 
+correspondentes a cada um dos tipos acima e, no sentido inverso, a partir de determinada
+posição, recuperar o valor depositado. Convém observar, contudo, que essa
+classe não sabe o tipo de um valor depositado em uma dada posição. Essa
+informação cabe a um registro. 
+
 #### Registro
 Um registro é definido por uma sequência de campos, cada um deles de um determinado tipo,
 conforme visto acima. Por exemplo, para um registro formado por dois valores lógicos a
