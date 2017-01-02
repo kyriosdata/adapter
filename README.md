@@ -35,6 +35,9 @@ Acrescente a dependência no arquivo pom.xml:
 </pre>
 
 #### Tipos
+Os tipos que podem definir campos de um registro são identificados
+abaixo. Para cada um deles segue o valor da constante correspondente
+e o tipo correspondente na linguagem Java. 
 
 | Tipo   | Valor |   Java   |
 |:----:  |:-----:|:--------:|
@@ -52,6 +55,11 @@ Acrescente a dependência no arquivo pom.xml:
 #### Registros
 Registros são sequências de campos, cada um deles de um determinado tipo.
 A tabela de registros a ser contemplada pelo adatpador segue abaixo. 
+
+| Valor   | Valor |   Comentário   |
+|:----:  |-----|:--------:|
+| 0   |  DV_BOOLEAN    | Valor lógico _false_ |
+| 1   |  DV_BOOLEAN    |  Valor lógico _true_    |
 
 
 ### Formato de empacotamento (serialização)
