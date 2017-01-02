@@ -57,11 +57,12 @@ Registros são sequências de campos, cada um deles de um determinado tipo.
 Cada tipo é identificado por um valor (byte) único, conforme a tabela
 abaixo.
 
-| Tipo   | Modelo de Referência | Campos | Comentário |
-|:----:  |----------------------|------------|------------|
+| Tipo   | MR (openEHR) | Campos | Comentário |
+|:----:  |----------------------|:------:|------------|
 | 0      |  DV_BOOLEAN          |  - |  Valor lógico _false_ |
 | 1      |  DV_BOOLEAN          |  - |  Valor lógico _true_    |
-| 1      |  DV_IDENTIFIER       |  8, 8, 8, 8 | -   |
+| 2      |  DV_IDENTIFIER       |  8 (id), 8 (type), |    |
+|        |                      |  8 (issuer), 8 (assigner) |    |
 
 
 ### Formato de empacotamento (serialização)
