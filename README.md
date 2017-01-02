@@ -97,7 +97,8 @@ duas sequências de caracteres (STRING). O valor do INT é 23 (faz uso de 4 byte
 4 bytes ("nome") e a segunda STRING ocupa outros 7 bytes ("contato"). A primeira linha indica os 
 deslocamentos do início de cada campo com base na posição inicial (0). Ou seja, o inteiro faz 
 uso dos bytes de 0 a 3 (inclusive), o "nome" ocupa os quatro bytes seguintes de 4 a 7 (inclusive) e, 
-por último, "contato" faz uso dos bytes de 8 a 14 (inclusive).
+por último, "contato" faz uso dos bytes de 8 a 14 (inclusive). Nesse arranjo observe que o tipo
+de tamanho fixo (INT) segue antes dos demais, ambos de tamanhos variáveis.
 
 ```
 |--------|0---|4-----|8--------|15
@@ -110,7 +111,18 @@ O _header_ obrigatoriamente inclui o tipo que identifica
 o formato do registro. Observe que não é o formato propriamente dito, mas um
 identificador que permite localizar o formato empregado pelo registro. Em alguns
 casos o tipo é suficiente para localizar os campos no registro, não sendo necessário
-nenhum outro valor adicional. Em muitos outros, o _header_ deve conter outras
+nenhum outro valor adicional. Por exemplo, se um determinado tipo de registro possui
+um único campo lógico (BOOL), então um exemplo é fornecido abaixo, onde TIPO 
+unicamente identifica esse registro formado por apenas um campo do tipo BOOL.
+
+```
+|------|0--|1
++----------+
+| TIPO | 1 | 
++----------+
+```
+
+Em muitos outros, o _header_ deve conter outras
 informações:
 - Tipo, conforme comentado acima.
 - Tamanho do registro. Permite rapidamente "saltar" para o próximo registro. 
