@@ -166,7 +166,8 @@ Dado que apenas parte da informação de uma base de dados se encontra em RAM e 
 
 Abaixo é ilustrado o cenário onde o registro está disposto em dois blocos, 
 o bloco B e o bloco B+1. A representação do registro é alterada por essa fragmentação.
-A alteração, contudo, não é ilustrada abaixo.
+A alteração, contudo, não é ilustrada abaixo. Nessa ilustração, a STRING "contato" é
+dividida em "cont" (bloco B) e "ato" (bloco B+1). 
 
 ```
 |----------- Bloco B -----------||----------- Bloco B+1 -----------|
