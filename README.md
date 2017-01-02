@@ -89,6 +89,23 @@ tipos do registro, conforme ilustrado abaixo.
 +-----------------+
 ```
 
+O _header_ é relevante para localização dos campos do registros e comentado logo abaixo, após
+detalhamento de como os campos são representados. 
+
+Abaixo segue a ilustração de um registro, sem o _header_, cujo formato é 388, ou seja, um INT seguido de
+duas sequências de caracteres (STRING). O valor do INT é 23 (faz uso de 4 bytes); a primeira STRING apenas
+4 bytes ("nome") e a segunda STRING ocupa outros 7 bytes ("contato"). A primeira linha indica os 
+deslocamentos do início de cada campo com base na posição inicial (0). Ou seja, o inteiro faz 
+uso dos bytes de 0 a 3 (inclusive), o "nome" ocupa os quatro bytes seguintes de 4 a 7 (inclusive) e, 
+por último, "contato" faz uso dos bytes de 8 a 14 (inclusive).
+
+```
+|--------|0---|4-----|8--------|15
++------------------------------+
+| HEADER | 23 | nome | contato |
++------------------------------+
+```
+
 O _header_ obrigatoriamente inclui o tipo que identifica
 o formato do registro. Observe que não é o formato propriamente dito, mas um
 identificador que permite localizar o formato empregado pelo registro. Em alguns
@@ -98,20 +115,6 @@ informações:
 - Tipo, conforme comentado acima.
 - Tamanho do registro. Permite rapidamente "saltar" para o próximo registro. 
 - Apontadores para campos do formato do registro que seguem campos de tamanho variável.
-
-Abaixo segue a ilustração de um registro, sem o _header_, cujo formato é 388, ou seja, um INT seguido de
-duas sequências de caracteres (STRING). O INT é 23 (faz uso de 4 bytes), a primeira STRING apenas
-4 bytes ("nome") e a segunda STRING outros 7 bytes ("contato"). A primeira linha indica os 
-deslocamentos do início de cada campo com base na posição inicial (0). Ou seja, o inteiro faz 
-uso dos primeiros quatro bytes (0 a 3), o "nome" dos quatro bytes seguintes (4 a 7) e, por último,
-o "contato", os 7 bytes seguintes (8 a 14).
-
-```
-|0---|4-----|8--------|15
-+---------------------+
-| 23 | nome | contato |
-+---------------------+
-```
 
 A ilustração acima, acrescida do _header_, é fornecida abaixo. Observe que o valor 54 identifica unicamente 
 o formato 388.
