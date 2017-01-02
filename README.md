@@ -64,6 +64,14 @@ abaixo.
 | 2      |  DV_IDENTIFIER       |  8 (id), 8 (type), 8 (issuer), 8 (assigner) |    |
 
 
+##### DV_IDENTIFIER (header)
+
+
+| Ordem  | Tipo |   Java   |
+|:----:  |:-----:|:--------:|
+| 0      |  2    |  boolean |
+
+
 ### Formato de empacotamento (serialização)
 A serialização de um objeto inclui os dados correspondentes ao _header_ 
 seguidos dos dados correspondentes aos campos do objeto, nessa ordem,
