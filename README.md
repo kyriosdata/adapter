@@ -68,9 +68,15 @@ Por exemplo, para um registro formado por dois valores lógicos a
 sequência de tipos é dada por 00. Por outro lado, se o registro é definido 
 por um INT e um VECTOR (vetor de bytes), então a sequência de tipos correspondente é 39. 
 Observe que não se trata do número 39, mas da sequência do tipo INT (3) seguido do tipo 
-VECTOR (9).
+VECTOR (9). Mais um exemplo: o registro formado por três sequências de caracteres (STRING) 
+seguidas por um DOUBLE tem como formato 8886.
 
-| Tipo   | MR (openEHR) | Campos | Comentário |
+#### Tamanho de um registro
+Se o formato de um registro não inclui os tipos de valores 8 e 9, respectivamente,
+STRING e VECTOR, então o registro possui tamanho fixo. Caso contrário, varia o tamanho 
+do registro que possui pelo menos um campo de um desses tipos.
+
+| Tipo   | MR (openEHR) | Campos | Comentário |
 |:----:  |----------------------|:------:|------------|
 | 0      |  DV_BOOLEAN          |  - |  Valor lógico _false_ |
 | 1      |  DV_BOOLEAN          |  - |  Valor lógico _true_    |
