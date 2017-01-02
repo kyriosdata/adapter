@@ -54,10 +54,12 @@ linguagem Java.
 | STRING |  8    |  String  |
 | VECTOR |  9    |  byte[]  |
 
-#### Registros
-Registros são sequências de campos, cada um deles de um determinado tipo.
-Cada tipo é identificado por um valor (byte) único, conforme a tabela
-abaixo.
+#### Registro
+Um registro é definido por uma sequência de campos, cada um deles de um determinado tipo,
+conforme visto acima. Por exemplo, para um registro formado por dois valores lógicos a
+sequência de tipos é dada por 00. Se o registro é definido por um int e um vetor de bytes,
+então a sequência de tipos correspondente é 39. Observe que não se trata do número 39, mas
+da sequência do tipo INT (3) seguido do tipo VECTOR (9).
 
 | Tipo   | MR (openEHR) | Campos | Comentário |
 |:----:  |----------------------|:------:|------------|
