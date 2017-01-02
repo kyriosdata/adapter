@@ -122,31 +122,32 @@ unicamente identifica esse registro formado por apenas um campo do tipo BOOL.
 +----------+
 ```
 
-Em muitos outros, o _header_ deve conter outras
-informações:
+Em outros cenário apenas a indicação do tipo não é suficiente, isso ocorre quando
+campos de tamanho variável são empregados pelo registro. Nesses caso, o _header_ deve 
+conter outras informações:
 - Tipo, conforme comentado acima.
-- Tamanho do registro. Permite rapidamente "saltar" para o próximo registro. 
+- Tamanho do registro. Permite rapidamente "saltar" para o próximo registro. Observe que esse valor pode
+ser "recuperado" a partir do percurso do conteúdo do registro. 
 - Apontadores para campos do formato do registro que seguem campos de tamanho variável.
 
-A ilustração acima, acrescida do _header_, é fornecida abaixo. Observe que o valor 54 identifica unicamente 
-o formato 388.
+A ilustração acima, acrescida do _header_, é fornecida abaixo. Suponha que o tipo de valor 54
+identifica unicamente o formato 388.
 
 ```
-|0---|1---|5---|9---|13----|17-------|24
-+------------------------------------+
-| 54 | 15 | 17 | 23 | nome | contato |
-+------------------------------------+
+|-------------|0---|4-----|8--------|15
++-----------------------------------+
+| 54 | 15 | 8 | 23 | nome | contato |
++-----------------------------------+
 ```
 Interpretação de cada um dos valores acima:
-- 0 é a posição inicial (início dos bytes). Observe que poderia ser outro valor.
-- 1 é a posição inicial do tamanho do registro. Ou seja,
-o registro consome 15 bytes (sem incluir o _header_). São 4 bytes do inteiro,
-outros 4 bytes de "nome" e outros 7 bytes de "contato".
-- 5 é a posição inicial do primeiro (e único nesse caso) campo após um campo de tamanho
-variável. Observe que o primeiro campo não é de tamanho variável. O segundo campo é de
-tamanho variável, mas não é necessário armazenar a posição inicial desse campo. É 
-necessário apenas do terceiro campo nesse registro. Nesse caso, o terceiro campo
-inicia-se na posição 17. 
+- Primeiro segue o tipo do registro, valor 54. 
+- O tipo é seguido do tamanho do registro, 15 bytes de dados. Esse tamanho não é o
+tamanho total do registro, pois não inclui os bytes empregados pelo _header_.
+- O último valor do _header_ é 8, a posição inicial do campo "contato". Observe que ao
+manter os campos de tamanho fixo no início, em ordem bem definida, não é necessário
+indicar a posição deles, nem do primeiro de tamanho variável, nesse caso "nome". Ou seja,
+para um registro do tipo 54 é suficiente armazenar a posição de início do último campo,
+posição 8.
 
 #### Blocos (elemento de divisão de um arquivo)
 Uma base de dados é armazenada em um arquivo didivido em blocos de tamanho fixo (4kB cada). O acesso ao conteúdo da base de dados significa que esses blocos precisam ser transferidos para a memória RAM. No sentido inverso, atualizações precisam ser depositadas no bloco correspondente no arquivo em questão.
