@@ -125,10 +125,10 @@ unicamente identifica esse registro formado por apenas um campo do tipo BOOL.
 Em outros cenário apenas a indicação do tipo não é suficiente, isso ocorre quando
 campos de tamanho variável são empregados pelo registro. Nesses caso, o _header_ deve 
 conter outras informações:
-- Tipo, conforme comentado acima.
-- Tamanho do registro. Permite rapidamente "saltar" para o próximo registro. Observe que esse valor pode
+- *Tipo*, conforme comentado acima.
+- *Tamanho do registro*. Permite rapidamente "saltar" para o próximo registro. Observe que esse valor pode
 ser "recuperado" a partir do percurso do conteúdo do registro. 
-- Apontadores para campos do formato do registro que seguem campos de tamanho variável.
+- *Apontadores* para campos do formato do registro que seguem campos de tamanho variável.
 
 A ilustração acima, acrescida do _header_, é fornecida abaixo. Suponha que o tipo de valor 54
 identifica unicamente o formato 388.
