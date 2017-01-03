@@ -180,3 +180,8 @@ dividida em "cont" (bloco B) e "ato" (bloco B+1).
 | 54 | 15 | 8 | 23 | nome | cont||ato |
 +-------------------------------------+
 ```
+#### Posição
+Uma posição indica o início de um campo. A posição de um registro de tamanho fixo
+não é registrada, pois é fixa para cada tipo de registro (o deslocamento a partir 
+do início do registro pode ser computado facilmente). A posição de um campo de tamanho
+variável, por outro lado, exige que fragmentos sejam contemplados, conforme comentado acima.
