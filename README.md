@@ -187,5 +187,6 @@ do início do registro pode ser computado facilmente). A posição de um campo d
 variável, por outro lado, exige que fragmentos sejam contemplados, conforme comentado acima.
 
 Dado que dados "grandes" (maiores que o tamanho de um bloco são armazenados em área distinta), 
-a posição de um campo de tamanho variável inclui, no máximo 2 blocos, o bloco corrente (e possivelmente o
-seguinte).
+a posição de um campo de tamanho variável exige, no máximo, a identificação de 2 fragmentos.
+Na ilustração acima, o fragmento F1 (bytes de 8 a 11, inclusive) e o fragmento F2 (bytes de 12 a 14, inclusive).
+O fragmento F2, contudo, reside no bloco B+1. 
