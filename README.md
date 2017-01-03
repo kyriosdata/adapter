@@ -162,16 +162,18 @@ de outras questões: (a) blocos e (b) fragmentação de registros.
 Uma base de dados é armazenada em um arquivo didivido em blocos de tamanho fixo. O tamanho padrão é 4KB. O acesso ao conteúdo da base de dados significa que esses blocos precisam ser transferidos para a memória RAM. No sentido inverso, atualizações precisam ser depositadas no bloco correspondente no arquivo em questão.
 
 #### Fragmentação de registro
-Dado que apenas parte da informação de uma base de dados se encontra em RAM e que um bloco possui tamanho fixo, enquanto os registros não, é natural que a divisão em blocos "fragmente" um registro no sentido em que parte das informações podem estar no final de um bloco e continuar no início do bloco seguinte. 
+Dado que apenas parte da informação de uma base de dados se encontra em RAM e que um bloco possui tamanho fixo, enquanto os registros não, é natural que a divisão em blocos "fragmente" um registro no sentido em que parte das informações podem estar no final de um bloco e as demais a partir do início do bloco seguinte. 
 
 > Decisão
 > * Apenas dados podem estar em blocos distintos, _header_ sempre em um único bloco.
 > * Dado de tamanho superior ao tamanho de um bloco é armazenado em área específica (_large data file_).
+> * Registro pode ser fragmentado, campo não.
 
 Abaixo é ilustrado o cenário onde o registro está disposto em dois blocos, 
-o bloco B e o bloco B+1. A representação do registro é alterada por essa fragmentação.
-A alteração, contudo, não é ilustrada abaixo. Nessa ilustração, a STRING "contato" é
-dividida em "cont" (bloco B) e "ato" (bloco B+1). 
+o bloco 6 e o bloco 7 (sem perda de generalidade). A representação do registro 
+é alterada por essa fragmentação. A alteração, contudo, não é ilustrada abaixo. 
+Nessa ilustração, a STRING "contato" é
+dividida em "cont" (bloco 6) e "ato" (bloco 7). 
 
 ```
 |----------- Bloco B -----------||----------- Bloco B+1 -----------|
@@ -180,6 +182,19 @@ dividida em "cont" (bloco B) e "ato" (bloco B+1).
 | 54 | 15 | 8 | 23 | nome | cont||ato |
 +-------------------------------------+
 ```
+
+A estratégia acima tem como positivo o fato de fazer uso útil de cada byte de um bloco.
+Uma alternativa é fornecida abaixo, onde um campo não é fragmentado, como na ilustração
+acima e, em consequência, introduz "vazio" ou "área" não preenchidas ao final de um bloco.
+Observe que, se campos são "pequenos", então essa área é mínima.
+```
+|----------- Bloco B ------------||----------- Bloco B+1 -----------|
+|--------------|0---|4-----|8----||12
++------------------------------------------+
+| 54 | 15 | 12 | 23 | nome |     ||contato |
++------------------------------------------+
+```
+
 
 #### Posição
 Uma posição indica o início de um campo. A posição de um registro de tamanho fixo
