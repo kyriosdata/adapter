@@ -182,6 +182,10 @@ dividida em "cont" (bloco B) e "ato" (bloco B+1).
 ```
 #### Posição
 Uma posição indica o início de um campo. A posição de um registro de tamanho fixo
-não é registrada, pois é fixa para cada tipo de registro (o deslocamento a partir 
+não é registrada no _header_, pois é fixa para cada tipo de registro (o deslocamento a partir 
 do início do registro pode ser computado facilmente). A posição de um campo de tamanho
 variável, por outro lado, exige que fragmentos sejam contemplados, conforme comentado acima.
+
+Dado que dados "grandes" (maiores que o tamanho de um bloco são armazenados em área distinta), 
+a posição de um campo de tamanho variável inclui, no máximo 2 blocos, o bloco corrente (e possivelmente o
+seguinte).
