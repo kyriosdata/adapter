@@ -180,6 +180,7 @@ dividida em "cont" (bloco B) e "ato" (bloco B+1).
 | 54 | 15 | 8 | 23 | nome | cont||ato |
 +-------------------------------------+
 ```
+
 #### Posição
 Uma posição indica o início de um campo. A posição de um registro de tamanho fixo
 não é registrada no _header_, pois é fixa para cada tipo de registro (o deslocamento a partir 
@@ -188,5 +189,19 @@ variável, por outro lado, exige que fragmentos sejam contemplados, conforme com
 
 Dado que dados "grandes" (maiores que o tamanho de um bloco são armazenados em área distinta), 
 a posição de um campo de tamanho variável exige, no máximo, a identificação de 2 fragmentos.
-Na ilustração acima, o fragmento F1 (bytes de 8 a 11, inclusive) e o fragmento F2 (bytes de 12 a 14, inclusive).
-O fragmento F2, contudo, reside no bloco B+1. 
+Abaixo segue uma ilustração desses fragmentos, ainda não considerados pelo _header_.
+
+```
+|----------- Bloco 6 -----------||----------- Bloco 7 -----------|
+|-------------------------| F1  || F2 |15
+|-------------|0---|4-----|8----||----|15
++-------------------------------------+
+| 54 | 15 | 8 | 23 | nome | cont||ato |
++-------------------------------------+
+```
+
+Na ilustração acima, sem perda de generalidade, são exibidos 2 blocos, o bloco 6 e o bloco 7. 
+Adicionalmente são identificados dois fragmentos, o fragmento F1 (bytes de 8 a 11, inclusive) e
+o fragmento F2 (bytes de 12 a 14, inclusive). O fragmento F1 reside no bloco 6 e o fragmento F2
+no bloco 7.
+
