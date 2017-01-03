@@ -164,6 +164,9 @@ Uma base de dados é armazenada em um arquivo didivido em blocos de tamanho fixo
 #### Fragmentação de registro
 Dado que apenas parte da informação de uma base de dados se encontra em RAM e que um bloco possui tamanho fixo, enquanto os registros não, é natural que a divisão em blocos "fragmente" um registro no sentido em que parte das informações podem estar no final de um bloco e continuar no início do bloco seguinte. 
 
+> Decisão
+> * Apenas dados podem estar em blocos distintos, _header_ sempre em um único bloco.
+
 Abaixo é ilustrado o cenário onde o registro está disposto em dois blocos, 
 o bloco B e o bloco B+1. A representação do registro é alterada por essa fragmentação.
 A alteração, contudo, não é ilustrada abaixo. Nessa ilustração, a STRING "contato" é
