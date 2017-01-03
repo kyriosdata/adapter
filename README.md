@@ -85,6 +85,8 @@ tipos do registro, conforme ilustrado abaixo.
 
 ```
 +-----------------+
+|      RECORD     |
++-----------------+
 | Header | Fields |
 +-----------------+
 ```
@@ -140,11 +142,15 @@ A ilustração acima, acrescida do _header_, é fornecida abaixo. Suponha que o 
 identifica unicamente o formato 388.
 
 ```
++-----------------------------------+
+|   HEADER    |      FIELDS         |
++-----------------------------------+
 --------------|0---|4-----|8--------|15
 +-----------------------------------+
 | 54 | 15 | 8 | 23 | nome | contato |
 +-----------------------------------+
 ```
+
 Interpretação de cada um dos valores acima:
 - Primeiro segue o tipo do registro, valor 54. 
 - O tipo é seguido do tamanho do registro, 15 bytes de dados. Esse tamanho não é o
