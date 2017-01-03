@@ -159,13 +159,14 @@ do _header_ quanto do dados. Contudo, isso é melhor compreendido após a introd
 de outras questões: (a) blocos e (b) fragmentação de registros.  
 
 #### Blocos (elemento de divisão de um arquivo)
-Uma base de dados é armazenada em um arquivo didivido em blocos de tamanho fixo (4kB cada). O acesso ao conteúdo da base de dados significa que esses blocos precisam ser transferidos para a memória RAM. No sentido inverso, atualizações precisam ser depositadas no bloco correspondente no arquivo em questão.
+Uma base de dados é armazenada em um arquivo didivido em blocos de tamanho fixo. O tamanho padrão é 4KB. O acesso ao conteúdo da base de dados significa que esses blocos precisam ser transferidos para a memória RAM. No sentido inverso, atualizações precisam ser depositadas no bloco correspondente no arquivo em questão.
 
 #### Fragmentação de registro
 Dado que apenas parte da informação de uma base de dados se encontra em RAM e que um bloco possui tamanho fixo, enquanto os registros não, é natural que a divisão em blocos "fragmente" um registro no sentido em que parte das informações podem estar no final de um bloco e continuar no início do bloco seguinte. 
 
 > Decisão
 > * Apenas dados podem estar em blocos distintos, _header_ sempre em um único bloco.
+> * Dado de tamanho superior ao tamanho de um bloco é armazenado em área específica (_large data file_).
 
 Abaixo é ilustrado o cenário onde o registro está disposto em dois blocos, 
 o bloco B e o bloco B+1. A representação do registro é alterada por essa fragmentação.
