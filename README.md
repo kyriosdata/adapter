@@ -101,7 +101,10 @@ por último, "contato" faz uso dos bytes de 8 a 14 (inclusive). Nesse arranjo ob
 de tamanho fixo (INT) segue antes dos demais, ambos de tamanhos variáveis.
 
 ```
-|--------|0---|4-----|8--------|15
++------------------------------+
+| HEADER |       FIELDS        |
++------------------------------+
+---------|0---|4-----|8--------|15
 +------------------------------+
 | HEADER | 23 | nome | contato |
 +------------------------------+
@@ -116,6 +119,9 @@ um único campo lógico (BOOL), então um exemplo é fornecido abaixo, onde TIPO
 unicamente identifica esse registro formado por apenas um campo do tipo BOOL.
 
 ```
++----------+
+|  HEADER  | 
++----------+
 |------|0--|1
 +----------+
 | TIPO | 1 | 
@@ -134,7 +140,7 @@ A ilustração acima, acrescida do _header_, é fornecida abaixo. Suponha que o 
 identifica unicamente o formato 388.
 
 ```
-|-------------|0---|4-----|8--------|15
+--------------|0---|4-----|8--------|15
 +-----------------------------------+
 | 54 | 15 | 8 | 23 | nome | contato |
 +-----------------------------------+
@@ -170,26 +176,27 @@ Dado que apenas parte da informação de uma base de dados se encontra em RAM e 
 > * Registro pode ser fragmentado, campo não.
 
 Abaixo é ilustrado o cenário onde o registro está disposto em dois blocos, 
-o bloco 6 e o bloco 7 (sem perda de generalidade). A representação do registro 
-é alterada por essa fragmentação. A alteração, contudo, não é ilustrada abaixo. 
+o bloco 6 e o bloco 7 (sem perda de generalidade). 
 Nessa ilustração, a STRING "contato" é
-dividida em "cont" (bloco 6) e "ato" (bloco 7). 
+dividida em "cont" (bloco 6) e "ato" (bloco 7). Essa divisão, contudo, não é permitida,
+conforme decisão acima.
 
 ```
-|----------- Bloco B -----------||----------- Bloco B+1 -----------|
-|-------------|0---|4-----|8----||----|15
+------------ Bloco 6 -----------||----------- Bloco 7 ------------
+--------------|0---|4-----|8----||----|15
 +-------------------------------------+
 | 54 | 15 | 8 | 23 | nome | cont||ato |
 +-------------------------------------+
 ```
 
 A estratégia acima tem como positivo o fato de fazer uso útil de cada byte de um bloco.
-Uma alternativa é fornecida abaixo, onde um campo não é fragmentado, como na ilustração
-acima e, em consequência, introduz "vazio" ou "área" não preenchidas ao final de um bloco.
+Uma alternativa é fornecida abaixo, onde um campo não é fragmentado, ao contrário da ilustração
+acima e, em consequência, introduz "área" não preenchida ao final de um bloco.
 Observe que, se campos são "pequenos", então essa área é mínima.
+
 ```
-|----------- Bloco B ------------||----------- Bloco B+1 -----------|
-|--------------|0---|4-----|8----||12
+------------ Bloco 6 ------------||----------- Bloco 7 ------------
+---------------|0---|4-----|8----||12
 +------------------------------------------+
 | 54 | 15 | 12 | 23 | nome |     ||contato |
 +------------------------------------------+
