@@ -195,10 +195,10 @@ conforme decisão acima.
 +-------------------------------------+
 ```
 
-A estratégia acima tem como positivo o fato de fazer uso útil de cada byte de um bloco.
-Uma alternativa é fornecida abaixo, onde um campo não é fragmentado, ao contrário da ilustração
+A estratégia acima tem como ponto positivo o fato de fazer uso útil de cada byte de um bloco.
+Uma alternativa é fornecida abaixo, onde o campo "contato" não é fragmentado, ao contrário da ilustração
 acima e, em consequência, introduz "área" não preenchida ao final de um bloco.
-Observe que, se campos são "pequenos", então essa área é mínima.
+Adicionalmente, a posição inicial 8 é atualizada para 12 (o que é comentado a seguir).
 
 ```
 ------------ Bloco 6 ------------||----------- Bloco 7 ------------
@@ -207,7 +207,26 @@ Observe que, se campos são "pequenos", então essa área é mínima.
 | 54 | 15 | 12 | 23 | nome |     ||contato |
 +------------------------------------------+
 ```
+A posição 8 foi substituída pela 12. Isso significa que da posição
+8, relativa ao início dos dados, até o final do bloco, nenhum byte é 
+utilizado. O início dos dados, nesse caso, é a posição i, que é
+relativa ao início do bloco. Se BLOCK_SIZE é o tamanho de cada bloco,
+então a posição 12, relativa ao início dos dados, posição i no bloco 6, resulta
+na posição i + 12, que é maior que BLOCK_SIZE. Ou seja, a posição 12 está no bloco
+seguinte. No bloco 7 a posição 12 refere-se à posição 0. 
 
+```
+------------ Bloco 6 ------------||----------- Bloco 7 ------------
+---------------|i 
+---------------|0---|4-----|8----||12
+---------------------------------||0
++------------------------------------------+
+| 54 | 15 | 12 | 23 | nome |     ||contato |
++------------------------------------------+
+```
+
+Observe que, se campos são "pequenos" (ocupam poucos bytes em geral), então 
+a área não ocupada é percentual pequeno do bloco. 
 
 #### Posição
 Uma posição indica o início de um campo. A posição de um registro de tamanho fixo
