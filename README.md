@@ -38,15 +38,6 @@ Acrescente a dependência no arquivo pom.xml:
 - [Block](https://github.com/kyriosdata/adapter#block)
 - [Tipos de campos](https://github.com/kyriosdata/adapter#tipos-de-campos)
 
-#### Block
-A classe _Block_ encapsula operações sobre um vetor de bytes (_buffer_) e 
-possui métodos para depositar, a partir de determinada posição, os bytes 
-correspondentes a cada um dos [tipos](https://github.com/kyriosdata/adapter#tipos-de-campos)
-possíveis e, no sentido inverso, a partir de determinada
-posição, recuperar o valor depositado. Convém observar, contudo, que essa
-classe não sabe o tipo de um valor depositado em uma dada posição. Essa
-informação cabe a um registro. 
-
 #### Formato de registro
 O formato de um registro é definido por uma sequência de tipos de campos. 
 Por exemplo, para um registro formado por dois valores lógicos a
