@@ -34,6 +34,10 @@ Acrescente a dependência no arquivo pom.xml:
 &lt;/dependency&gt;
 </pre>
 
+### Documentação
+- [Block](https://github.com/kyriosdata/adapter#block)
+- [Tipos de campos](https://github.com/kyriosdata/adapter#tipos-de-campos)
+
 #### Tipos de campos
 Um campo de um registro é definido pelo tipo correspondente. 
 Os tipos disponíveis são definidos na tabela abaixo. Seguindo a
@@ -56,8 +60,9 @@ linguagem Java.
 
 #### Block
 A classe _Block_ encapsula operações sobre um vetor de bytes (_buffer_) e 
-possui métodos para depositar a partir de determinada posição os bytes 
-correspondentes a cada um dos tipos acima e, no sentido inverso, a partir de determinada
+possui métodos para depositar, a partir de determinada posição, os bytes 
+correspondentes a cada um dos [tipos](https://github.com/kyriosdata/adapter#tipos-de-campos)
+possíveis e, no sentido inverso, a partir de determinada
 posição, recuperar o valor depositado. Convém observar, contudo, que essa
 classe não sabe o tipo de um valor depositado em uma dada posição. Essa
 informação cabe a um registro. 
