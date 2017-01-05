@@ -35,17 +35,7 @@ Acrescente a dependência no arquivo pom.xml:
 </pre>
 
 ### Documentação
-- [Block](https://github.com/kyriosdata/adapter#block)
-- [Tipos de campos](https://github.com/kyriosdata/adapter#tipos-de-campos)
 
-#### Formato de registro
-O formato de um registro é definido por uma sequência de tipos de campos. 
-Por exemplo, para um registro formado por dois valores lógicos a
-sequência de tipos é dada por 00. Por outro lado, se o registro é definido 
-por um INT e um VECTOR (vetor de bytes), então a sequência de tipos correspondente é 39. 
-Observe que não se trata do número 39, mas da sequência do tipo INT (3) seguido do tipo 
-VECTOR (9). Mais um exemplo: o registro formado por três sequências de caracteres (STRING) 
-seguidas por um DOUBLE tem como formato 8886.
 
 #### Tamanho de um registro
 Se o formato de um registro não inclui os tipos de valores 8 e 9, respectivamente,
