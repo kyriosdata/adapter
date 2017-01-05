@@ -9,6 +9,8 @@ public class FieldManager {
 
     // TODO definir constantes para cada um dos tipos possíveis.
     // TODO fazer inline em vez de usar bytebuffer, mais eficiente?
+    // TODO inclui conhecimento sobre o tamanho de cada um dos tipos em bytes.
+    // TODO não deveria incluir list e map?
 
     public static byte getByte(byte[] buffer, int pos) {
         return ByteBuffer.wrap(buffer).get(pos);

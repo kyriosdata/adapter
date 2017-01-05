@@ -1,7 +1,9 @@
 package com.github.kyriosdata.oes;
 
 /**
- * Esquema de um registro.
+ * Define os tipos de registros correspondentes aos objetos do
+ * Modelo de Referência do openEHR e oferece serviços para a
+ * criação e consulta de registros.
  * <p>
  * <p>Os campos de um registro estão dispostos em uma sequência.
  * Primeiro seguem os campos de tamanho fixo e só então aqueles
@@ -11,7 +13,7 @@ package com.github.kyriosdata.oes;
  * analisados e aquele identificado como de maior frequência de
  * uso deve ser o primeiro deles.
  */
-public class RecordTypes {
+public class RecordManager {
 
     /**
      * Identificação dos tipos dos campos de cada um dos

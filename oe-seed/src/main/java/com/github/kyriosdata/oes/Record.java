@@ -13,7 +13,7 @@ public class Record {
     public void setRecord(byte[] block, int offset) {
         bloco = block;
         posicao = offset;
-        offsets = RecordTypes.offsets[getTipo()];
+        offsets = RecordManager.offsets[getTipo()];
     }
 
     /**
