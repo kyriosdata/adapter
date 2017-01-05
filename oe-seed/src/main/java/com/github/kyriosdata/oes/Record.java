@@ -5,12 +5,15 @@ package com.github.kyriosdata.oes;
  */
 public class Record {
 
-    private Block bloco;
+    private byte[] bloco;
     private int posicao;
+    private byte[] offsets;
+    private int sizeOfHeader;
 
-    public void setRecord(Block b, int pos) {
-        bloco = b;
-        posicao = pos;
+    public void setRecord(byte[] block, int offset) {
+        bloco = block;
+        posicao = offset;
+        offsets = RecordTypes.offsets[getTipo()];
     }
 
     /**
@@ -18,28 +21,32 @@ public class Record {
      * @return O tipo do registro.
      */
     public int getTipo() {
-        return bloco.getByte(posicao);
+        return FieldManager.getByte(bloco, posicao);
     }
 
     public void setTipo(byte tipo) {
-        bloco.setByte(posicao, tipo);
+        FieldManager.setByte(bloco, posicao, tipo);
     }
 
     public int getTamanho() {
-        return bloco.getInt(posicao + 1);
+        return FieldManager.getInt(bloco, posicao + 1);
     }
 
     public void setTamanho(int tamanho) {
-        bloco.setInt(posicao + 1, tamanho);
+        FieldManager.setInt(bloco, posicao + 1, tamanho);
     }
 
     /**
      * Recupera a posição inicial do campo do registro.
      *
-     * @param campo A ordem do campo no registro.
+     * @param campo A ordem do campo no registro. A primeira
+     *              é zero. A última ordem válida é aquela do
+     *              último campo, caso todos sejam de tamanho
+     *              fixo ou a ordem do primeiro campo de
+     *              tamanho variável.
      * @return A posição do primeiro byte do campo.
      */
-    public static int getPosicaoCampo(int campo) {
-        return 0;
+    public int getPosicaoCampo(int campo) {
+        return sizeOfHeader + offsets[campo];
     }
 }
