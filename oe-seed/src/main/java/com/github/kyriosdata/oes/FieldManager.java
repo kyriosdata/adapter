@@ -11,6 +11,7 @@ public class FieldManager {
     // TODO fazer inline em vez de usar bytebuffer, mais eficiente?
     // TODO inclui conhecimento sobre o tamanho de cada um dos tipos em bytes.
     // TODO não deveria incluir list e map?
+    // TODO https://github.com/elastic/elasticsearch/blob/master/core/src/main/java/org/elasticsearch/common/Numbers.java
 
     public static byte getByte(byte[] buffer, int pos) {
         return ByteBuffer.wrap(buffer).get(pos);
