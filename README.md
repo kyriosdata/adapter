@@ -46,7 +46,7 @@ Os tipos contemplados seguem abaixo, identificados pelo correspondente tipo em J
 - O tipo sequência de caracteres: STRING (String).
 - O tipo vetor de bytes: VECTOR (byte[]).
 - O tipo intervalo: INTERVAL_INT, INTERVAL_INT64, INTERVAL_REAL, INTERVAL_DOUBLE. Cada um desses tipos é formado por quatro valores. Dois para os limites do intervalo, _lower_ e _upper_, e outros dois lógicos, _lowerIncluded_ e _upperIncluded_. Os tipos dos limites do intervalo são definidos pelo tipo do intervalo, por exemplo, INTERVAL_INT faz uso de dois inteiros, enquanto INTERVAL_DOUBLE faz uso de dois valores do tipo ponto-flutuante de precisão dupla.
-
+- O tipo lista: LIST (List). Uma lista 
 **Observação**: o MR do openEHR ainda faz uso de listas (List), _array_, conjuntos (Set), dicionário (Hash) e intervalo (Interval).  o 
 
 #### Tamanho de um registro
