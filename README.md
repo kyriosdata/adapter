@@ -39,12 +39,15 @@ Acrescente a dependência no arquivo pom.xml:
 #### Tipos (dos campos)
 Os tipos contemplados seguem abaixo, identificados pelo correspondente tipo em Java.
 
-- Os tipos inteiros: BYTE (byte), INT (int) (32 bits), LONG (long) (64 bits).
-- Os tipos em ponto flutuante: FLOAT (float) (32 bits), DOUBLE (double) (64 bits).
+- Os tipos inteiros: BYTE (byte), INT (int) (32 bits), INT64 (long) (64 bits).
+- Os tipos em ponto flutuante: REAL (float) (32 bits), DOUBLE (double) (64 bits).
 - O tipo lógico: BOOLEAN (boolean).
 - O tipo que representa um caractere: CHAR (char).
 - O tipo sequência de caracteres: STRING (String).
 - O tipo vetor de bytes: VECTOR (byte[]).
+- O tipo intervalo: INTERVAL_INT, INTERVAL_INT64, INTERVAL_REAL, INTERVAL_DOUBLE. Cada um desses tipos é formado por quatro valores. Dois para os limites do intervalo, _lower_ e _upper_, e os outros dois lógicos, _lowerIncluded_ e _upperIncluded_. Os limites do intervalo são definidos pelo tipo do intervalo, por exemplo, INTERVAL_INT faz uso de dois inteiros, enquanto INTERVAL_DOUBLE faz uso de dois valores do tipo ponto-flutuante de precisão dupla.
+
+**Observação**: o MR do openEHR ainda faz uso de listas (List), _array_, conjuntos (Set), dicionário (Hash) e intervalo (Interval).  o 
 
 #### Tamanho de um registro
 Se o formato de um registro não inclui os tipos STRING e VECTOR, então o registro possui tamanho fixo. 
