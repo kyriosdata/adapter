@@ -89,10 +89,9 @@ Nesse arranjo observe que o tipo de tamanho fixo (INT) segue antes dos demais, o
 ```
 
 ##### Representação do header de um registro
-O _header_ obrigatoriamente inclui o tipo que identifica
-o formato do registro. Observe que não é o formato propriamente dito, mas um
-identificador que permite localizar o formato empregado pelo registro. Em alguns
-casos o tipo é suficiente para localizar os campos no registro, não sendo necessário
+O _header_ obrigatoriamente identifica, em seu primeiro byte, o tipo do formato do registro. Observe que não é o formato propriamente dito, mas um identificador que permite localizar o formato empregado pelo registro. Dado que um único byte é empregado, tem-se um limite natural para os possíveis formatos de registros. 
+
+Em alguns casos o tipo é suficiente para localizar os campos no registro, não sendo necessário
 nenhum outro valor adicional. Por exemplo, se um determinado tipo de registro possui
 um único campo lógico (BOOL), então um exemplo é fornecido abaixo, onde TIPO 
 unicamente identifica esse registro formado por apenas um campo do tipo BOOL.
