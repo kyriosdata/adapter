@@ -66,9 +66,7 @@ tipos dos campos do registro, conforme ilustrado abaixo.
 +-----------------+
 | Header | Fields |
 +-----------------+
-```
-
-O _header_ é relevante para identificar o tipo do registro e a localização dos campos do registro. 
+``` 
 
 ##### Representação dos dados de um registro
 Abaixo segue a ilustração de um registro, sem o detalhamento do _header_. Esse registro reúne um campo inteiro e duas sequências de caracteres. Ou seja, os campos são dos tipos INT, STRING e STRING. O valor do INT é 23 (faz uso de 4 bytes); a primeira STRING apenas
@@ -89,33 +87,17 @@ Nesse arranjo observe que o tipo de tamanho fixo (INT) segue antes dos demais, o
 ```
 
 ##### Representação do header de um registro
-O _header_ obrigatoriamente identifica, em seu primeiro byte, o tipo do formato do registro. Observe que não é o formato propriamente dito, mas um identificador que permite localizar o formato empregado pelo registro. Dado que um único byte é empregado, tem-se um limite natural para os possíveis formatos de registros. 
+O _header_ obrigatoriamente identifica, em seu primeiro byte, o tipo do registro. Observe que não é o formato propriamente dito, mas um identificador que permite localizar o formato empregado pelo registro. Dado que um único byte é empregado, tem-se um limite natural para os possíveis formatos (tipos) de registros. 
 
-Em alguns casos o tipo é suficiente para localizar os campos no registro, não sendo necessário
-nenhum outro valor adicional. Por exemplo, se um determinado tipo de registro possui
-um único campo lógico (BOOL), então um exemplo é fornecido abaixo, onde TIPO 
-unicamente identifica esse registro formado por apenas um campo do tipo BOOL.
-
-```
-+----------+
-|  HEADER  | 
-+----------+
-|------|0--|1
-+----------+
-| TIPO | 1 | 
-+----------+
-```
-
-Em outros cenário apenas a indicação do tipo não é suficiente, isso ocorre quando
-campos de tamanho variável são empregados pelo registro. Nesses caso, o _header_ deve 
-conter outras informações:
-- *Tipo*, conforme comentado acima.
+Em geral o tipo de um registro inclui campos de tamanho variável. Nesses caso, o _header_ deve 
+conter várias informações:
+- *Tipo*, que identifica unicamente o formato do registro.
 - *Tamanho do registro*. Permite rapidamente "saltar" para o próximo registro. Observe que esse valor pode
 ser "recuperado" a partir do percurso do conteúdo do registro. 
-- *Apontadores* para campos do formato do registro que seguem campos de tamanho variável.
+- *Apontadores*. Após campos de tamanho fixo, que não dependem de apontadores, segue o primeiro campo de tamanho variável que também não depende de apontador. Contudo, após o primeiro campo de tamanho variável, todos os demais dependem de "saltar" sobre o conteúdo dos dados para serem localizados ou de apontadores, que não dependem desse percurso. Imagine por exemplo uma STRING. Segundo o tipo de registro ilustrado anteriormente, para o acesso à segunda STRING estão disponíveis duas estratégias: (a) localiza-se o término da STRING anterior (sabe-se que a seguinte é iniciada no byte seguinte) e (b) um apontador no _header_ pode indicar diretamente o início da segunda STRING.
 
-A ilustração acima, acrescida do _header_, é fornecida abaixo. Suponha que o tipo de valor 54
-identifica unicamente o formato 388.
+Abaixo segue ilustração do registro exemplo apresentado anteriormente, agora acrescida do _header_. Suponha que o tipo de valor 54
+identifica unicamente o formato desse registro, ou seja, a sequência formada por um INT, uma STRING e outra STRING.
 
 ```
 +-----------------------------------+
@@ -128,9 +110,9 @@ identifica unicamente o formato 388.
 ```
 
 Interpretação de cada um dos valores acima:
-- Primeiro segue o tipo do registro, valor 54. 
+- Primeiro segue o tipo do registro, valor 54 (suposição estabelecida acima). 
 - O tipo é seguido do tamanho do registro, 15 bytes de dados. Esse tamanho não é o
-tamanho total do registro, pois não inclui os bytes empregados pelo _header_.
+tamanho total do registro, pois não inclui os bytes empregados pelo _header_, mas apenas aqueles que dizem respeito aos dados propriamente ditos (ou _payload_).
 - O último valor do _header_ é 8, a posição inicial do campo "contato". Observe que ao
 manter os campos de tamanho fixo no início, em ordem bem definida, não é necessário
 indicar a posição deles, nem do primeiro de tamanho variável, nesse caso "nome". Ou seja,
@@ -139,7 +121,7 @@ posição 8.
 
 > Decisões
 > * Campos de tamanho fixo precedem todos os campos de tamanho variável.
-> * Valor de posição no header é relativa à posição inicial (0) dos dados.
+> * Valor de posição no header é relativa à posição inicial (0) dos dados, imediatamente após o _header_.
 
 O registro representado na ilustração acima fornece o comportamento geral. 
 Contudo, há situações especiais que demandam alteração na representação tanto
