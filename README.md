@@ -57,8 +57,8 @@ no pode ser definido antecipadamente e, é único por registro. Por exemplo, o f
 de registro definido por uma única STRING que deve registrar um logradouro pode ter o tamanho 30 em um exemplo e 50 em outro. Se inclui uma lista, pode ter 0 elementos em um caso e 20 em outro.  
 
 #### Representação (serialização) de um registro
-Um registro é representado por um _header_ seguido dos dados correspondentes aos 
-tipos do registro, conforme ilustrado abaixo.
+Um registro é formado por um _header_ seguido dos dados correspondentes aos 
+tipos dos campos do registro, conforme ilustrado abaixo.
 
 ```
 +-----------------+
@@ -68,16 +68,15 @@ tipos do registro, conforme ilustrado abaixo.
 +-----------------+
 ```
 
-O _header_ é relevante para localização dos campos do registros e comentado logo abaixo, após
-detalhamento de como os campos são representados. 
+O _header_ é relevante para identificar o tipo do registro e a localização dos campos do registro. 
 
-Abaixo segue a ilustração de um registro, sem o _header_, cujo formato é 388, ou seja, um INT seguido de
-duas sequências de caracteres (STRING). O valor do INT é 23 (faz uso de 4 bytes); a primeira STRING apenas
-4 bytes ("nome") e a segunda STRING ocupa outros 7 bytes ("contato"). A primeira linha indica os 
+##### Representação dos dados de um registro
+Abaixo segue a ilustração de um registro, sem o detalhamento do _header_. Esse registro reúne um campo inteiro e duas sequências de caracteres. Ou seja, os campos são dos tipos INT, STRING e STRING. O valor do INT é 23 (faz uso de 4 bytes); a primeira STRING apenas
+4 bytes ("nome") e a segunda STRING ocupa outros 7 bytes ("contato"). A primeira linha contendo números abaixo indica os 
 deslocamentos do início de cada campo com base na posição inicial (0). Ou seja, o inteiro faz 
 uso dos bytes de 0 a 3 (inclusive), o "nome" ocupa os quatro bytes seguintes de 4 a 7 (inclusive) e, 
-por último, "contato" faz uso dos bytes de 8 a 14 (inclusive). Nesse arranjo observe que o tipo
-de tamanho fixo (INT) segue antes dos demais, ambos de tamanhos variáveis.
+por último, "contato" faz uso dos bytes de 8 a 14 (inclusive). O décimo quinto byte está além do registro. 
+Nesse arranjo observe que o tipo de tamanho fixo (INT) segue antes dos demais, ou seja, aquele de tamanho fixo segue antes daqueles de tamanho variável.
 
 ```
 +------------------------------+
@@ -89,6 +88,7 @@ de tamanho fixo (INT) segue antes dos demais, ambos de tamanhos variáveis.
 +------------------------------+
 ```
 
+##### Representação do header de um registro
 O _header_ obrigatoriamente inclui o tipo que identifica
 o formato do registro. Observe que não é o formato propriamente dito, mas um
 identificador que permite localizar o formato empregado pelo registro. Em alguns
