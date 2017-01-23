@@ -136,14 +136,11 @@ Dado que apenas parte da informação de uma base de dados se encontra em RAM e 
 
 > Decisão
 > * Apenas dados podem estar em blocos distintos, _header_ sempre em um único bloco.
-> * Dado de tamanho superior ao tamanho de um bloco é armazenado em área específica (_large data file_).
-> * Registro pode ser fragmentado, campo não.
+> * Dados de tipos "primitivos" também devem estar em um único bloco.
 
-Abaixo é ilustrado o cenário onde o registro está disposto em dois blocos, 
-o bloco 6 e o bloco 7 (sem perda de generalidade). 
-Nessa ilustração, a STRING "contato" é
-dividida em "cont" (bloco 6) e "ato" (bloco 7). Essa divisão, contudo, não é permitida,
-conforme decisão acima.
+Abaixo é ilustrado o cenário onde o registro está disposto em dois blocos, sem perda de generalidade, assuma que são os 
+blocos 6 e 7. Nessa ilustração, a STRING "contato" é
+dividida em "cont" (bloco 6) e "ato" (bloco 7). 
 
 ```
 ------------ Bloco 6 -----------||----------- Bloco 7 ------------
@@ -153,60 +150,20 @@ conforme decisão acima.
 +-------------------------------------+
 ```
 
-A estratégia acima tem como ponto positivo o fato de fazer uso útil de cada byte de um bloco.
-Uma alternativa é fornecida abaixo, onde o campo "contato" não é fragmentado, ao contrário da ilustração
-acima e, em consequência, introduz "área" não preenchida ao final de um bloco.
-Adicionalmente, a posição inicial 8 é atualizada para 12 (o que é comentado a seguir).
+A estratégia acima tem como ponto positivo maximizar o uso de cada byte de um bloco.
+Em consequência, por outro lado, introduz possível "área" não preenchida ao final de um bloco,
+quando o espaço disponível não for suficiente para registrar todo o _header_ do registro seguinte, por exemplo,
+conforme ilustrado abaixo, um marcador indica que o registro em questão continua no bloco seguinte.
 
 ```
------------- Bloco 6 ------------||----------- Bloco 7 ------------
----------------|0---|4-----|8----||12
-+------------------------------------------+
-| 54 | 15 | 12 | 23 | nome |     ||contato |
-+------------------------------------------+
-```
-A posição 8 foi substituída pela 12. Isso significa que da posição
-8, relativa ao início dos dados, até o final do bloco, nenhum byte é 
-utilizado. O início dos dados, nesse caso, é a posição i, que é
-relativa ao início do bloco. Se BLOCK_SIZE é o tamanho de cada bloco,
-então a posição 12, relativa ao início dos dados, posição i no bloco 6, resulta
-na posição i + 12, que é maior que BLOCK_SIZE. Ou seja, a posição 12 está no bloco
-seguinte. No bloco 7 a posição 12 refere-se à posição 0. 
-
-```
------------- Bloco 6 ------------||----------- Bloco 7 ------------
----------------|i 
----------------|0---|4-----|8----||12
----------------------------------||0
-+------------------------------------------+
-| 54 | 15 | 12 | 23 | nome |     ||contato |
-+------------------------------------------+
+------------ Bloco 6 ---------------------------||------ Bloco 7 ------------
+--------------|0---|4-----|8----------|15-------|17
++-------------------------------------+---------||
+| 54 | 15 | 8 | 23 | nome | contato   |@        ||<Header do próximo registro>
++-------------------------------------+---------||
 ```
 
-Observe que, se campos são "pequenos" (ocupam poucos bytes em geral), então 
-a área não ocupada é percentual pequeno do bloco. 
-
-#### Posição
-Uma posição indica o início de um campo. A posição de um registro de tamanho fixo
-não é registrada no _header_, pois é fixa para cada tipo de registro (o deslocamento a partir 
-do início do registro pode ser computado facilmente). A posição de um campo de tamanho
-variável, por outro lado, exige que fragmentos sejam contemplados, conforme comentado acima.
-
-Dado que dados "grandes" (maiores que o tamanho de um bloco são armazenados em área distinta), 
-a posição de um campo de tamanho variável exige, no máximo, a identificação de 2 fragmentos.
-Abaixo segue uma ilustração desses fragmentos, ainda não considerados pelo _header_.
-
-```
-|----------- Bloco 6 -----------||----------- Bloco 7 -----------|
-|-------------------------| F1  || F2 |15
-|-------------|0---|4-----|8----||----|15
-+-------------------------------------+
-| 54 | 15 | 8 | 23 | nome | cont||ato |
-+-------------------------------------+
-```
-
-Na ilustração acima, sem perda de generalidade, são exibidos 2 blocos, o bloco 6 e o bloco 7. 
-Adicionalmente são identificados dois fragmentos, o fragmento F1 (bytes de 8 a 11, inclusive) e
-o fragmento F2 (bytes de 12 a 14, inclusive). O fragmento F1 reside no bloco 6 e o fragmento F2
-no bloco 7.
+#### Endereços
+Um apontador indica o início de um campo relativo ao início dos dados do registro em questão. 
+Ou seja, esse endereço não é o endereço do byte correspondente no arquivo onde é armazenado, também não coincide com o deslocamento referente ao bloco no qual se encontra. 
 
