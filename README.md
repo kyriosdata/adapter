@@ -51,12 +51,10 @@ Os tipos contemplados seguem abaixo, identificados pelo correspondente tipo em J
 - O tipo dicionário: HASH (Hash). É um dicionário ou mapa, ou seja, uma coleção de valores, cada um deles disponível e associado a uma dada chave.
 
 #### Tamanho de um registro
-Se o formato de um registro não inclui os tipos STRING e VECTOR, então o registro possui tamanho fixo. 
-Caso contrário, o tamanho do registro que possui pelo menos um campo de um desses tipos varia. Ou seja,
+Um registro é uma combinação de campos. O tamanho de um registro, portanto, depende da quantidade de bytes necessária para armazenar cada um dos campos do registro. Se um registro é formado exclusivamente por campos de tamanho fixo, então o registro possui tamanho fixo. 
+Caso contrário, o tamanho do registro varia. Ou seja,
 no pode ser definido antecipadamente e, é único por registro. Por exemplo, o formato
-de registro definido por uma única STRING que deve registrar um logradouro, em um
-registro pode ter como valor "Avenida T2", em outro registro "Avenida Paulista", de 
-tamanho distinto e nenhum deles pode ser antecipado. 
+de registro definido por uma única STRING que deve registrar um logradouro pode ter o tamanho 30 em um exemplo e 50 em outro. Se inclui uma lista, pode ter 0 elementos em um caso e 20 em outro.  
 
 #### Representação (serialização) de um registro
 Um registro é representado por um _header_ seguido dos dados correspondentes aos 
