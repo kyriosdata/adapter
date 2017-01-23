@@ -49,7 +49,6 @@ Os tipos contemplados seguem abaixo, identificados pelo correspondente tipo em J
 - O tipo lista: LIST (List). Uma lista é uma coleção de itens, não únicos, mas em uma ordem. 
 - O tipo conjunto: SET (Set). É uma coleção de itens únicos, não podem existir repetições, não há ordem entre eles.
 - O tipo dicionário: HASH (Hash). É um dicionário ou mapa, ou seja, uma coleção de valores, cada um deles disponível e associado a uma dada chave.
-**Observação**: o MR do openEHR ainda faz uso de listas (List), _array_, conjuntos (Set), dicionário (Hash) e intervalo (Interval).  o 
 
 #### Tamanho de um registro
 Se o formato de um registro não inclui os tipos STRING e VECTOR, então o registro possui tamanho fixo. 
