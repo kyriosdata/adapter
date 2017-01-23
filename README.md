@@ -36,14 +36,23 @@ Acrescente a dependência no arquivo pom.xml:
 
 ### Documentação
 
+#### Tipos (dos campos)
+Os tipos contemplados seguem abaixo, identificados pelo correspondente tipo em Java.
+
+- Os tipos inteiros: BYTE (byte), SHORT (short), INT (int), LONG (long).
+- Os tipos em ponto flutuante: FLOAT (float), DOUBLE (double).
+- O tipo lógico: BOOLEAN (boolean).
+- O tipo que representa um caractere: CHAR (char).
+- O tipo sequência de caracteres: STRING (String).
+- O tipo vetor de bytes: VECTOR (byte[]).
 
 #### Tamanho de um registro
-Se o formato de um registro não inclui os tipos de valores 8 e 9, respectivamente,
-STRING e VECTOR, então o registro possui tamanho fixo. Caso contrário, varia o tamanho 
-do registro que possui pelo menos um campo de um desses tipos. Por exemplo, o formato
+Se o formato de um registro não inclui os tipos STRING e VECTOR, então o registro possui tamanho fixo. 
+Caso contrário, o tamanho do registro que possui pelo menos um campo de um desses tipos varia. Ou seja,
+no pode ser definido antecipadamente e, é único por registro. Por exemplo, o formato
 de registro definido por uma única STRING que deve registrar um logradouro, em um
 registro pode ter como valor "Avenida T2", em outro registro "Avenida Paulista", de 
-tamanho distinto. 
+tamanho distinto e nenhum deles pode ser antecipado. 
 
 #### Representação (serialização) de um registro
 Um registro é representado por um _header_ seguido dos dados correspondentes aos 
