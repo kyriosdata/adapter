@@ -96,6 +96,18 @@ conter várias informações:
 ser "recuperado" a partir do percurso do conteúdo do registro. 
 - *Apontadores*. Após campos de tamanho fixo, que não dependem de apontadores, segue o primeiro campo de tamanho variável que também não depende de apontador. Contudo, após o primeiro campo de tamanho variável, todos os demais dependem de "saltar" sobre o conteúdo dos dados para serem localizados ou de apontadores, que não dependem desse percurso. Imagine por exemplo uma STRING. Segundo o tipo de registro ilustrado anteriormente, para o acesso à segunda STRING estão disponíveis duas estratégias: (a) localiza-se o término da STRING anterior (sabe-se que a seguinte é iniciada no byte seguinte) e (b) um apontador no _header_ pode indicar diretamente o início da segunda STRING.
 
+Abaixo é ilustrada a composição do _header_, conforme comentada acima, onde o tipo de um byte precede o tamanho do registro, 4 bytes, que são seguidos, possivelmente, de apontadores, cada um deles de 4 bytes. Observe que abaixo o valor A identifica o total de apontadores.
+```
++-----------------------------------+
+|             HEADER                |
++-----------------------------------|
+|0-----|1--------|5-----------------| 4*A + 5
++-----------------------------------+
+| Tipo | Tamanho |   Apontadores    |
++-----------------------------------+
+```
+
+
 Abaixo segue ilustração do registro exemplo apresentado anteriormente, agora acrescida do _header_. Suponha que o tipo de valor 54
 identifica unicamente o formato desse registro, ou seja, a sequência formada por um INT, uma STRING e outra STRING.
 
