@@ -163,7 +163,7 @@ dividida em "cont" (bloco 6) e "ato" (bloco 7).
 
 A estratégia acima tem como ponto positivo maximizar o uso de cada byte de um bloco, onde cada byte é utilizado.
 Por outro lado, deve-se definir como tratar campos "partidos" pela divisão dos dados em blocos. Para o registro de exemplo,
-apenas o tipo do registro (um único byte), necessariamente está em um único bloco. Para os demais valores, deve-se definir como identificar os "fragmentos" de um campo e montá-lo a partir de tais fragmentos. Noutras palavras, do byte 1 até o 24, qualquer um deles pode dividir um bloco do seguinte.
+apenas o tipo do registro (um único byte), necessariamente está em um único bloco. Para os demais valores, deve-se definir como identificar os "fragmentos" de um campo e montá-lo a partir de tais fragmentos. Noutras palavras, qualquer byte do 1 até o 24 pode ser a diviso de um bloco do seguinte.
 
 ```
 +----|1 ----------------------------|24
