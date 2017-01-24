@@ -132,11 +132,10 @@ de outras questões: (a) blocos e (b) fragmentação de registros.
 Uma base de dados é armazenada em um arquivo didivido em blocos de tamanho fixo. O tamanho padrão é 4KB. O acesso ao conteúdo da base de dados significa que esses blocos precisam ser transferidos para a memória RAM. No sentido inverso, atualizações precisam ser depositadas no bloco correspondente no arquivo em questão.
 
 #### Fragmentação de registro
-Dado que apenas parte da informação de uma base de dados se encontra em RAM e que um bloco possui tamanho fixo, enquanto os registros não, é natural que a divisão em blocos "fragmente" um registro no sentido em que parte das informações podem estar no final de um bloco e as demais a partir do início do bloco seguinte. 
+Dado que apenas parte da informação de uma base de dados se encontra em RAM, ou seja, apenas alguns blocos, e que um bloco possui tamanho fixo, enquanto os registros não, é natural que a divisão em blocos "fragmente" um registro no sentido em que parte das informações podem estar no final de um bloco e as demais a partir do bloco seguinte. De fato, um registro pode estar "espalhado" por vários blocos. Em particular, um único campo pode estar espalhado por vários blocos. 
 
 > Decisão
-> * Apenas dados podem estar em blocos distintos, _header_ sempre em um único bloco.
-> * Dados de tipos "primitivos" também devem estar em um único bloco.
+> * Dados de um registro podem estar espalhados por vários blocos contíguos.
 
 Abaixo é ilustrado o cenário onde o registro está disposto em dois blocos, sem perda de generalidade, assuma que são os 
 blocos 6 e 7. Nessa ilustração, a STRING "contato" é
