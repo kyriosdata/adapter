@@ -147,7 +147,7 @@ Uma base de dados é armazenada em um arquivo didivido em blocos de tamanho fixo
 Dado que apenas parte da informação de uma base de dados se encontra em RAM, ou seja, apenas alguns blocos, e que um bloco possui tamanho fixo, enquanto os registros não, é natural que a divisão em blocos "fragmente" um registro no sentido em que parte das informações podem estar no final de um bloco e as demais a partir do bloco seguinte. De fato, um registro pode estar "espalhado" por vários blocos. Em particular, um único campo pode estar espalhado por vários blocos. 
 
 > Decisão
-> * Dados de um registro podem estar espalhados por vários blocos contíguos.
+> * Dados de um registro podem estar espalhados por vários blocos consecutivos (contíguos).
 
 Abaixo é ilustrado o cenário onde o registro está disposto em dois blocos, sem perda de generalidade, assuma que são os 
 blocos 6 e 7. Nessa ilustração, a STRING "contato" é
@@ -161,18 +161,16 @@ dividida em "cont" (bloco 6) e "ato" (bloco 7).
 +-------------------------------------+
 ```
 
-A estratégia acima tem como ponto positivo maximizar o uso de cada byte de um bloco.
-Em consequência, por outro lado, introduz possível "área" não preenchida ao final de um bloco,
-quando o espaço disponível não for suficiente para registrar todo o _header_ do registro seguinte, por exemplo,
-conforme ilustrado abaixo, um marcador indica que o registro em questão continua no bloco seguinte.
+A estratégia acima tem como ponto positivo maximizar o uso de cada byte de um bloco, onde cada byte é utilizado.
+Por outro lado, deve-se definir como tratar campos "partidos" pela divisão dos dados em blocos. Para o registro de exemplo,
+apenas o tipo do registro (um único byte), necessariamente está em um único bloco. Para os demais valores, deve-se definir como identificar os "fragmentos" de um campo e montá-lo a partir de tais fragmentos. Noutras palavras, do byte 1 até o 24, qualquer um deles pode dividir um bloco do seguinte.
 
 ```
------------- Bloco 6 ---------------------------||------ Bloco 7 ------------
---------------|0---|4-----|8----------|15-------|17
-+-------------------------------------+---------||
-| 54 | 15 | 8 | 23 | nome | contato   |@        ||<Header do próximo registro>
-+-------------------------------------+---------||
++----|1 ----------------------------|24
+| 54 | 15 | 8 | 23 | nome | contato |
++-----------------------------------+
 ```
+
 
 #### Endereços
 Um apontador indica o início de um campo relativo ao início dos dados do registro em questão. 
