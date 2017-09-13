@@ -6,6 +6,8 @@ Adaptador do Modelo de Referência (MR) do openEHR para Seed.
 [![Sonarqube](https://sonarqube.com/api/badges/gate?key=com.github.kyriosdata.adapter%3Aoe-seed)](https://sonarqube.com/dashboard/index?id=com.github.kyriosdata.adapter%3Aoe-seed)
 [![Javadocs](http://javadoc.io/badge/com.github.kyriosdata.adapter/oe-seed.svg)](http://javadoc.io/doc/com.github.kyriosdata.adapter/oe-seed)
 
+[![](https://codescene.io/projects/1635/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/1635/jobs/latest-successful/results)
+
 <br />
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
 <img alt="Creative Commons License" style="border-width:0"
