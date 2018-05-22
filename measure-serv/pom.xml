@@ -6,7 +6,13 @@
 	<version>1.0.5</version>
 	<packaging>jar</packaging>
 	<name>openEHR Measurement Service Implementation</name>
-	<url>http://www.openehr.org/projects/java.html</url>   
+	<url>http://www.openehr.org/projects/java.html</url>
+
+	<parent>
+		<groupId>com.github.kyriosdata.adapter</groupId>
+		<artifactId>adapter</artifactId>
+		<version>1.0.0</version>
+	</parent>
 
     <organization>
 		<name>openEHR</name>

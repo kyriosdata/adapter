@@ -8,6 +8,12 @@
 	<packaging>jar</packaging>
 	<name>openEHR Reference Model Core</name>
 	<url>http://www.openehr.org/projects/java.html</url>
+
+	<parent>
+		<groupId>com.github.kyriosdata.adapter</groupId>
+		<artifactId>adapter</artifactId>
+		<version>1.0.0</version>
+	</parent>
 	
 	<organization>
 		<name>openEHR</name>
