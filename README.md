@@ -41,7 +41,7 @@ Acrescente a dependência no arquivo pom.xml:
 #### Tipos (dos campos)
 Os tipos contemplados seguem abaixo, identificados pelo correspondente tipo em Java.
 
-- Os tipos inteiros: BYTE (byte), INT (int) (32 bits), INT64 (long) (64 bits).
+- Os tipos inteiros: BYTE (byte), SHORT (16 bits), INT (int) (32 bits), INT64 (long) (64 bits).
 - Os tipos em ponto flutuante: REAL (float) (32 bits), DOUBLE (double) (64 bits).
 - O tipo lógico: BOOLEAN (boolean).
 - O tipo que representa um caractere: CHAR (char).
